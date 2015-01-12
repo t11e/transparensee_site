@@ -1,0 +1,358 @@
+/*
+  Element redefinitions
+*/
+
+BODY
+{
+  margin: 16px;
+  color: #333;
+}
+
+BODY, TD, TH, INPUT, SELECT
+{
+  font-family: Verdana, Helvetica, sans-serif;
+  font-size: 8pt;
+}
+
+BODY, TD, TH
+{
+  line-height: 200%;
+}
+
+FORM FIELDSET,
+IMG
+{
+  border: 0;
+}
+
+FORM FIELDSET LABEL
+{
+  font-weight: bold;
+}
+
+FORM FIELDSET
+{
+  margin: 1.2m 0;
+}
+
+P
+{
+  margin: 0.85em 0;
+}
+
+H1#title,
+H2#title,
+H3#title,
+H4#title,
+H5#title,
+H6#title
+{
+  margin-bottom: 1em;
+}
+
+H1, H2, H3, H4, H5, H6
+{
+}
+
+H1
+{
+  font-size: 11pt;
+  margin-top: 1.5em;
+  margin-bottom: 0em;
+}
+
+H2
+{
+  font-size: 10pt;
+  margin-top: 1.5em;
+  margin-bottom: 0em;
+}
+
+H3
+{
+  font-size: 9pt;
+  margin-top: 1.5em;
+  margin-bottom: 0em;
+}
+
+H4
+{
+  font-size: 8pt;
+  margin-top: 1.5em;
+  margin-bottom: 0em;
+}
+
+H5
+{
+  font-size: 8pt;
+  font-weight: normal;
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+
+A:link,
+A:hover,
+A:active
+{
+  color: #478ae4;
+}
+
+A:visited
+{
+  color: #276ac4;
+}
+
+UL
+{
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+LI.link
+{
+  list-style: url("images/bullet-arrow3.gif");
+}
+
+LI.link P
+{
+  line-height: 85%;
+  margin-bottom: 1em;
+}
+
+LI.link A
+{
+  margin-left: 6px;
+}
+
+DT
+{
+  margin-top: 1em;
+  margin-bottom: 0.2em;
+}
+
+DD
+{
+  margin-top: 0em;
+  margin-left: 0.4cm;
+}
+
+DD P
+{
+  margin-top: 0em;
+}
+
+/*
+  Page structure
+*/
+
+#header, #footer
+{
+  width: 723px;
+}
+
+#navbar
+{
+  position: relative;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 63px;
+  background: url("images/navbar-bg.gif");
+}
+
+#navbar-logo
+{
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 331px;
+  height: 63px;
+  display: inline;
+}
+
+#navbar-links
+{
+  position: relative;
+  left: 350px;
+  bottom: -30px;
+  line-height: 100%;
+}
+
+#navbar-links A:link,
+#navbar-links A:active,
+#navbar-links A:visited,
+#navbar-links A:hover
+{
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #444;
+  font-size: 9pt;
+  padding: 2px 4px;
+  border: solid 1px white;
+  border-bottom: 0;
+}
+
+#navbar-links A:hover
+{              
+  border: solid 1px #ccc;
+}             
+
+.navbar-active-link
+{
+  font-weight: bold;
+}
+
+#left-navbar-links A:link,
+#left-navbar-links A:active,
+#left-navbar-links A:visited,
+#left-navbar-links A:hover
+{
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #444;
+  padding: 2px 4px;
+  border: solid 1px white;
+  font-size: 7pt;
+}
+
+#left-navbar-links A:hover
+{
+  border: 1px solid #ccc;
+}
+
+P.pointer
+{
+  margin-top: 5ex;
+}
+
+A.pointer:link,
+A.pointer:active,
+A.pointer:visited,
+A.pointer:hover
+{
+  font-weight: bold;
+  text-decoration: none;
+  color: #b09000;
+}
+
+#footer
+{
+  position: relative;
+  left: 0px;
+  clear: both;
+  margin-bottom: 3em;
+}
+
+#footer P
+{
+  margin: 8px 0;
+}
+
+#copyright
+{
+  color: #808080;
+  padding-top: 10px;
+}
+
+#content
+{
+  position: relative;
+  top: 8px;
+  left: 6px;
+  width: 710px;
+  height: auto;
+}
+
+/* 
+Download page 
+*/
+
+#download-page
+{
+  position: relative;
+  line-height: 175%; 
+}
+
+#download-page H2
+{
+  margin-top: 0;
+  padding-top: 0;
+}
+
+#download-page #navigation
+{
+  float: left;
+  position: relative;
+  left: 0px;
+  top: 15px;
+  width: 168px;
+  height: 300px;
+  text-align: right;
+}
+
+#download-page #navigation DIV
+{
+  margin: 0.8em 0;
+}
+
+#download-page #text
+{
+  float: left;
+  position: relative;
+  padding-top: 12px;
+  margin-left: 25px;
+  width: 513px;
+  height: auto;
+}
+
+#download-page UL.filelist
+{
+  list-style-image: url("images/bullet-square.gif");
+}
+
+/*
+  Other page elements
+*/
+
+.divider-hz
+{
+  position: relative;
+  top: 10px;
+  left: 0px;
+  background: url(images/pattern-horiz.gif);
+  height: 1px;
+  overflow: hidden;
+}
+
+A.email
+{
+}
+
+.street-address
+{
+  margin-left: 1cm;
+}
+
+IMG.street-map
+{
+  border: solid 1px #808080;
+}
+
+.floater-left
+{
+  float: left;
+  margin-right: 2em;
+  margin-bottom: 2em;
+}
+
+.floater-right
+{
+  float: right;
+  margin-left: 2em;
+  margin-bottom: 2em;
+}
+
+.pdficon
+{
+  vertical-align: middle;
+}

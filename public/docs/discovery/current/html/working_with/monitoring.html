@@ -1,0 +1,177 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Monitoring Options &mdash; Discovery Search Engine 3.10.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Discovery Search Engine 3.10.0 documentation" href="../index.html" />
+    <link rel="up" title="Working with the Engine" href="index.html" />
+    <link rel="next" title="Tutorial" href="../tutorial/index.html" />
+    <link rel="prev" title="Engine Configuration Scenarios" href="config_scenarios.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../tutorial/index.html" title="Tutorial"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="config_scenarios.html" title="Engine Configuration Scenarios"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Working with the Engine</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <span class="target" id="index-0"></span><div class="section" id="monitoring-options">
+<span id="monitoring"></span><span id="index-1"></span><h1>Monitoring Options<a class="headerlink" href="monitoring.html#monitoring-options" title="Permalink to this headline">¶</a></h1>
+<p>There are several monitoring options available to customers:</p>
+<ul class="simple">
+<li>Admin Tool</li>
+<li>Discovery log file.</li>
+<li>System State Web Service</li>
+<li>munin plugin</li>
+</ul>
+<div class="section" id="admin-tool">
+<span id="index-2"></span><h2>Admin Tool<a class="headerlink" href="monitoring.html#admin-tool" title="Permalink to this headline">¶</a></h2>
+<p>The engine&#8217;s web interface, at <a class="reference external" href="http://example.com:port">http://example.com:port</a>,
+gives an overview of the engine&#8217;s status.
+For more information on this feature refer to <a class="reference internal" href="admin_tool.html#admin-tool"><em>Admin Tool Interface</em></a>.</p>
+<span class="target" id="index-3"></span></div>
+<div class="section" id="discovery-log-file">
+<span id="log-file-configuration"></span><span id="index-4"></span><h2>Discovery Log File<a class="headerlink" href="monitoring.html#discovery-log-file" title="Permalink to this headline">¶</a></h2>
+<p>The engine&#8217;s log file is available in the engine&#8217;s working directory.named &#8220;log&#8221;.
+The Discovery log file is named <tt class="docutils literal"><span class="pre">discovery-n.log</span></tt> where <em>n</em> is the log sequence
+number, starting at 0. For example, the first log file is named <tt class="docutils literal"><span class="pre">discovery-0.log</span></tt>.</p>
+<p>Customers can <tt class="docutils literal"><span class="pre">tail</span></tt> the log file for insight into engine activity.</p>
+<p>As of version 2.8.5, the Discovery engine uses the JDK 1.4 logging system. The logging
+configuration file can be customized according to this system. The engine&#8217;s default logging
+configuration file is located in the engine&#8217;s <tt class="docutils literal"><span class="pre">releases</span></tt> directory. To configure custom
+logging for a specific instance, copy logging.properties to the appropriate working directory
+in your <tt class="docutils literal"><span class="pre">engines</span></tt> directory.</p>
+<p>For more information on engine installation directories, refer to <a class="reference internal" href="../getting_started/install_unix.html#recommended-install-dirs"><em>Recommended Installation Directory Hierarchy</em></a>.</p>
+</div>
+<div class="section" id="system-state-web-service">
+<span id="index-5"></span><h2>System State Web Service<a class="headerlink" href="monitoring.html#system-state-web-service" title="Permalink to this headline">¶</a></h2>
+<p>The status of the engine is also exposed as a web service at
+<a class="reference external" href="http://example.com:port/ws/info/system-state">http://example.com:port/ws/info/system-state</a> which, if
+running properly, returns:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="cp">&lt;?xml-stylesheet type=&#39;text/xsl&#39;</span>
+<span class="cp">       href=&#39;/doc/style/xmlverbatim/xmlverbatimwrapper.xsl&#39;?&gt;</span>
+<span class="nt">&lt;system-state&gt;</span>
+    <span class="nt">&lt;running&gt;</span>
+        <span class="nt">&lt;true</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/running&gt;</span>
+    <span class="nt">&lt;queryable&gt;</span>
+        <span class="nt">&lt;true</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/queryable&gt;</span>
+<span class="nt">&lt;/system-state&gt;</span>
+</pre></div>
+</div>
+<p>If the running element&#8217;s child has a value of true, then the engine is
+fully functioning and ready to receive queries.</p>
+<p>For more information on the System State web service, refer
+to <a class="reference internal" href="../reference/web_services.html#system-state-web-service"><em>System State</em></a>.</p>
+</div>
+<div class="section" id="munin-plugin">
+<span id="index-6"></span><h2>Munin plugin<a class="headerlink" href="monitoring.html#munin-plugin" title="Permalink to this headline">¶</a></h2>
+<p>The Discovery Search Engine exposes a number of data points that are of interest on a
+web service at <cite>/ws/statistics</cite>. The statistics exposed are transient, all
+counters will reset when the engine stops.</p>
+<p>For more information on using the munin plugin refer to the description of the
+<a class="reference internal" href="../reference/web_services.html#stats-web-service"><em>Statistics</em></a> web service.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="monitoring.html#">Monitoring Options</a><ul>
+<li><a class="reference internal" href="monitoring.html#admin-tool">Admin Tool</a></li>
+<li><a class="reference internal" href="monitoring.html#discovery-log-file">Discovery Log File</a></li>
+<li><a class="reference internal" href="monitoring.html#system-state-web-service">System State Web Service</a></li>
+<li><a class="reference internal" href="monitoring.html#munin-plugin">Munin plugin</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="config_scenarios.html"
+                        title="previous chapter">Engine Configuration Scenarios</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../tutorial/index.html"
+                        title="next chapter">Tutorial</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="https://transparensee.com/docs/discovery/current/html/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../tutorial/index.html" title="Tutorial"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="config_scenarios.html" title="Engine Configuration Scenarios"
+             >previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Working with the Engine</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright Transparensee Systems.
+    </div>
+  </body>
+</html>

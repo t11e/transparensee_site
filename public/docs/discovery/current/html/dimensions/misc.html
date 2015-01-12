@@ -1,0 +1,234 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Scalar Features &mdash; Discovery Search Engine 3.10.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Discovery Search Engine 3.10.0 documentation" href="../index.html" />
+    <link rel="up" title="Dimensions" href="index.html" />
+    <link rel="next" title="Defining Word Sets" href="wordsets.html" />
+    <link rel="prev" title="Dimension Types" href="types.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="wordsets.html" title="Defining Word Sets"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="types.html" title="Dimension Types"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Dimensions</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <span class="target" id="index-0"></span><span class="target" id="index-1"></span><div class="section" id="scalar-features">
+<span id="index-2"></span><span id="id1"></span><h1>Scalar Features<a class="headerlink" href="misc.html#scalar-features" title="Permalink to this headline">¶</a></h1>
+<p>The engine provides several ease-of-use features when working with scalar
+values and ranges.</p>
+<p>When constructing a query request or dimensions, Transparensee&#8217;s scalar interval
+notation can be used. For more information on the feature, refer
+to <a class="reference internal" href="../reference/interval_notation.html#interval-notation"><em>Interval Notation</em></a>.</p>
+<div class="section" id="min-max-values">
+<h2>Min/Max Values<a class="headerlink" href="misc.html#min-max-values" title="Permalink to this headline">¶</a></h2>
+<p>To bound a dimension with valid values and to improve calculated
+relevance values, optional <cite>min</cite> and <cite>max</cite> attributes can be specified
+on a dimension. Values that fall outside <cite>min</cite> or <cite>max</cite> are not
+indexed. The attributes also hint at the scale of the dimension, used
+in the engine&#8217;s relevance calculation algorithms. They are both
+inclusive which can be disabled by setting the attributes
+<cite>minInclusive</cite> or <cite>maxInclusive</cite> to <cite>false</cite>.</p>
+<p>For example:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;dimension</span> <span class="na">id=</span><span class="s">&quot;user.age&quot;</span> <span class="na">type=</span><span class="s">&quot;integer&quot;</span> <span class="na">min=</span><span class="s">&quot;0&quot;</span> <span class="na">max=</span><span class="s">&quot;200&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;dimension</span> <span class="na">id=</span><span class="s">&quot;user.age&quot;</span> <span class="na">type=</span><span class="s">&quot;integer&quot;</span> <span class="na">min=</span><span class="s">&quot;0&quot;</span> <span class="na">max=</span><span class="s">&quot;200&quot;</span> <span class="na">minInclusive=</span><span class="s">&quot;false&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ranges">
+<h2>Ranges<a class="headerlink" href="misc.html#ranges" title="Permalink to this headline">¶</a></h2>
+<p><em>Double</em> and <em>Integer</em> type dimensions can be used purely as scalar dimensions,
+but <em>scalar ranges</em> can be also be defined within a scalar dimension.
+These ranges are ideal for use with the drill down functionality
+offered by the <a class="reference internal" href="../query/query_api.html#query-api"><em>Overview</em></a>. For
+example, if you want to provide drill down functionality on an integer
+dimension named &#8220;bedroom&#8221; that represents the number of bedrooms in a real estate
+listing, you&#8217;d need to define ranges over which a user
+can drill down. Ranges are defined as elements under a scalar
+dimension where the id is an identifier for a range, and value is the range
+itself using <a class="reference internal" href="../reference/interval_notation.html#interval-notation"><em>Interval Notation</em></a>:</p>
+<p>The dimension definition here also shows how to create a scalar type dimension that
+supports faceting across a range of values defined using interval notation.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;dimension</span> <span class="na">type=</span><span class="s">&quot;integer&quot;</span> <span class="na">id=</span><span class="s">&quot;bedroom&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;studio&quot;</span> <span class="na">value=</span><span class="s">&quot;[0,1)&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;1&quot;</span> <span class="na">value=</span><span class="s">&quot;[1,2)&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;2&quot;</span> <span class="na">value=</span><span class="s">&quot;[2,3)&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;3&quot;</span> <span class="na">value=</span><span class="s">&quot;[3,4)&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;4&quot;</span> <span class="na">value=</span><span class="s">&quot;[4,5)&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;5+&quot;</span> <span class="na">value=</span><span class="s">&quot;[5,]&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/dimension&gt;</span>
+</pre></div>
+</div>
+<p>Once defined, a user could drill down on the &#8216;bedroom:5&#8217;
+element, producing a result set containing all items that were &gt;=
+5. Alternatively, the could select &#8216;bedroom:3&#8217; and produce a result set
+of items whose bedroom count is 3, or, more accurately, &gt;= 3 and &lt; 4.</p>
+<span class="target" id="index-3"></span><span class="target" id="index-4"></span></div>
+</div>
+<div class="section" id="faceting">
+<span id="index-5"></span><span id="id2"></span><h1>Faceting<a class="headerlink" href="misc.html#faceting" title="Permalink to this headline">¶</a></h1>
+<p>With the major exception of <em>text</em> type dimensions, keyword, tree and scalar dimension types can
+support query-time calculation of facet counts for drilldown interfaces.
+If the dimension declaration does not infer how to group the values, then the indexer will
+automatically try to create a bucket for each unique value it encounters.</p>
+<p>Faceting is automatically supported for tree, ordered, mutex and keyword dimensions. Scalar type
+dimensions require that the facet buckets be declared using an <tt class="docutils literal"><span class="pre">element</span></tt> defining the range or
+values to facet. For more information on setting up a scalar type dimension for faceting, refer to
+<a class="reference internal" href="misc.html#scalar-features"><em>Scalar Features</em></a>.</p>
+<p id="index-6">For more information on creating a query with drill down facet counts,
+refer to <a class="reference internal" href="../query/query_api.html#facets-criterion"><em>Facets Criterion</em></a>.</p>
+</div>
+<div class="section" id="example-dimension-definition-xml">
+<h1>Example Dimension Definition XML<a class="headerlink" href="misc.html#example-dimension-definition-xml" title="Permalink to this headline">¶</a></h1>
+<p>Using all of the above examples, the following is a valid dimension
+definition document:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&#39;UTF-8&#39;?&gt;</span>
+<span class="nt">&lt;dimensions&gt;</span>
+<span class="nt">&lt;dimension</span> <span class="na">id=</span><span class="s">&quot;user.education&quot;</span> <span class="na">type=</span><span class="s">&quot;ordered&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;0&quot;</span> <span class="na">name=</span><span class="s">&quot;None&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;1&quot;</span> <span class="na">name=</span><span class="s">&quot;High School&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;2&quot;</span> <span class="na">name=</span><span class="s">&quot;Some College&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;3&quot;</span> <span class="na">name=</span><span class="s">&quot;Associate&#39;s Degree&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;4&quot;</span> <span class="na">name=</span><span class="s">&quot;Bachelor&#39;s Degree&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;5&quot;</span> <span class="na">name=</span><span class="s">&quot;Master&#39;s Degree&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;6&quot;</span> <span class="na">name=</span><span class="s">&quot;PhD&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/dimension&gt;</span>
+<span class="nt">&lt;dimension</span> <span class="na">id=</span><span class="s">&quot;ethnicity&quot;</span> <span class="na">type=</span><span class="s">&quot;tree&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;0&quot;</span> <span class="na">name=</span><span class="s">&quot;Asian&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;1&quot;</span> <span class="na">name=</span><span class="s">&quot;Japanese&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;2&quot;</span> <span class="na">name=</span><span class="s">&quot;Vietnamese&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;3&quot;</span> <span class="na">name=</span><span class="s">&quot;Chinese&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/element&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;4&quot;</span> <span class="na">name=</span><span class="s">&quot;Black&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;5&quot;</span> <span class="na">name=</span><span class="s">&quot;Caribbean&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;6&quot;</span> <span class="na">name=</span><span class="s">&quot;Caucasian / White&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;7&quot;</span> <span class="na">name=</span><span class="s">&quot;Eastern European&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;8&quot;</span> <span class="na">name=</span><span class="s">&quot;Western European&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;9&quot;</span> <span class="na">name=</span><span class="s">&quot;North American&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;10&quot;</span> <span class="na">name=</span><span class="s">&quot;Other Caucasian&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/element&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;11&quot;</span> <span class="na">name=</span><span class="s">&quot;East Indian&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;12&quot;</span> <span class="na">name=</span><span class="s">&quot;Hispanic / Latino&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;13&quot;</span> <span class="na">name=</span><span class="s">&quot;Middle Eastern&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;14&quot;</span> <span class="na">name=</span><span class="s">&quot;Native American&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;15&quot;</span> <span class="na">name=</span><span class="s">&quot;Pacific Islands&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;16&quot;</span> <span class="na">name=</span><span class="s">&quot;Other&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/dimension&gt;</span>
+<span class="nt">&lt;dimension</span> <span class="na">id=</span><span class="s">&quot;user.gender&quot;</span> <span class="na">type=</span><span class="s">&quot;mutex&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;0&quot;</span> <span class="na">name=</span><span class="s">&quot;Male&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;1&quot;</span> <span class="na">name=</span><span class="s">&quot;Female&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/dimension&gt;</span>
+<span class="nt">&lt;dimension</span> <span class="na">id=</span><span class="s">&quot;user.age&quot;</span> <span class="na">type=</span><span class="s">&quot;integer&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;dimension</span> <span class="na">id=</span><span class="s">&#39;user.join_date&#39;</span> <span class="na">type=</span><span class="s">&quot;integer&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;dimension</span> <span class="na">id=</span><span class="s">&quot;user.height&quot;</span> <span class="na">type=</span><span class="s">&quot;double&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;dimension</span> <span class="na">id=</span><span class="s">&quot;user.geoloc&quot;</span> <span class="na">type=</span><span class="s">&quot;geoloc&quot;</span> <span class="na">longitude=</span><span class="s">&quot;user.longitude&quot;</span>
+    <span class="na">latitude=</span><span class="s">&quot;user.latitude&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;dimension</span> <span class="na">id=</span><span class="s">&quot;user.aboutme&quot;</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/dimensions&gt;</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="misc.html#">Scalar Features</a><ul>
+<li><a class="reference internal" href="misc.html#min-max-values">Min/Max Values</a></li>
+<li><a class="reference internal" href="misc.html#ranges">Ranges</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="misc.html#faceting">Faceting</a></li>
+<li><a class="reference internal" href="misc.html#example-dimension-definition-xml">Example Dimension Definition XML</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="types.html"
+                        title="previous chapter">Dimension Types</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="wordsets.html"
+                        title="next chapter">Defining Word Sets</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="https://transparensee.com/docs/discovery/current/html/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="wordsets.html" title="Defining Word Sets"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="types.html" title="Dimension Types"
+             >previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Dimensions</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright Transparensee Systems.
+    </div>
+  </body>
+</html>

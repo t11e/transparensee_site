@@ -1,0 +1,1410 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Query Response &mdash; Discovery Search Engine 3.10.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Discovery Search Engine 3.10.0 documentation" href="../index.html" />
+    <link rel="up" title="Query API" href="index.html" />
+    <link rel="next" title="Examples" href="query_examples.html" />
+    <link rel="prev" title="Overview" href="query_api.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="query_examples.html" title="Examples"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="query_api.html" title="Overview"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Query API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <span class="target" id="index-0"></span><div class="section" id="query-response">
+<span id="index-1"></span><span id="id1"></span><h1>Query Response<a class="headerlink" href="query_response.html#query-response" title="Permalink to this headline">¶</a></h1>
+<p>The engine responds to a Request using a serialized JSON dictionary object.
+See: <a class="reference internal" href="query_api.html#query-request"><em>Query Request</em></a> for more information on how to construct a query.</p>
+<div class="section" id="top-level-response-fields">
+<span id="index-2"></span><h2>Top Level Response Fields<a class="headerlink" href="query_response.html#top-level-response-fields" title="Permalink to this headline">¶</a></h2>
+<ul id="index-3">
+<li><p class="first"><strong>itemIds</strong></p>
+<p>The list of relevant item ids on this page of the result set.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">string</span></tt></p>
+</li>
+</ul>
+<ul id="index-4">
+<li><p class="first"><strong>exactMatches</strong></p>
+<p>The corresponding list of whether the item was an exact match against the
+query.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+</li>
+</ul>
+<ul id="index-5">
+<li><p class="first"><strong>relevanceValues</strong></p>
+<p>The corresponding list of relevance values for each item on this page of the
+result set.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</li>
+</ul>
+<ul id="index-6">
+<li><p class="first"><strong>startIndex</strong></p>
+<p>The index of the first item on this page of the result set.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">int</span></tt></p>
+</li>
+</ul>
+<ul id="index-7">
+<li><p class="first"><strong>currentPageSize</strong></p>
+<p>The number of items on this page of the result set.</p>
+<p>Type: int</p>
+</li>
+</ul>
+<ul id="index-8">
+<li><p class="first"><strong>datasetSize</strong></p>
+<p>The total number of items in the queried dataset.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">int</span></tt></p>
+</li>
+</ul>
+<ul id="index-9">
+<li><p class="first"><strong>totalSize</strong></p>
+<p>The total number of items in the result set.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">int</span></tt></p>
+</li>
+</ul>
+<ul id="index-10">
+<li><p class="first"><strong>exactSize</strong></p>
+<p>The  number of exact matched items in the result set.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">int</span></tt></p>
+</li>
+</ul>
+<ul id="index-11">
+<li><p class="first"><strong>availableSize</strong></p>
+<p>The total number of items available with paging (can be less than resultSize
+when a dataset is spread across multiple engines).</p>
+<p>Type: <tt class="docutils literal"><span class="pre">int</span></tt></p>
+</li>
+</ul>
+<ul id="index-12">
+<li><p class="first"><strong>facets</strong></p>
+<p>Describes the facets counts for each facets criterion.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">dictionary</span></tt></p>
+<p>See: <a class="reference internal" href="query_response.html#facets-response"><em>facets Response</em></a></p>
+</li>
+</ul>
+<ul id="index-13">
+<li><p class="first"><strong>drillDown</strong></p>
+<p>Describes the drilldown counts for each drilldown criterion. Deprecated.
+Use the facets request API instead.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of dictionary</p>
+<p>See: <a class="reference internal" href="query_response.html#drilldown-response"><em>drillDown</em></a></p>
+</li>
+</ul>
+<ul id="index-14">
+<li><p class="first"><strong>properties</strong></p>
+<p>An array of dictionaries, one for each item returned in the query response,
+that includes any requested changeset property values. If the query request
+also included a highlighting criterion, then any highlighting would be applied
+to the appropriate changeset property values.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">dictionary</span></tt></p>
+<p>See: <a class="reference internal" href="query_response.html#properties-response"><em>Properties</em></a></p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.8.3.</span></p>
+</div></blockquote>
+</li>
+</ul>
+<ul id="index-15">
+<li><p class="first"><strong>didYouMean</strong></p>
+<p>An dictionary with one entry per didYouMean text type dimension. Each entry is a
+dictionary that includes the suggestions, highlighted values and information about
+the relevance of the suggestions.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">dictionary</span></tt></p>
+<p>See: <a class="reference internal" href="query_response.html#didyoumean-response"><em>DidYouMean</em></a></p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.9.</span></p>
+</div></blockquote>
+</li>
+</ul>
+<ul id="index-16">
+<li><p class="first"><strong>highlighting</strong></p>
+<p>An array of dictionaries, one for each item returned in the query response,
+that includes any requested changeset property values <em>that were highlighted</em>.
+This field only exists if the <tt class="docutils literal"><span class="pre">merge</span></tt> field of the highlighting request was
+set to <tt class="docutils literal"><span class="pre">none</span></tt>. For more information about the highlighting request, refer to
+<a class="reference internal" href="query_api.html#get-highlighting"><em>Highlighting Criterion</em></a>.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">dictionary</span></tt></p>
+<p>See: <a class="reference internal" href="query_response.html#highlighting-response"><em>Highlighting</em></a></p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.8.4.</span></p>
+</div></blockquote>
+</li>
+</ul>
+<ul id="index-17">
+<li><p class="first"><strong>indexValues</strong></p>
+<p>A dictionary explaining the new-form indexed values for each of the named dimensions in the
+indexValues request.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">dictionary</span></tt></p>
+<p>See: <a class="reference internal" href="query_response.html#indexvalues-response"><em>Index Values</em></a></p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.9.1.</span></p>
+</div></blockquote>
+</li>
+</ul>
+<ul id="index-18">
+<li><p class="first"><strong>calculate</strong></p>
+<p>A dictionary that lists the user-defined keys and their calculated values.
+The user-defined keys are specified in the <tt class="docutils literal"><span class="pre">calculate</span></tt> request.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">dictionary</span></tt></p>
+<p>See: <a class="reference internal" href="query_response.html#calculate-response"><em>Calculate</em></a></p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 3.1.0.</span></p>
+</div></blockquote>
+</li>
+</ul>
+<ul id="index-19">
+<li><p class="first"><strong>values</strong></p>
+<p>A dictionary explaining the indexed values for each of the named dimensions in the
+legacy values request.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">dictionary</span></tt></p>
+<p>See: <a class="reference internal" href="query_response.html#values-response"><em>Values</em></a></p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.6.17.</span></p>
+</div></blockquote>
+</li>
+</ul>
+<ul id="index-20">
+<li><p class="first"><strong>explain</strong></p>
+<p>A dictionary explaining the many aspects of the matching process, including scoring.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">dictionary</span></tt></p>
+<p>See: <a class="reference internal" href="query_response.html#explain-response"><em>Explain</em></a></p>
+</li>
+</ul>
+<ul id="index-21">
+<li><p class="first"><strong>queryTime</strong></p>
+<p>The number of milliseconds the server spent responding to the entire query
+request. This field appears if queryTime was requested in the <em>explain</em>
+query criterion.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">int</span></tt></p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.6.17.</span></p>
+</div></blockquote>
+</li>
+</ul>
+<ul id="index-22">
+<li><p class="first"><strong>propertiesTime</strong></p>
+<p>The number of milliseconds the server spent fetching the requested changeset
+property values for the request. This field appears if propertiesTime was
+requested in the <em>explain</em> query criterion.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">int</span></tt></p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.8.3.</span></p>
+</div></blockquote>
+</li>
+</ul>
+<ul id="index-23">
+<li><p class="first"><strong>highlightTime</strong></p>
+<p>The number of milliseconds the server spent highlighting the requested changeset
+property values for the request. This field appears if highlightTime was requested
+in the <em>explain</em> query criterion.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">int</span></tt></p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.8.3.</span></p>
+</div></blockquote>
+</li>
+</ul>
+<ul id="index-24">
+<li><p class="first"><strong>sortBy</strong></p>
+<p>A dictionary listing the values used to determine sort order as specified in
+the sortBy criterion. This field only appears in the response when requesting
+the &#8220;sortBy&#8221; explain data.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">dictionary</span></tt></p>
+<p>See: <a class="reference internal" href="query_response.html#sortby-response"><em>sortBy Response</em></a></p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.8.4.</span></p>
+</div></blockquote>
+</li>
+</ul>
+<ul id="index-25">
+<li><p class="first"><strong>isGrouped</strong></p>
+<p>A value explaining whether the response includes a groupBy result.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+</li>
+</ul>
+<ul id="index-26">
+<li><p class="first"><strong>legacyGroupBy</strong></p>
+<p>A value explaining whether the response includes a groupBy result using the
+legacy or new-style format. To enable the new style response format, set
+<tt class="docutils literal"><span class="pre">legacyGroupBy</span></tt> to <tt class="docutils literal"><span class="pre">true</span></tt> in the groupBy request criterion.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">false</span></tt></p>
+<p id="index-27">See: <a class="reference internal" href="query_api.html#group-by"><em>Group By Criterion</em></a></p>
+</li>
+</ul>
+<ul id="index-28">
+<li><p class="first"><strong>groups</strong></p>
+<p>A dictionary explaining the exact matches, item ids and relevance values for
+the topN items in each group of the groupBy result.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of dictionaries</p>
+</li>
+</ul>
+<ul id="index-29">
+<li><p class="first"><strong>renderParameters</strong></p>
+<p>A URL encoded query string that can be passed to a template for
+rendering the search results. This is only present if the
+<em>renderParameters</em> request field is set to <em>true</em> or a dictionary.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>For information on how to reqeust renderParameters, refer to <a class="reference internal" href="query_api.html#render-parameters"><em>Render Parameters</em></a>.
+For a description of the renderParameters response, refer to <a class="reference internal" href="query_response.html#render-parameters-response"><em>renderParmeters</em></a>.</p>
+</li>
+</ul>
+<span class="target" id="index-30"></span><div class="section" id="response-example">
+<span id="index-31"></span><h3>Response Example<a class="headerlink" href="query_response.html#response-example" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;itemIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;10&quot;</span><span class="p">,</span> <span class="s">&quot;11&quot;</span><span class="p">,</span> <span class="s">&quot;12&quot;</span><span class="p">,</span> <span class="s">&quot;13&quot;</span><span class="p">,</span> <span class="s">&quot;14&quot;</span><span class="p">,</span> <span class="s">&quot;15&quot;</span><span class="p">,</span> <span class="s">&quot;16&quot;</span><span class="p">,</span> <span class="s">&quot;17&quot;</span><span class="p">,</span> <span class="s">&quot;18&quot;</span><span class="p">,</span> <span class="s">&quot;19&quot;</span><span class="p">],</span>
+  <span class="s">&quot;exactMatches&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">],</span>
+  <span class="s">&quot;relevanceValues&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+  <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="s">&quot;currentPageSize&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s">&quot;exactSize&quot;</span><span class="p">:</span> <span class="mi">38</span><span class="p">,</span>
+  <span class="s">&quot;totalSize&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+  <span class="s">&quot;availableSize&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+  <span class="s">&quot;drillDown&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s">&quot;dimension&quot;</span><span class="p">:</span> <span class="s">&quot;bedroom&quot;</span><span class="p">,</span>
+      <span class="s">&quot;ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;studio&quot;</span><span class="p">,</span> <span class="s">&quot;1&quot;</span><span class="p">,</span> <span class="s">&quot;2&quot;</span><span class="p">,</span> <span class="s">&quot;3&quot;</span><span class="p">,</span> <span class="s">&quot;4&quot;</span><span class="p">,</span> <span class="s">&quot;5+&quot;</span><span class="p">],</span>
+      <span class="s">&quot;exactCounts&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+      <span class="s">&quot;fuzzyCounts&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="s">&quot;datasetSize&quot;</span><span class="p">:</span> <span class="mi">50</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="facets-response">
+<span id="index-32"></span><span id="id2"></span><h2>facets Response<a class="headerlink" href="query_response.html#facets-response" title="Permalink to this headline">¶</a></h2>
+<p>The following keys appear for each facets criterion key that is present in the request.</p>
+<blockquote>
+<div>See: <a class="reference internal" href="query_api.html#facets-criterion"><em>Facets Criterion</em></a> for a detailed description of the facets request
+API.</div></blockquote>
+<ul id="index-33">
+<li><p class="first"><strong>navIds</strong></p>
+<p>A list of the children who are either selected or have descendents that are selected
+the respect the <tt class="docutils literal"><span class="pre">sortBy</span></tt> key of the facets request.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">string</span></tt></p>
+</li>
+</ul>
+<ul id="index-34">
+<li><p class="first"><strong>childIds</strong></p>
+<p>A list of child ids that are options for the next level of navigation which respect
+the <tt class="docutils literal"><span class="pre">sortBy</span></tt>, <tt class="docutils literal"><span class="pre">topN</span></tt>, <tt class="docutils literal"><span class="pre">minCount</span></tt> and <tt class="docutils literal"><span class="pre">navChildIds</span></tt> in the facets request.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">string</span></tt></p>
+</li>
+</ul>
+<ul id="index-35">
+<li><p class="first"><strong>dataIds</strong></p>
+<p>The original list of <tt class="docutils literal"><span class="pre">dataIds</span></tt> from the facets request, in the same order, with invalid
+ids removed. Anything in the <tt class="docutils literal"><span class="pre">dataIds</span></tt> list will also be included in the <tt class="docutils literal"><span class="pre">data</span></tt> response dictionary.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">string</span></tt></p>
+</li>
+</ul>
+<ul id="index-36">
+<li><p class="first"><strong>hasMore</strong></p>
+<p>Indicates that the node has more children to display but that the child data
+was not included because of a <tt class="docutils literal"><span class="pre">topN</span></tt> restriction. This key will only be present
+if the list of <tt class="docutils literal"><span class="pre">childIds</span></tt> is longer than the <tt class="docutils literal"><span class="pre">topN</span></tt> request value.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+</li>
+</ul>
+<ul id="index-37">
+<li><p class="first"><strong>data</strong></p>
+<p>A dictionary of all the requested response data for any facet id requested or
+related to the facet ids of the response.</p>
+<p>Note that the structure of <tt class="docutils literal"><span class="pre">data</span></tt> is flat. Any <tt class="docutils literal"><span class="pre">parentId</span></tt> and child node
+references will be included in the dictionary. To re-establish the hierarchy, use
+<tt class="docutils literal"><span class="pre">parentId</span></tt> and/or <tt class="docutils literal"><span class="pre">childIds</span></tt>.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+</li>
+</ul>
+<div class="section" id="facets-data-response">
+<span id="index-38"></span><span id="id3"></span><h3>facets data Response<a class="headerlink" href="query_response.html#facets-data-response" title="Permalink to this headline">¶</a></h3>
+<p>The following is a discription of the <tt class="docutils literal"><span class="pre">data</span></tt> key of the facets response. For more
+information on the facets response, refer to <a class="reference internal" href="query_response.html#facets-response"><em>facets Response</em></a>.</p>
+<p>A dictionary of all the requested response data for any facet id requested or
+related to the facet ids of the response.</p>
+<p>Note that the structure of <tt class="docutils literal"><span class="pre">data</span></tt> is flat. Any <tt class="docutils literal"><span class="pre">parentId</span></tt> and child node
+references will be included in the dictionary. To re-establish the hierarchy, use
+<tt class="docutils literal"><span class="pre">parentId</span></tt> and/or <tt class="docutils literal"><span class="pre">childIds</span></tt>.</p>
+<p>The key to the data is the facet id (either the distince data value or the <tt class="docutils literal"><span class="pre">id</span></tt>
+of the dimension element for the facet).</p>
+<ul id="index-39">
+<li><p class="first"><strong>count</strong></p>
+<p>The facet count that was requested using the request key <tt class="docutils literal"><span class="pre">countType</span></tt>.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">integer</span></tt></p>
+</li>
+</ul>
+<ul id="index-40">
+<li><p class="first"><strong>label</strong></p>
+<p>The value of the name attribute for the dimension element for the facet id, if
+the request key <tt class="docutils literal"><span class="pre">includeLabel</span></tt> was set.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+</li>
+</ul>
+<ul id="index-41">
+<li><p class="first"><strong>selected</strong></p>
+<p>Indicates whether the value was requested in a query criterion.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+</li>
+</ul>
+<ul id="index-42">
+<li><p class="first"><strong>parentId</strong></p>
+<p>Indicates the parent node ID for hierarchical relationships in tree type dimensions.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+</li>
+</ul>
+<ul id="index-43">
+<li><p class="first"><strong>childIds</strong></p>
+<p>Indicates the direct child descendants of the node for hierarchical tree type dimensions.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">string</span></tt>.</p>
+</li>
+</ul>
+<ul id="index-44">
+<li><p class="first"><strong>navIds</strong></p>
+<p>Indicates the ancestral nodes that must be navigated through to reach the node.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">string</span></tt>.</p>
+</li>
+</ul>
+<ul id="index-45">
+<li><p class="first"><strong>bounds</strong></p>
+<p>If the facets criterion specified <tt class="docutils literal"><span class="pre">includeBounds</span></tt> then the data response will
+contain a <tt class="docutils literal"><span class="pre">bounds</span></tt> dictionary with the following keys:</p>
+</li>
+</ul>
+</div>
+<div class="section" id="facets-data-bounds-response">
+<span id="index-46"></span><span id="id4"></span><h3>facets data bounds Response<a class="headerlink" href="query_response.html#facets-data-bounds-response" title="Permalink to this headline">¶</a></h3>
+<p>The following is a discription of the <tt class="docutils literal"><span class="pre">bounds</span></tt> key of the facets <tt class="docutils literal"><span class="pre">data</span></tt> response. For more
+information on the facets data response, refer to <a class="reference internal" href="query_response.html#facets-data-response"><em>facets data Response</em></a>.</p>
+<ul id="index-47">
+<li><p class="first"><strong>min</strong></p>
+<p>If the facets request specified <tt class="docutils literal"><span class="pre">includeBounds</span></tt> then for scalar type dimensions
+this key indicates the minimum value in the bucket.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">number</span></tt> or <tt class="docutils literal"><span class="pre">time</span></tt></p>
+</li>
+</ul>
+<ul id="index-48">
+<li><p class="first"><strong>max</strong></p>
+<p>If the facets request specified <tt class="docutils literal"><span class="pre">includeBounds</span></tt> then for scalar type dimensions
+this key indicates the maximum value in the bucket.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">number</span></tt> or <tt class="docutils literal"><span class="pre">time</span></tt></p>
+</li>
+</ul>
+<ul id="index-49">
+<li><p class="first"><strong>minInclusive</strong></p>
+<p>If the facets request specified <tt class="docutils literal"><span class="pre">includeBounds</span></tt> then for scalar type dimensions
+this key will be present if the value of <tt class="docutils literal"><span class="pre">min</span></tt> is exclusive only, for example,
+<tt class="docutils literal"><span class="pre">(30,100]</span></tt>.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">true</span></tt></p>
+</li>
+</ul>
+<ul id="index-50">
+<li><p class="first"><strong>maxInclusive</strong></p>
+<p>If the facets request specified <tt class="docutils literal"><span class="pre">includeBounds</span></tt> then for scalar type dimensions
+this key will be present if the value of <tt class="docutils literal"><span class="pre">max</span></tt> is exclusive only, for example,
+<tt class="docutils literal"><span class="pre">[30,100)</span></tt>.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">true</span></tt></p>
+</li>
+</ul>
+<span class="target" id="index-51"></span><p id="index-52">Sample response:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;facets&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;category&quot;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;childIds&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">],</span>
+          <span class="s2">&quot;data&quot;</span><span class="o">:</span> <span class="p">{</span>
+              <span class="s2">&quot;a&quot;</span><span class="o">:</span> <span class="p">{</span>
+                  <span class="s2">&quot;count&quot;</span><span class="o">:</span> <span class="mi">20</span><span class="p">,</span>
+                  <span class="s2">&quot;selected&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                  <span class="s2">&quot;childIds&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;c&quot;</span><span class="p">]</span>
+              <span class="p">},</span>
+              <span class="s2">&quot;b&quot;</span><span class="o">:</span> <span class="p">{</span>
+                  <span class="s2">&quot;count&quot;</span><span class="o">:</span> <span class="mi">5</span><span class="p">,</span>
+                  <span class="s2">&quot;selected&quot;</span><span class="o">:</span> <span class="kc">false</span>
+              <span class="p">},</span>
+              <span class="s2">&quot;c&quot;</span><span class="o">:</span> <span class="p">{</span>
+                  <span class="s2">&quot;count&quot;</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+                  <span class="s2">&quot;parentId&quot;</span><span class="o">:</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span>
+                  <span class="s2">&quot;selected&quot;</span><span class="o">:</span> <span class="kc">false</span>
+              <span class="p">}</span>
+          <span class="p">}</span>
+      <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="drilldown">
+<span id="drilldown-response"></span><span id="index-53"></span><h2>drillDown<a class="headerlink" href="query_response.html#drilldown" title="Permalink to this headline">¶</a></h2>
+<p>The following keys appear for each drillDown criterion that is present in the request.</p>
+<blockquote>
+<div>See: <a class="reference internal" href="query_api.html#drilldown-criterion"><em>Drilldown Criterion</em></a> for a detailed description of the drilldown
+API.</div></blockquote>
+<ul>
+<li><p class="first"><strong>dimension</strong></p>
+<p>Id of the dimension this drill down result refers to.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+</li>
+<li><p class="first"><strong>ids</strong></p>
+<p>Node/bucket ids.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">string</span></tt></p>
+</li>
+<li><p class="first"><strong>exactCounts</strong></p>
+<p>Parallel counts based on the exact match results of the current query.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">int</span></tt></p>
+</li>
+<li><p class="first"><strong>fuzzyCounts</strong></p>
+<p>Parallel counts based on all the results of the current query.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">int</span></tt></p>
+</li>
+</ul>
+<span class="target" id="index-54"></span><span class="target" id="index-55"></span></div>
+<div class="section" id="properties">
+<span id="properties-response"></span><span id="index-56"></span><h2>Properties<a class="headerlink" href="query_response.html#properties" title="Permalink to this headline">¶</a></h2>
+<p>The response includes a key named after each changeset property requested in the
+query or, if no changeset properties were explicitly requested, then the response
+includes an entry for every changeset property of the item.</p>
+<p>If the query request included the highlighting criterion, then any highlighting
+will be applied to the returned changeset property values.</p>
+<p>The order of the dictionaries in the response array is in the same order as the
+items return in the query response.</p>
+<p>The properties are stored in a disk-based database and retrieve on an as-needed basis.
+To increase concurrency, the engine will maintain a cache of items in a least recently
+used item cache. You can determine the size of the cache, in number of items, using
+the Settings page of the Admin Tool.</p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.8.3.</span></p>
+</div></blockquote>
+<p id="index-57">Sample query:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;startIndex&quot;</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s2">&quot;pageSize&quot;</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="s2">&quot;properties&quot;</span><span class="o">:</span> <span class="p">[</span>
+                  <span class="s2">&quot;title&quot;</span><span class="p">,</span>
+                  <span class="s2">&quot;synopsis&quot;</span>
+                <span class="p">]</span>
+  <span class="s2">&quot;highlighting&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;fragmentType&quot;</span><span class="o">:</span> <span class="s2">&quot;best&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;maxFragments&quot;</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="s2">&quot;delimiter&quot;</span><span class="o">:</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;template&quot;</span><span class="o">:</span> <span class="p">[</span> <span class="s2">&quot;&lt;b&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&lt;/b&gt;&quot;</span> <span class="p">],</span>
+    <span class="s2">&quot;fragmentSize&quot;</span><span class="o">:</span> <span class="mi">100</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;criteria&quot;</span><span class="o">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;fulltext&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;Star Trek&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;searchStyle&quot;</span><span class="o">:</span> <span class="s2">&quot;startsWith&quot;</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Sample response:</p>
+<div class="highlight-javascript"><pre>{
+  "availableSize": 33455,
+  "totalSize": 34544,
+  "pageSize": 2,
+  "properties": [
+    {
+      "title": "&lt;b&gt;Star Trek&lt;/b&gt;",
+      "synopsis": "Boldly going where no &lt;b&gt;Trek&lt;/b&gt; has gone before...beloved
+      crew of the &lt;b&gt;Starship&lt;/b&gt; Enterprise...attend &lt;b&gt;Starfleet&lt;/b&gt; Academy.
+      But before they can even sign",
+      "genres": "Science Fiction,Drama"
+    },
+    {
+      "title": "&lt;b&gt;Star Trek&lt;/b&gt; III: The Search for Spock",
+      "synopsis": "Admiral Kirk has his hands full after defeating the evil Khan
+       in&lt;b&gt;Star Trek&lt;/b&gt; II:Spockisdead."
+    }
+  ],
+  "exactSize": 2234,
+  "currentPageSize": 2,
+  "itemIds": [
+    "17-MV",
+    "1958-MV,
+  ]
+}</pre>
+</div>
+<span class="target" id="index-58"></span></div>
+<div class="section" id="highlighting">
+<span id="highlighting-response"></span><span id="index-59"></span><h2>Highlighting<a class="headerlink" href="query_response.html#highlighting" title="Permalink to this headline">¶</a></h2>
+<p>The response includes a key named after each changeset property that was highlighted.
+Tree dimensions are highlighted differently than text type
+dimensions.</p>
+<p>The order of the dictionaries in the response array is in the same order as the
+items returned in the query response and is returned in the same format as the properties
+response field.</p>
+<p>This field will only be present if the highlighting request <tt class="docutils literal"><span class="pre">merge</span></tt> field was set
+to <tt class="docutils literal"><span class="pre">none</span></tt>. For more information about the highlighting request, refer to
+<a class="reference internal" href="query_api.html#get-highlighting"><em>Highlighting Criterion</em></a>.</p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.8.4.</span></p>
+</div></blockquote>
+<span class="target" id="index-60"></span></div>
+<div class="section" id="index-values">
+<span id="indexvalues-response"></span><span id="index-61"></span><h2>Index Values<a class="headerlink" href="query_response.html#index-values" title="Permalink to this headline">¶</a></h2>
+<p>The response includes a key named after each dimension named in the values
+request. The value is in turn a dictionary with keys containing arrays of the
+same length as the item result set determined by the pageSize top-level request field.</p>
+<p>Multi-values will be returned as arrays.</p>
+<blockquote>
+<div><ul>
+<li><p class="first"><strong>id</strong> The indexed value.</p>
+</li>
+<li><p class="first"><strong>hit</strong> If the corresponding id value resulted in a match for the current</p>
+</li>
+<li><dl class="first docutils">
+<dt><strong>label</strong> The <tt class="docutils literal"><span class="pre">name</span></tt> attribute of the dimension element for the given</dt>
+<dd><p class="first last"><tt class="docutils literal"><span class="pre">id</span></tt> that can be used to translate the <tt class="docutils literal"><span class="pre">id</span></tt> to a readable format.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>See: <a class="reference internal" href="query_api.html#dimension-indexvalues"><em>indexValues Criterion</em></a> for a description of the indexValues request API.</p>
+<p class="versionadded" id="index-62">
+<span class="versionmodified">New in version 2.9.1.</span></p>
+<p>Sample response for a 3-item response:</p>
+</div></blockquote>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;indexValues&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;genres&quot;</span><span class="o">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="p">[[</span><span class="s2">&quot;CO&quot;</span><span class="p">],[</span><span class="s2">&quot;CD&quot;</span><span class="p">],[</span><span class="s2">&quot;DR&quot;</span><span class="p">,</span><span class="s2">&quot;HR&quot;</span><span class="p">]],</span>
+          <span class="s2">&quot;hit&quot;</span><span class="o">:</span> <span class="p">[[</span><span class="kc">false</span><span class="p">],[</span><span class="kc">true</span><span class="p">],[</span><span class="kc">true</span><span class="p">,</span><span class="kc">false</span><span class="p">]]</span>
+          <span class="s2">&quot;label&quot;</span><span class="o">:</span> <span class="p">[[</span><span class="s2">&quot;Comedy&quot;</span><span class="p">],[</span><span class="s2">&quot;Crime Drama&quot;</span><span class="p">],[</span><span class="s2">&quot;Drama&quot;</span><span class="p">,</span><span class="s2">&quot;Horror&quot;</span><span class="p">]],</span>
+        <span class="p">}</span>
+     <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<span class="target" id="index-63"></span></div>
+<div class="section" id="calculate">
+<span id="calculate-response"></span><span id="index-64"></span><h2>Calculate<a class="headerlink" href="query_response.html#calculate" title="Permalink to this headline">¶</a></h2>
+<p>The response includes a key that was defined in the <tt class="docutils literal"><span class="pre">calculate</span></tt> request.
+The value is in turn one or more calculated values, usually one calculated value per item
+in the query response.</p>
+<blockquote>
+<div><p>See: <a class="reference internal" href="query_api.html#calculate-request"><em>Calculate Criterion</em></a> for a description of the calculate request API.</p>
+<p class="versionadded" id="index-65">
+<span class="versionmodified">New in version 3.1.0.</span></p>
+</div></blockquote>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;calcluate&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;distanceFromSchool&quot;</span><span class="o">:</span> <span class="p">[</span>
+        <span class="s2">&quot;0.234&quot;</span><span class="p">,</span> <span class="s2">&quot;1.3433&quot;</span><span class="p">,</span> <span class="s2">&quot;10.54&quot;</span>
+     <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<span class="target" id="index-66"></span></div>
+<div class="section" id="values">
+<span id="values-response"></span><span id="index-67"></span><h2>Values<a class="headerlink" href="query_response.html#values" title="Permalink to this headline">¶</a></h2>
+<p>The response includes a key named after each dimension named in the values
+request. The value is an array of values, in the order of the items in the response, for
+the dimension.</p>
+<blockquote>
+<div><p>See: <a class="reference internal" href="query_api.html#dimension-values"><em>Values Criterion</em></a> for a description of the values request API.</p>
+<p id="index-68">Sample response:</p>
+</div></blockquote>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;values&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;genres&quot;</span><span class="o">:</span> <span class="p">[</span>
+        <span class="s2">&quot;Comedy&quot;</span><span class="p">,</span>
+        <span class="p">[</span>
+          <span class="s2">&quot;Crime drama&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;Drama&quot;</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;Horror&quot;</span>
+     <span class="p">],</span>
+    <span class="s2">&quot;ethnicity&quot;</span><span class="o">:</span> <span class="p">[</span>
+      <span class="s2">&quot;white&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;asian&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;american indian&quot;</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<span class="target" id="index-69"></span></div>
+<div class="section" id="sortby-response">
+<span id="index-70"></span><span id="id5"></span><h2>sortBy Response<a class="headerlink" href="query_response.html#sortby-response" title="Permalink to this headline">¶</a></h2>
+<p>The response is an array of dictionaries, one entry for each sortBy criterion, in the
+order in which the criterion were specified. The first field of the response includes
+the type of sortBy specified in the sortBy request field <tt class="docutils literal"><span class="pre">builtin</span></tt> or <tt class="docutils literal"><span class="pre">dimension</span></tt>.</p>
+<blockquote>
+<div>See: <a class="reference internal" href="query_api.html#sort-by"><em>Sort By Criterion</em></a> for a description of the sortBy request API.</div></blockquote>
+<span class="target" id="index-71"></span><ul id="index-72">
+<li><p class="first"><strong>builtin</strong>
+The type of builtin dynamic value to used for the sort. Either <tt class="docutils literal"><span class="pre">builtin</span></tt> or
+<tt class="docutils literal"><span class="pre">dimension</span></tt> will be present for each sortBy response row.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>Values: <tt class="docutils literal"><span class="pre">exactMatch</span></tt>, <tt class="docutils literal"><span class="pre">relevance</span></tt>, <tt class="docutils literal"><span class="pre">id</span></tt> or <tt class="docutils literal"><span class="pre">random</span></tt></p>
+</li>
+</ul>
+<span class="target" id="index-73"></span><ul id="index-74">
+<li><p class="first"><strong>dimension</strong>
+The dimension whose value was used for the sort.  Either <tt class="docutils literal"><span class="pre">builtin</span></tt> or
+<tt class="docutils literal"><span class="pre">dimension</span></tt> will be present for each sortBy response row.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+</li>
+</ul>
+<span class="target" id="index-75"></span><span class="target" id="index-76"></span><span class="target" id="index-77"></span><ul id="index-78">
+<li><p class="first"><strong>values</strong>
+The values used for the sort. This array contains an element for every
+item in the result set, in the same order as the result set items.</p>
+<p>If the dimension is a geoloc dimension
+then the value will the distance of the item from the geo point specified
+in the sortBy criterion <tt class="docutils literal"><span class="pre">latitude</span></tt> and <tt class="docutils literal"><span class="pre">longitude</span></tt> fields.</p>
+<p>The units (miles/kilometers) of the distance values will be in the units
+specified by the sortBy criterion&#8217;s <tt class="docutils literal"><span class="pre">distanceUnit</span></tt> field.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of values</p>
+</li>
+</ul>
+<p id="index-79">Sample response:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;availableSize&quot;</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+  <span class="s2">&quot;currentPageSize&quot;</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+  <span class="s2">&quot;datasetSize&quot;</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+  <span class="s2">&quot;exactMatches&quot;</span><span class="o">:</span> <span class="p">[</span><span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">],</span>
+  <span class="s2">&quot;exactSize&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="s2">&quot;sortBy&quot;</span><span class="o">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;Location&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;values&quot;</span><span class="o">:</span> <span class="p">[</span><span class="mf">8.549</span><span class="p">,</span> <span class="mf">8.549</span><span class="p">,</span> <span class="mf">8.549</span><span class="p">,</span> <span class="mf">9.034</span><span class="p">,</span> <span class="mf">10.572</span><span class="p">,</span> <span class="mf">10.572</span><span class="p">,</span> <span class="mf">11.51</span><span class="p">,</span>
+                    <span class="mf">11.51</span><span class="p">,</span> <span class="mf">11.51</span><span class="p">,</span> <span class="mf">11.51</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;builtin&quot;</span><span class="o">:</span> <span class="s2">&quot;exactMatch&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;values&quot;</span><span class="o">:</span> <span class="p">[</span><span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span>
+                    <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;builtin&quot;</span><span class="o">:</span> <span class="s2">&quot;relevance&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;values&quot;</span><span class="o">:</span> <span class="p">[</span><span class="mf">0.9996560800350993</span><span class="p">,</span> <span class="mf">0.9996560800350993</span><span class="p">,</span> <span class="mf">0.9996560800350993</span><span class="p">,</span>
+        <span class="mf">0.9996365661127987</span><span class="p">,</span> <span class="mf">0.999574675986841</span><span class="p">,</span> <span class="mf">0.999574675986841</span><span class="p">,</span>
+        <span class="mf">0.9995369569317102</span><span class="p">,</span> <span class="mf">0.9995369569317102</span><span class="p">,</span> <span class="mf">0.9995369569317102</span><span class="p">,</span>
+        <span class="mf">0.9995369569317102</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;builtin&quot;</span><span class="o">:</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;values&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;933250&quot;</span><span class="p">,</span> <span class="s2">&quot;933251&quot;</span><span class="p">,</span> <span class="s2">&quot;933252&quot;</span><span class="p">,</span> <span class="s2">&quot;877692&quot;</span><span class="p">,</span> <span class="s2">&quot;985783&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;993906&quot;</span><span class="p">,</span> <span class="s2">&quot;965193&quot;</span><span class="p">,</span> <span class="s2">&quot;965194&quot;</span><span class="p">,</span> <span class="s2">&quot;965195&quot;</span><span class="p">,</span> <span class="s2">&quot;999564&quot;</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<span class="target" id="index-80"></span></div>
+<div class="section" id="didyoumean">
+<span id="didyoumean-response"></span><span id="index-81"></span><h2>DidYouMean<a class="headerlink" href="query_response.html#didyoumean" title="Permalink to this headline">¶</a></h2>
+<p>The following keys appear in the dictionary entry for each text didYouMean dimension
+that appeared in the search criterion request. The key is the <tt class="docutils literal"><span class="pre">id</span></tt> of the dimension.</p>
+<p>See: <a class="reference internal" href="query_api.html#get-didyoumean"><em>DidYouMean Criterion</em></a> for a description of the Did You Mean? request API and
+<a class="reference internal" href="../reference/web_services.html#didyoumean-service"><em>DidYouMean</em></a> for a description of the Did You Mean? web service API.</p>
+<ul id="index-82">
+<li><p class="first"><strong>tokenCount</strong></p>
+<p>This in an informational value that indicates how many tokens (words) were
+discovered in the query text.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">integer</span></tt></p>
+</li>
+</ul>
+<ul id="index-83">
+<li><p class="first"><strong>uncertainCount</strong></p>
+<p>This in an informational value that indicates how many tokens (words), out of
+the total number of tokens (tokenCount), were not able to be provided with
+suggestions.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">integer</span></tt></p>
+</li>
+</ul>
+<span class="target" id="index-84"></span><span class="target" id="index-85"></span><ul id="index-86">
+<li><p class="first"><strong>suggestions</strong></p>
+<p>This is a dictionary that returns the suggested query strings. The value of
+up to <tt class="docutils literal"><span class="pre">maxSuggestions</span></tt> from the didYouMean request limits the number of
+suggestions returned.</p>
+<p>Suggestions are returned in order of <em>decreasing</em> relevance.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">dictionary</span></tt></p>
+<dl class="docutils">
+<dt>There are two keys in the dictionary:</dt>
+<dd><ul class="first last simple">
+<li><strong>value</strong>. The plain text suggested query string.</li>
+<li><strong>label</strong>. The suggested query string with replaced terms highlighted</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<ul id="index-87">
+<li><p class="first"><strong>query</strong></p>
+<p>This is a dictionary that returns the original query used for Did You Mean? as well as the
+version in which the replaced tokens are highlighted, if highlighting has been
+enabled.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">dictionary</span></tt></p>
+<dl class="docutils">
+<dt>There are two keys in the dictionary:</dt>
+<dd><ul class="first last simple">
+<li><strong>value</strong>. Original query string used for Did You Mean?</li>
+<li><strong>label</strong>. Query string with replaced terms highlighted</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p id="index-88">Sample response:</p>
+<p>This response returns Did You Mean query suggestions for two dimensions with
+<tt class="docutils literal"><span class="pre">id</span></tt> &#8220;freetext&#8221; and &#8220;name&#8221; respectively.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="s2">&quot;didYouMean&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;freetext&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;tokenCount&quot;</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">&quot;uncertainCount&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;query&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;st marys&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;label&quot;</span><span class="o">:</span> <span class="s2">&quot;&lt;i&gt;st&lt;/i&gt; &lt;i&gt;marys&lt;/i&gt;&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;suggestions&quot;</span><span class="o">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;st mary&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;label&quot;</span><span class="o">:</span> <span class="s2">&quot;st &lt;i&gt;mary&lt;/i&gt;&quot;</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;st maria&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;label&quot;</span><span class="o">:</span> <span class="s2">&quot;st &lt;i&gt;maria&lt;/i&gt;&quot;</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;st mark&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;label&quot;</span><span class="o">:</span> <span class="s2">&quot;st &lt;i&gt;mark&lt;/i&gt;&quot;</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;st mar&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;label&quot;</span><span class="o">:</span> <span class="s2">&quot;st &lt;i&gt;mar&lt;/i&gt;&quot;</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;tokenCount&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;uncertainCount&quot;</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;query&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;elementary&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;label&quot;</span><span class="o">:</span> <span class="s2">&quot;&lt;i&gt;elementary&lt;/i&gt;&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;suggestions&quot;</span><span class="o">:</span> <span class="p">[</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<span class="target" id="index-89"></span></div>
+<div class="section" id="groups">
+<span id="groups-response"></span><span id="index-90"></span><h2>Groups<a class="headerlink" href="query_response.html#groups" title="Permalink to this headline">¶</a></h2>
+<p>The following keys appear for each groupBy criterion that also specifies the topN field. Note
+that the field name for the response is <em>groups</em>.</p>
+<p>See: <a class="reference internal" href="query_api.html#group-by"><em>Group By Criterion</em></a> for a description of the groupBy request API.</p>
+<ul id="index-91">
+<li><p class="first"><strong>itemIds</strong></p>
+<p>The list of relevant item ids for each topN item in each group.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">string</span></tt></p>
+</li>
+</ul>
+<ul id="index-92">
+<li><p class="first"><strong>exactMatches</strong></p>
+<p>The parallel array (to itemIds) that indicates whether the topN item was an exact match against the
+query.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+</li>
+</ul>
+<ul id="index-93">
+<li><p class="first"><strong>relevanceValues</strong></p>
+<p>The parallel array (to itemIds) that reports the relevance values for each topN item on this page of the
+result set.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</li>
+</ul>
+<ul id="index-94">
+<li><p class="first"><strong>properties</strong></p>
+<p>The parallel array (to itemIds) that reports the propertiess for each topN item on this page of the
+result set.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</li>
+</ul>
+<ul id="index-95">
+<li><p class="first"><strong>highlighting</strong></p>
+<p>The parallel array (to itemIds) that reports the highlighting for each topN item on this page of the
+result set.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</li>
+</ul>
+<ul id="index-96">
+<li><p class="first"><strong>indexValues</strong></p>
+<p>The parallel array (to itemIds) that reports the indexValues for each topN item on this page of the
+result set.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</li>
+</ul>
+<p id="index-97">Sample response:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;startIndex&quot;</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s2">&quot;currentPageSize&quot;</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+  <span class="s2">&quot;pageSize&quot;</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+  <span class="s2">&quot;datasetSize&quot;</span><span class="o">:</span> <span class="mi">33853</span><span class="p">,</span>
+  <span class="s2">&quot;itemIds&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;1011068&quot;</span><span class="p">,</span> <span class="s2">&quot;1030677&quot;</span><span class="p">,</span> <span class="s2">&quot;1001509&quot;</span><span class="p">],</span>
+  <span class="s2">&quot;exactMatches&quot;</span><span class="o">:</span> <span class="p">[</span><span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">],</span>
+  <span class="s2">&quot;relevanceValues&quot;</span><span class="o">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+  <span class="s2">&quot;isGrouped&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="s2">&quot;groups&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;itemIds&quot;</span><span class="o">:</span> <span class="p">[</span>
+      <span class="p">[</span><span class="s2">&quot;854516&quot;</span><span class="p">,</span> <span class="s2">&quot;854517&quot;</span><span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;971633&quot;</span><span class="p">,</span> <span class="s2">&quot;938607&quot;</span><span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;5194685&quot;</span><span class="p">,</span> <span class="s2">&quot;839126&quot;</span><span class="p">]</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;exactMatches&quot;</span><span class="o">:</span> <span class="p">[</span>
+      <span class="p">[</span><span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">],</span>
+      <span class="p">[</span><span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">],</span>
+      <span class="p">[</span><span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">]</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;relevanceValues&quot;</span><span class="o">:</span> <span class="p">[</span>
+      <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+      <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+      <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;indexValues&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;City_Id&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;hit&quot;</span><span class="o">:</span> <span class="p">[</span>
+          <span class="p">[[</span><span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">],</span> <span class="p">[</span><span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">]],</span>
+          <span class="p">[[</span><span class="kc">true</span><span class="p">],</span> <span class="p">[</span><span class="kc">true</span><span class="p">]],</span>
+          <span class="p">[[</span><span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">],</span> <span class="p">[</span><span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">]]</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="p">[</span>
+          <span class="p">[[</span><span class="s2">&quot;106335-45&quot;</span><span class="p">,</span> <span class="s2">&quot;126371-45&quot;</span><span class="p">,</span> <span class="s2">&quot;127679-45&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;106335-45&quot;</span><span class="p">,</span> <span class="s2">&quot;126371-45&quot;</span><span class="p">,</span> <span class="s2">&quot;127679-45&quot;</span><span class="p">]],</span>
+          <span class="p">[[</span><span class="s2">&quot;106335-45&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;106335-45&quot;</span><span class="p">]],</span>
+          <span class="p">[[</span><span class="s2">&quot;106335-45&quot;</span><span class="p">,</span> <span class="s2">&quot;126371-45&quot;</span><span class="p">,</span> <span class="s2">&quot;127679-45&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;106335-45&quot;</span><span class="p">,</span> <span class="s2">&quot;126371-45&quot;</span><span class="p">,</span> <span class="s2">&quot;127679-45&quot;</span><span class="p">]]</span>
+        <span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;properties&quot;</span><span class="o">:</span> <span class="p">[</span>
+      <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="s2">&quot;Baths&quot;</span><span class="o">:</span> <span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;Beds&quot;</span><span class="o">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;State_Name&quot;</span><span class="o">:</span> <span class="s2">&quot;Ohio&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;Zip_Code&quot;</span><span class="o">:</span> <span class="s2">&quot;44224&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="s2">&quot;Baths&quot;</span><span class="o">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;Beds&quot;</span><span class="o">:</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;State_Name&quot;</span><span class="o">:</span> <span class="s2">&quot;Ohio&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;Zip_Code&quot;</span><span class="o">:</span> <span class="s2">&quot;44224&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="s2">&quot;Baths&quot;</span><span class="o">:</span> <span class="s2">&quot;1.5&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;Beds&quot;</span><span class="o">:</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;State_Name&quot;</span><span class="o">:</span> <span class="s2">&quot;Ohio&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;Zip_Code&quot;</span><span class="o">:</span> <span class="s2">&quot;44221&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="s2">&quot;Baths&quot;</span><span class="o">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;Beds&quot;</span><span class="o">:</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;State_Name&quot;</span><span class="o">:</span> <span class="s2">&quot;Ohio&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;Zip_Code&quot;</span><span class="o">:</span> <span class="s2">&quot;44221&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="s2">&quot;Baths&quot;</span><span class="o">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;Beds&quot;</span><span class="o">:</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;State_Name&quot;</span><span class="o">:</span> <span class="s2">&quot;Ohio&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;Zip_Code&quot;</span><span class="o">:</span> <span class="s2">&quot;44224&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="s2">&quot;Baths&quot;</span><span class="o">:</span> <span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;Beds&quot;</span><span class="o">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;State_Name&quot;</span><span class="o">:</span> <span class="s2">&quot;Ohio&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;Zip_Code&quot;</span><span class="o">:</span> <span class="s2">&quot;44224&quot;</span>
+        <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The the query or groupBy dimension enables <tt class="docutils literal"><span class="pre">legacyGroupBy</span></tt> then the response
+will include the following fields.</p>
+<ul id="index-98">
+<li><p class="first"><strong>itemIds</strong></p>
+<p>The list of relevant item ids on this page of the result set.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">string</span></tt></p>
+</li>
+</ul>
+<ul id="index-99">
+<li><p class="first"><strong>exactMatches</strong></p>
+<p>The corresponding list of whether the item was an exact match against the
+query.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+</li>
+</ul>
+<ul id="index-100">
+<li><p class="first"><strong>relevanceValues</strong></p>
+<p>The corresponding list of relevance values for each item on this page of the
+result set.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">double</span></tt></p>
+<p>See: <a class="reference internal" href="query_api.html#group-by"><em>Group By Criterion</em></a> for a description of the groupBy request API.</p>
+</li>
+</ul>
+<p id="index-101">Sample response:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;availableSize&quot;</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+  <span class="s2">&quot;currentPageSize&quot;</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+  <span class="s2">&quot;datasetSize&quot;</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+  <span class="s2">&quot;exactMatches&quot;</span><span class="o">:</span> <span class="p">[</span><span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">],</span>
+  <span class="s2">&quot;exactSize&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="s2">&quot;groups&quot;</span><span class="o">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;exactMatches&quot;</span><span class="o">:</span> <span class="p">[</span><span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">],</span>
+      <span class="s2">&quot;itemIds&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;CheapHeavyCircle&quot;</span><span class="p">,</span> <span class="s2">&quot;CheapLightCircle&quot;</span><span class="p">,</span> <span class="s2">&quot;LightCircle&quot;</span><span class="p">],</span>
+      <span class="s2">&quot;relevanceValues&quot;</span><span class="o">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.99999999720603228</span><span class="p">,</span> <span class="mf">0.99999999534338713</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;exactMatches&quot;</span><span class="o">:</span> <span class="p">[</span><span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">],</span>
+      <span class="s2">&quot;itemIds&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;CheapTriangle&quot;</span><span class="p">,</span> <span class="s2">&quot;HeavyTriangle&quot;</span><span class="p">,</span> <span class="s2">&quot;ExpensiveLightTriangle&quot;</span><span class="p">],</span>
+      <span class="s2">&quot;relevanceValues&quot;</span><span class="o">:</span> <span class="p">[</span><span class="mf">0.99999999860301614</span><span class="p">,</span> <span class="mf">0.99999999580904841</span><span class="p">,</span> <span class="mf">0.99999998789280653</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;exactMatches&quot;</span><span class="o">:</span> <span class="p">[</span><span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">],</span>
+      <span class="s2">&quot;itemIds&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;Square&quot;</span><span class="p">,</span> <span class="s2">&quot;ExpensiveHeavySquare&quot;</span><span class="p">,</span> <span class="s2">&quot;ExpensiveSquare&quot;</span><span class="p">],</span>
+      <span class="s2">&quot;relevanceValues&quot;</span><span class="o">:</span> <span class="p">[</span><span class="mf">0.99999999487772584</span><span class="p">,</span> <span class="mf">0.99999999161809683</span><span class="p">,</span> <span class="mf">0.99999999022111297</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="s2">&quot;isGrouped&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="s2">&quot;legacyGroupBy&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="s2">&quot;itemIds&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;circle&quot;</span><span class="p">,</span> <span class="s2">&quot;triangle&quot;</span><span class="p">,</span> <span class="s2">&quot;square&quot;</span><span class="p">],</span>
+  <span class="s2">&quot;pageSize&quot;</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="s2">&quot;relevanceValues&quot;</span><span class="o">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.99999999860301614</span><span class="p">,</span> <span class="mf">0.99999999487772584</span><span class="p">],</span>
+  <span class="s2">&quot;startIndex&quot;</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s2">&quot;totalSize&quot;</span><span class="o">:</span> <span class="mi">3</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<span class="target" id="index-102"></span></div>
+<div class="section" id="explain">
+<span id="explain-response"></span><span id="index-103"></span><h2>Explain<a class="headerlink" href="query_response.html#explain" title="Permalink to this headline">¶</a></h2>
+<p><em>Transparensee Systems reserves the right to alter or remove this API in any way
+and at any time in the future. It provides this feature solely for debugging purposes.</em></p>
+<p><strong>Note</strong>: queryTime, propertiesTime and highlightTime all appear as top-level
+query response fields. The other explain responses are described here.</p>
+<blockquote>
+<div><p id="index-104">See: <a class="reference internal" href="query_api.html#query-explain"><em>Explain</em></a> for a description of the explain request API.</p>
+</div></blockquote>
+<p>Sample response:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;explain&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;explanation&quot;</span><span class="o">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="s2">&quot;cost&quot;</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;criterion&quot;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;content-type&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;Movie&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;weight&quot;</span><span class="o">:</span> <span class="mi">0</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;criterionValue&quot;</span><span class="o">:</span> <span class="s2">&quot;{Movie=1.0}&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cullSizeIn&quot;</span><span class="o">:</span> <span class="mi">69200</span><span class="p">,</span>
+        <span class="s2">&quot;cullSizeOut&quot;</span><span class="o">:</span> <span class="mi">69200</span><span class="p">,</span>
+        <span class="s2">&quot;cullTime&quot;</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;content-type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;drillDownIds&quot;</span><span class="o">:</span> <span class="p">[</span>
+          <span class="s2">&quot;Movie&quot;</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;exactMatches&quot;</span><span class="o">:</span> <span class="p">[</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">true</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;position&quot;</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;relevanceSizeIn&quot;</span><span class="o">:</span> <span class="mi">68654</span><span class="p">,</span>
+        <span class="s2">&quot;relevanceSizeOut&quot;</span><span class="o">:</span> <span class="mi">68654</span><span class="p">,</span>
+        <span class="s2">&quot;relevanceTime&quot;</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">&quot;relevanceValues&quot;</span><span class="o">:</span> <span class="p">[</span>
+          <span class="mi">0</span><span class="p">,</span>
+          <span class="mi">0</span><span class="p">,</span>
+          <span class="mi">0</span><span class="p">,</span>
+          <span class="mi">0</span><span class="p">,</span>
+          <span class="mi">0</span><span class="p">,</span>
+          <span class="mi">0</span><span class="p">,</span>
+          <span class="mi">0</span><span class="p">,</span>
+          <span class="mi">0</span><span class="p">,</span>
+          <span class="mi">0</span><span class="p">,</span>
+          <span class="mi">0</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;tree&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;weight&quot;</span><span class="o">:</span> <span class="mi">0</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="s2">&quot;cost&quot;</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s2">&quot;criterion&quot;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;release_year&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;exactMatch&quot;</span><span class="o">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;2010&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;weight&quot;</span><span class="o">:</span> <span class="mf">0.25</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;criterionValue&quot;</span><span class="o">:</span> <span class="s2">&quot;[2010]&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cullSizeIn&quot;</span><span class="o">:</span> <span class="mi">69200</span><span class="p">,</span>
+        <span class="s2">&quot;cullSizeOut&quot;</span><span class="o">:</span> <span class="mi">68654</span><span class="p">,</span>
+        <span class="s2">&quot;cullTime&quot;</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;release_year&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;exactMatches&quot;</span><span class="o">:</span> <span class="p">[</span>
+          <span class="kc">false</span><span class="p">,</span>
+          <span class="kc">false</span><span class="p">,</span>
+          <span class="kc">false</span><span class="p">,</span>
+          <span class="kc">false</span><span class="p">,</span>
+          <span class="kc">false</span><span class="p">,</span>
+          <span class="kc">false</span><span class="p">,</span>
+          <span class="kc">false</span><span class="p">,</span>
+          <span class="kc">false</span><span class="p">,</span>
+          <span class="kc">false</span><span class="p">,</span>
+          <span class="kc">false</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;position&quot;</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">&quot;relevanceSizeIn&quot;</span><span class="o">:</span> <span class="mi">68654</span><span class="p">,</span>
+        <span class="s2">&quot;relevanceSizeOut&quot;</span><span class="o">:</span> <span class="mi">68654</span><span class="p">,</span>
+        <span class="s2">&quot;relevanceTime&quot;</span><span class="o">:</span> <span class="mi">12</span><span class="p">,</span>
+        <span class="s2">&quot;relevanceValues&quot;</span><span class="o">:</span> <span class="p">[</span>
+          <span class="mf">0.21782178217822</span><span class="p">,</span>
+          <span class="mf">0.21534653465347</span><span class="p">,</span>
+          <span class="mf">0.24876237623762</span><span class="p">,</span>
+          <span class="mf">0.24876237623762</span><span class="p">,</span>
+          <span class="mf">0.23019801980198</span><span class="p">,</span>
+          <span class="mf">0.24876237623762</span><span class="p">,</span>
+          <span class="mf">0.24628712871287</span><span class="p">,</span>
+          <span class="mf">0.24009900990099</span><span class="p">,</span>
+          <span class="mf">0.23514851485149</span><span class="p">,</span>
+          <span class="mf">0.23267326732673</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;integer&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;weight&quot;</span><span class="o">:</span> <span class="mf">0.25</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="s2">&quot;cost&quot;</span><span class="o">:</span> <span class="mi">40</span><span class="p">,</span>
+        <span class="s2">&quot;criterion&quot;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;in_window&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;exactMatch&quot;</span><span class="o">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;nullExactMatch&quot;</span><span class="o">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+          <span class="s2">&quot;weight&quot;</span><span class="o">:</span> <span class="mf">0.05</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;criterionValue&quot;</span><span class="o">:</span> <span class="s2">&quot;[1]&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cullSizeIn&quot;</span><span class="o">:</span> <span class="mi">68654</span><span class="p">,</span>
+        <span class="s2">&quot;cullSizeOut&quot;</span><span class="o">:</span> <span class="mi">68654</span><span class="p">,</span>
+        <span class="s2">&quot;cullTime&quot;</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;in_window&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;exactMatches&quot;</span><span class="o">:</span> <span class="p">[</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">false</span><span class="p">,</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">false</span><span class="p">,</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">true</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;position&quot;</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">&quot;relevanceSizeIn&quot;</span><span class="o">:</span> <span class="mi">68654</span><span class="p">,</span>
+        <span class="s2">&quot;relevanceSizeOut&quot;</span><span class="o">:</span> <span class="mi">68654</span><span class="p">,</span>
+        <span class="s2">&quot;relevanceTime&quot;</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">&quot;relevanceValues&quot;</span><span class="o">:</span> <span class="p">[</span>
+          <span class="mf">0.05</span><span class="p">,</span>
+          <span class="mf">0.049999999976717</span><span class="p">,</span>
+          <span class="mf">0.05</span><span class="p">,</span>
+          <span class="mi">0</span><span class="p">,</span>
+          <span class="mf">0.049999999976717</span><span class="p">,</span>
+          <span class="mi">0</span><span class="p">,</span>
+          <span class="mi">0</span><span class="p">,</span>
+          <span class="mi">0</span><span class="p">,</span>
+          <span class="mi">0</span><span class="p">,</span>
+          <span class="mi">0</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;integer&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;weight&quot;</span><span class="o">:</span> <span class="mf">0.05</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="s2">&quot;cost&quot;</span><span class="o">:</span> <span class="mi">310</span><span class="p">,</span>
+        <span class="s2">&quot;criterion&quot;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;freetext&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;fieldBoosts&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;body&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;keywords&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;title&quot;</span><span class="o">:</span> <span class="mi">10</span>
+          <span class="p">},</span>
+          <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;star trek&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;criterionValue&quot;</span><span class="o">:</span> <span class="s2">&quot;((_title:\&quot;star trek\&quot; _title:star _title:trek)^10.0) \</span>
+<span class="s2">          (_body:\&quot;star trek\&quot; _body:star _body:trek) (_keywords:\&quot;star trek\&quot; \</span>
+<span class="s2">          _keywords:star _keywords:trek)&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cullSizeIn&quot;</span><span class="o">:</span> <span class="mi">68654</span><span class="p">,</span>
+        <span class="s2">&quot;cullSizeOut&quot;</span><span class="o">:</span> <span class="mi">68654</span><span class="p">,</span>
+        <span class="s2">&quot;cullTime&quot;</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;freetext&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;exactMatches&quot;</span><span class="o">:</span> <span class="p">[</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">true</span><span class="p">,</span>
+          <span class="kc">true</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;position&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;relevanceReasons&quot;</span><span class="o">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="s2">&quot;docNum&quot;</span><span class="o">:</span> <span class="s2">&quot;31&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;explain&quot;</span><span class="o">:</span> <span class="o">*</span><span class="nx">detailed</span> <span class="nx">text</span> <span class="nx">match</span> <span class="nx">breakdown</span><span class="o">*</span><span class="p">,</span>
+            <span class="s2">&quot;isMatch&quot;</span><span class="o">:</span> <span class="kc">true</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="s2">&quot;docNum&quot;</span><span class="o">:</span> <span class="s2">&quot;1148&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;explain&quot;</span><span class="o">:</span> <span class="o">*</span><span class="nx">detailed</span> <span class="nx">text</span> <span class="nx">match</span> <span class="nx">breakdown</span><span class="o">*</span><span class="p">,</span>
+            <span class="s2">&quot;isMatch&quot;</span><span class="o">:</span> <span class="kc">true</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="s2">&quot;docNum&quot;</span><span class="o">:</span> <span class="s2">&quot;331&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;explain&quot;</span><span class="o">:</span> <span class="o">*</span><span class="nx">detailed</span> <span class="nx">text</span> <span class="nx">match</span> <span class="nx">breakdown</span><span class="o">*</span><span class="p">,</span>
+            <span class="s2">&quot;isMatch&quot;</span><span class="o">:</span> <span class="kc">true</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="s2">&quot;docNum&quot;</span><span class="o">:</span> <span class="s2">&quot;57327&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;explain&quot;</span><span class="o">:</span> <span class="o">*</span><span class="nx">detailed</span> <span class="nx">text</span> <span class="nx">match</span> <span class="nx">breakdown</span><span class="o">*</span><span class="p">,</span>
+            <span class="s2">&quot;isMatch&quot;</span><span class="o">:</span> <span class="kc">true</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="s2">&quot;docNum&quot;</span><span class="o">:</span> <span class="s2">&quot;1517&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;explain&quot;</span><span class="o">:</span> <span class="o">*</span><span class="nx">detailed</span> <span class="nx">text</span> <span class="nx">match</span> <span class="nx">breakdown</span><span class="o">*</span><span class="p">,</span>
+            <span class="s2">&quot;isMatch&quot;</span><span class="o">:</span> <span class="kc">true</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="s2">&quot;docNum&quot;</span><span class="o">:</span> <span class="s2">&quot;67803&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;explain&quot;</span><span class="o">:</span> <span class="o">*</span><span class="nx">detailed</span> <span class="nx">text</span> <span class="nx">match</span> <span class="nx">breakdown</span><span class="o">*</span><span class="p">,</span>
+            <span class="s2">&quot;isMatch&quot;</span><span class="o">:</span> <span class="kc">true</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="s2">&quot;docNum&quot;</span><span class="o">:</span> <span class="s2">&quot;61640&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;explain&quot;</span><span class="o">:</span> <span class="o">*</span><span class="nx">detailed</span> <span class="nx">text</span> <span class="nx">match</span> <span class="nx">breakdown</span><span class="o">*</span><span class="p">,</span>
+            <span class="s2">&quot;isMatch&quot;</span><span class="o">:</span> <span class="kc">true</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="s2">&quot;docNum&quot;</span><span class="o">:</span> <span class="s2">&quot;42443&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;explain&quot;</span><span class="o">:</span> <span class="o">*</span><span class="nx">detailed</span> <span class="nx">text</span> <span class="nx">match</span> <span class="nx">breakdown</span><span class="o">*</span><span class="p">,</span>
+            <span class="s2">&quot;isMatch&quot;</span><span class="o">:</span> <span class="kc">true</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="s2">&quot;docNum&quot;</span><span class="o">:</span> <span class="s2">&quot;34374&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;explain&quot;</span><span class="o">:</span> <span class="o">*</span><span class="nx">detailed</span> <span class="nx">text</span> <span class="nx">match</span> <span class="nx">breakdown</span><span class="o">*</span><span class="p">,</span>
+            <span class="s2">&quot;isMatch&quot;</span><span class="o">:</span> <span class="kc">true</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="s2">&quot;docNum&quot;</span><span class="o">:</span> <span class="s2">&quot;31290&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;explain&quot;</span><span class="o">:</span> <span class="o">*</span><span class="nx">detailed</span> <span class="nx">text</span> <span class="nx">match</span> <span class="nx">breakdown</span><span class="o">*</span><span class="p">,</span>
+            <span class="s2">&quot;isMatch&quot;</span><span class="o">:</span> <span class="kc">true</span>
+          <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;relevanceSizeIn&quot;</span><span class="o">:</span> <span class="mi">68654</span><span class="p">,</span>
+        <span class="s2">&quot;relevanceSizeOut&quot;</span><span class="o">:</span> <span class="mi">68654</span><span class="p">,</span>
+        <span class="s2">&quot;relevanceTime&quot;</span><span class="o">:</span> <span class="mi">1228</span><span class="p">,</span>
+        <span class="s2">&quot;relevanceValues&quot;</span><span class="o">:</span> <span class="p">[</span>
+          <span class="mi">1</span><span class="p">,</span>
+          <span class="mi">1</span><span class="p">,</span>
+          <span class="mf">0.60748225450516</span><span class="p">,</span>
+          <span class="mf">0.60748219490051</span><span class="p">,</span>
+          <span class="mf">0.48598578572273</span><span class="p">,</span>
+          <span class="mf">0.48598575592041</span><span class="p">,</span>
+          <span class="mf">0.48598578572273</span><span class="p">,</span>
+          <span class="mf">0.48598578572273</span><span class="p">,</span>
+          <span class="mf">0.48598575592041</span><span class="p">,</span>
+          <span class="mf">0.48598578572273</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;textTokens&quot;</span><span class="o">:</span> <span class="p">[</span>
+          <span class="s2">&quot;star trek&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;star&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;trek&quot;</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;weight&quot;</span><span class="o">:</span> <span class="mi">1</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="p">..</span> <span class="nx">index</span><span class="o">::</span> <span class="nx">Response</span><span class="p">;</span> <span class="nx">renderParmeters</span> <span class="nx">field</span> <span class="nx">format</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="renderparmeters">
+<span id="render-parameters-response"></span><span id="index-105"></span><h2>renderParmeters<a class="headerlink" href="query_response.html#renderparmeters" title="Permalink to this headline">¶</a></h2>
+<p>The renderParameters response is used primarily by the Transparensee jQuery widget suite. It
+returns a single field, &#8220;renderParameters&#8221;.</p>
+<blockquote>
+<div>See: <a class="reference internal" href="query_api.html#render-parameters"><em>Render Parameters</em></a> for a description of the renderParmeters request API.</div></blockquote>
+<p>Sample responses:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;renderParameters&quot;</span><span class="o">:</span> <span class="s2">&quot;startIndex=0&amp;pageSize=4&amp;exactSize=9&amp;totalSize=9 \</span>
+<span class="s2">      &amp;itemIds=CheapHeavyCircle+CheapLightCircle+CheapTriangle+ExpensiveHeavySquare \</span>
+<span class="s2">      &amp;exactMatches=1111&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;renderParameters&quot;</span><span class="o">:</span> <span class="s2">&quot;startIndex=0&amp;pageSize=4&amp;exactSize=9&amp;totalSize=9 \</span>
+<span class="s2">      &amp;itemIds=CheapHeavyCircle%2CCheapLightCircle%2CCheapTriangle%2CExpensiveHeavySquare \</span>
+<span class="s2">      &amp;exactMatches=1111&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="query_response.html#">Query Response</a><ul>
+<li><a class="reference internal" href="query_response.html#top-level-response-fields">Top Level Response Fields</a><ul>
+<li><a class="reference internal" href="query_response.html#response-example">Response Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="query_response.html#facets-response">facets Response</a><ul>
+<li><a class="reference internal" href="query_response.html#facets-data-response">facets data Response</a></li>
+<li><a class="reference internal" href="query_response.html#facets-data-bounds-response">facets data bounds Response</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="query_response.html#drilldown">drillDown</a></li>
+<li><a class="reference internal" href="query_response.html#properties">Properties</a></li>
+<li><a class="reference internal" href="query_response.html#highlighting">Highlighting</a></li>
+<li><a class="reference internal" href="query_response.html#index-values">Index Values</a></li>
+<li><a class="reference internal" href="query_response.html#calculate">Calculate</a></li>
+<li><a class="reference internal" href="query_response.html#values">Values</a></li>
+<li><a class="reference internal" href="query_response.html#sortby-response">sortBy Response</a></li>
+<li><a class="reference internal" href="query_response.html#didyoumean">DidYouMean</a></li>
+<li><a class="reference internal" href="query_response.html#groups">Groups</a></li>
+<li><a class="reference internal" href="query_response.html#explain">Explain</a></li>
+<li><a class="reference internal" href="query_response.html#renderparmeters">renderParmeters</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="query_api.html"
+                        title="previous chapter">Overview</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="query_examples.html"
+                        title="next chapter">Examples</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="https://transparensee.com/docs/discovery/current/html/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="query_examples.html" title="Examples"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="query_api.html" title="Overview"
+             >previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Query API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright Transparensee Systems.
+    </div>
+  </body>
+</html>

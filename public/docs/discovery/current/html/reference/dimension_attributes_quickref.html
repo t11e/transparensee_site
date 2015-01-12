@@ -1,0 +1,690 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Dimension Type Attributes Quick Reference &mdash; Discovery Search Engine 3.10.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Discovery Search Engine 3.10.0 documentation" href="../index.html" />
+    <link rel="up" title="Reference" href="index.html" />
+    <link rel="next" title="About Text Dimensions" href="text_dimensions.html" />
+    <link rel="prev" title="Query Parameters Quick Reference" href="query_params_quickref.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="text_dimensions.html" title="About Text Dimensions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="query_params_quickref.html" title="Query Parameters Quick Reference"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Reference</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="dimension-type-attributes-quick-reference">
+<span id="dimensions-quickref"></span><span id="index-0"></span><h1>Dimension Type Attributes Quick Reference<a class="headerlink" href="dimension_attributes_quickref.html#dimension-type-attributes-quick-reference" title="Permalink to this headline">¶</a></h1>
+<p>In the following tables, the valid attributes for each dimension type are specified.
+The column labeled &#8220;Q&#8221; indicates which attributes are for query usage only. &#8220;D&#8221; indicates
+that the column impacts indexing at when the dimension is created.</p>
+<p>Columns labeled &#8220;Q&#8221; can be set on the dimension and omitted from the query, effectively
+setting a common default for all queries against the dimension.</p>
+<div class="section" id="geoloc">
+<h2>Geoloc<a class="headerlink" href="dimension_attributes_quickref.html#geoloc" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="3%" />
+<col width="36%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Q</th>
+<th class="head">Example</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>type</strong></td>
+<td>D</td>
+<td>type = &#8220;geoloc&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><strong>id</strong></td>
+<td>&nbsp;</td>
+<td>id = &#8220;name of dimension&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>reindexMethod</td>
+<td>&nbsp;</td>
+<td>reindexMethod = &#8220;warmSwap&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>longitude</td>
+<td>&nbsp;</td>
+<td>longitude = &#8220;<em>changeset_property</em>&#8220;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>latitude</td>
+<td>&nbsp;</td>
+<td>latitude = &#8220;<em>changeset_property</em>&#8220;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>shapes</td>
+<td>Q</td>
+<td>shapes = &#8220;&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>delimiters</td>
+<td>&nbsp;</td>
+<td>delimiters = &#8221;,&#8221;</td>
+<td>used to create lists</td>
+</tr>
+<tr class="row-odd"><td>distanceUnit</td>
+<td>Q</td>
+<td>distanceUnit = &#8220;km&#8221;</td>
+<td>Specifies the default distance unit to be
+used for queries against this dimension.
+May also be explicitly specified at query
+time. Supported values are <cite>miles</cite> and
+<cite>km</cite>.</td>
+</tr>
+<tr class="row-even"><td>tessellation</td>
+<td>&nbsp;</td>
+<td>tessellation = &#8220;voronoi&#8221;</td>
+<td>Use a specific facet bucket tessellation
+algorithm. Valid choices are
+<cite>simpleRectangle</cite>, <cite>voronoi</cite> and <cite>none</cite>.
+Specifying <cite>none</cite> will cause no
+tessellation to occur, which uses less
+memory, but may result in slower query
+execution.
+Defaults to <cite>simpleRectangle</cite>, which
+creates one bucket for each one-degree grid
+square on the earth&#8217;s surface.</td>
+</tr>
+<tr class="row-odd"><td>voronoiMergeDistance</td>
+<td>&nbsp;</td>
+<td>voronoiMergeDistance = &#8220;0.5&#8221;</td>
+<td>Only useful with tessellation=&#8221;voronoi&#8221;.
+Any two or more items within this distance
+are considered the same point for the
+purpose of building the tessellation.
+The unit for this distance is specified
+via the <cite>distanceUnit</cite> dimension attribute.
+If no value is specified, the distance
+defaults to 3.45 miles or 5.56 km.</td>
+</tr>
+<tr class="row-even"><td>zipcode</td>
+<td>&nbsp;</td>
+<td>zipcode = &#8220;<em>changeset_property</em>&#8220;</td>
+<td>Deprecated</td>
+</tr>
+<tr class="row-odd"><td>zipcodeResource</td>
+<td>D</td>
+<td>&nbsp;</td>
+<td>Deprecated.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="keyword">
+<h2>keyword<a class="headerlink" href="dimension_attributes_quickref.html#keyword" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="3%" />
+<col width="36%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Q</th>
+<th class="head">Example</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>type</strong></td>
+<td>D</td>
+<td>type = &#8220;keyword&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><strong>id</strong></td>
+<td>&nbsp;</td>
+<td>id = &#8220;name of dimension&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>key</td>
+<td>D</td>
+<td>key = &#8220;<em>changeset_property_id(s)</em>&#8220;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>reindexMethod</td>
+<td>&nbsp;</td>
+<td>reindexMethod = &#8220;warmSwap&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>locale</td>
+<td>D</td>
+<td>locale = &#8220;pt_BR&#8221;</td>
+<td>Default en_US</td>
+</tr>
+<tr class="row-odd"><td>ignoreCase</td>
+<td>D</td>
+<td>ignoreCase = &#8220;false&#8221;</td>
+<td>Default = true</td>
+</tr>
+<tr class="row-even"><td>accentFolding</td>
+<td>D</td>
+<td>accentFolding = &#8220;false&#8221;</td>
+<td>Default = true</td>
+</tr>
+<tr class="row-odd"><td>maxBuckets</td>
+<td>D</td>
+<td>maxBuckets = &#8220;0&#8221;</td>
+<td>Default no limits</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="tree-ordered-mutex">
+<h2>tree, ordered, mutex<a class="headerlink" href="dimension_attributes_quickref.html#tree-ordered-mutex" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="3%" />
+<col width="37%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Q</th>
+<th class="head">Example</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>type</strong></td>
+<td>D</td>
+<td>type = &#8220;keyword&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><strong>id</strong></td>
+<td>&nbsp;</td>
+<td>id = &#8220;name of dimension&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>key</td>
+<td>D</td>
+<td>key = &#8220;<em>changeset_property_id(s)</em>&#8220;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>reindexMethod</td>
+<td>&nbsp;</td>
+<td>reindexMethod = &#8220;warmSwap&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>locale</td>
+<td>D</td>
+<td>locale = &#8220;pt_BR&#8221;</td>
+<td>Default en_US</td>
+</tr>
+<tr class="row-odd"><td>ignoreCase</td>
+<td>D</td>
+<td>ignoreCase = &#8220;false&#8221;</td>
+<td>Default = true</td>
+</tr>
+<tr class="row-even"><td>accentFolding</td>
+<td>D</td>
+<td>accentFolding = &#8220;false&#8221;</td>
+<td>Default = true</td>
+</tr>
+<tr class="row-odd"><td>value</td>
+<td>&nbsp;</td>
+<td>value = &#8220;Califonia&#8221;</td>
+<td>Associates a data value with an id</td>
+</tr>
+<tr class="row-even"><td>notId</td>
+<td>Q</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>notValue</td>
+<td>Q</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>maxSiblingHops</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="text">
+<h2>text<a class="headerlink" href="dimension_attributes_quickref.html#text" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="3%" />
+<col width="35%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Q</th>
+<th class="head">Example</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>type</strong></td>
+<td>&nbsp;</td>
+<td>type = &#8220;text&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><strong>id</strong></td>
+<td>D</td>
+<td>id = &#8220;name of dimension&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>key</td>
+<td>D</td>
+<td>key = &#8220;<em>changeset_property_id(s)</em>&#8220;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>reindexMethod</td>
+<td>&nbsp;</td>
+<td>reindexMethod = &#8220;warmSwap&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>locale</td>
+<td>D</td>
+<td>locale = &#8220;pt_BR&#8221;</td>
+<td>Default en_US</td>
+</tr>
+<tr class="row-odd"><td>inMemory</td>
+<td>D</td>
+<td>inMemory = &#8220;true&#8221;</td>
+<td>Default = false</td>
+</tr>
+<tr class="row-even"><td>ignoreCase</td>
+<td>D</td>
+<td>ignoreCase = &#8220;false&#8221;</td>
+<td>Default = true</td>
+</tr>
+<tr class="row-odd"><td>accentFolding</td>
+<td>D</td>
+<td>accentFolding = &#8220;false&#8221;</td>
+<td>Default = true</td>
+</tr>
+<tr class="row-even"><td>stemming</td>
+<td>D</td>
+<td>stemming = &#8220;false&#8221;</td>
+<td>Default = true</td>
+</tr>
+<tr class="row-odd"><td>stopWords</td>
+<td>D</td>
+<td>stopWords = &#8220;<em>list of stop words</em>&#8220;</td>
+<td>Default = true</td>
+</tr>
+<tr class="row-even"><td>stopWords-ref</td>
+<td>D</td>
+<td>stopWords-ref = &#8220;<em>word set id</em>&#8220;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>noAnalysis-ref</td>
+<td>D</td>
+<td>noAnalysis-ref = &#8220;<em>word set id</em>&#8220;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>stemmingExclusion-ref</td>
+<td>D</td>
+<td>stemmingExclusion = &#8220;<em>word set id</em>&#8220;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>stripHTML</td>
+<td>D</td>
+<td>stripHTML = &#8220;true&#8221;</td>
+<td>Default = false</td>
+</tr>
+<tr class="row-even"><td>phoneticAlgorithm</td>
+<td>D</td>
+<td>phoneticAlgorithm = &#8220;metaphone&#8221;</td>
+<td>Valid values:</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>soundex, refinedSoundex</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>metaphone, doubleMetaphone</td>
+</tr>
+<tr class="row-odd"><td>maxCodeLen</td>
+<td>D</td>
+<td>maxCodeLen = &#8220;5&#8221;</td>
+<td>Default 4. For the Metaphone algorithms.</td>
+</tr>
+<tr class="row-even"><td>ignoreFieldLength</td>
+<td>&nbsp;</td>
+<td>ignoreFieldLength = &#8220;true&#8221;</td>
+<td>Default = false.</td>
+</tr>
+<tr class="row-odd"><td>fieldPositionIncrementGap</td>
+<td>D</td>
+<td>fieldPositionIncrementGap = &#8220;0&#8221;</td>
+<td>Default = 100.</td>
+</tr>
+<tr class="row-even"><td>stopWordPositionIncrements</td>
+<td>D</td>
+<td>stopWordPositionIncrements = &#8220;true&#8221;</td>
+<td>Default = false.</td>
+</tr>
+<tr class="row-odd"><td>makeParts</td>
+<td>D</td>
+<td>makeParts = &#8220;both&#8221;</td>
+<td>Default = &#8220;words&#8221;</td>
+</tr>
+<tr class="row-even"><td>splitParts</td>
+<td>D</td>
+<td>splitParts = &#8220;both&#8221;</td>
+<td>Default = &#8220;case&#8221;</td>
+</tr>
+<tr class="row-odd"><td>concatParts</td>
+<td>D</td>
+<td>concatParts = &#8220;words&#8221;</td>
+<td>Default = &#8220;none&#8221;</td>
+</tr>
+<tr class="row-even"><td>concatenateAll</td>
+<td>D</td>
+<td>concatenateAll = &#8220;false&#8221;</td>
+<td>Default = true.</td>
+</tr>
+<tr class="row-odd"><td>stemEnglishPossessive</td>
+<td>D</td>
+<td>stemEnglishPossessive = &#8220;true&#8221;</td>
+<td>Default = true.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="integer-long-double">
+<h2>integer, long, double<a class="headerlink" href="dimension_attributes_quickref.html#integer-long-double" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="36%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Example</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>type</strong></td>
+<td>type = &#8220;integer&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>type = &#8220;long&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>type = &#8220;double&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><strong>id</strong></td>
+<td>id = &#8220;name of dimension&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>key</td>
+<td>key = &#8220;<em>changeset_property_id(s)</em>&#8220;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>reindexMethod</td>
+<td>reindexMethod = &#8220;warmSwap&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>delimiters</td>
+<td>delimiters = &#8221;,&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>min</td>
+<td>min = &#8220;<em>minimum value</em>&#8220;</td>
+<td>Data values outside range are ignored</td>
+</tr>
+<tr class="row-even"><td>minInclusive</td>
+<td>minInclusive = &#8220;true&#8221;</td>
+<td>Default = false</td>
+</tr>
+<tr class="row-odd"><td>max</td>
+<td>max = &#8220;false&#8221;</td>
+<td>Data values outside range are ignored</td>
+</tr>
+<tr class="row-even"><td>maxInclusive</td>
+<td>maxInclusive = &#8220;false&#8221;</td>
+<td>Default = false</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="time">
+<h2>time<a class="headerlink" href="dimension_attributes_quickref.html#time" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="36%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Example</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>type</strong></td>
+<td>type = &#8220;time&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><strong>id</strong></td>
+<td>id = &#8220;name of dimension&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>key</td>
+<td>key = &#8220;<em>changeset_property_id(s)</em>&#8220;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>reindexMethod</td>
+<td>reindexMethod = &#8220;warmSwap&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>delimiters</td>
+<td>delimiters = &#8221;,&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>format</td>
+<td>format = &#8220;yyyy-MM-dd&#8217;T&#8217;HH:mm:ss&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>min</td>
+<td>min = &#8220;<em>minimum value</em>&#8220;</td>
+<td>Data values outside range are ignored</td>
+</tr>
+<tr class="row-odd"><td>minInclusive</td>
+<td>minInclusive = &#8220;true&#8221;</td>
+<td>Default = false</td>
+</tr>
+<tr class="row-even"><td>max</td>
+<td>max = &#8220;false&#8221;</td>
+<td>Data values outside range are ignored</td>
+</tr>
+<tr class="row-odd"><td>maxInclusive</td>
+<td>maxInclusive = &#8220;false&#8221;</td>
+<td>Default = false</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="groupby">
+<h2>groupBy<a class="headerlink" href="dimension_attributes_quickref.html#groupby" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="36%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Example</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>type</strong></td>
+<td>type = &#8220;keyword&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><strong>id</strong></td>
+<td>id = &#8220;name of dimension&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>key</td>
+<td>key = &#8220;<em>changeset_property_id(s)</em>&#8220;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="random">
+<h2>random<a class="headerlink" href="dimension_attributes_quickref.html#random" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="36%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Example</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>type</strong></td>
+<td>type = &#8220;text&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><strong>id</strong></td>
+<td>id = &#8220;name of dimension&#8221;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="dimension_attributes_quickref.html#">Dimension Type Attributes Quick Reference</a><ul>
+<li><a class="reference internal" href="dimension_attributes_quickref.html#geoloc">Geoloc</a></li>
+<li><a class="reference internal" href="dimension_attributes_quickref.html#keyword">keyword</a></li>
+<li><a class="reference internal" href="dimension_attributes_quickref.html#tree-ordered-mutex">tree, ordered, mutex</a></li>
+<li><a class="reference internal" href="dimension_attributes_quickref.html#text">text</a></li>
+<li><a class="reference internal" href="dimension_attributes_quickref.html#integer-long-double">integer, long, double</a></li>
+<li><a class="reference internal" href="dimension_attributes_quickref.html#time">time</a></li>
+<li><a class="reference internal" href="dimension_attributes_quickref.html#groupby">groupBy</a></li>
+<li><a class="reference internal" href="dimension_attributes_quickref.html#random">random</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="query_params_quickref.html"
+                        title="previous chapter">Query Parameters Quick Reference</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="text_dimensions.html"
+                        title="next chapter">About Text Dimensions</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="https://transparensee.com/docs/discovery/current/html/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="text_dimensions.html" title="About Text Dimensions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="query_params_quickref.html" title="Query Parameters Quick Reference"
+             >previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Reference</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright Transparensee Systems.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+<html>
+  <head>
+    <title>Transparensee Documentation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="../../../screen.css" rel="stylesheet" type="text/css"/>
+  </head>
+
+  <body>
+   <div id="header">
+     <div id="navbar">
+       <div id="navbar-logo">
+         <a href="../../../index.html"><img src="../../../images/logo.png" title="Transparensee" alt="Transparensee"/></a>
+       </div>
+     </div>
+   </div>
+
+   <div id="content">
+
+<h2>Release Notes - Discovery Search Engine - Version 3.4.0</h2>
+
+<h2>Improvements</h2>
+<ul>
+  <li><strong>[ENGINE-490] - Text Dimensions Support Multi-Valued Array Data</strong>
+     <p>Previously, multiple values were treated as a single string, with default
+     punctuation as delimiters. Text dimensions would ignore this delimiter while
+     indexing.<br /><br />The new behavior treats each value of the array as a
+     distinct block of text and will not be considered proximate to another array value.</p>
+  </li>
+  <li><strong>[ENGINE-671] - Text Highlighting Applied to Arrays</strong>
+     <p>With support for multi-valued arrays for Text dimensions, the highlighter
+     has been enhanced to correctly highlight the array element value that
+     matched the text query.</p>
+  </li>
+  <li><strong>[ENGINE-678] - Improved Scoring when Synonyms are in play</strong>
+     <p>This features makes scoring better when using synonyms.</p>
+  </li>
+  <li><strong>[ENGINE-681] - Admin Tool is now jQuery-based</strong>
+     <p>The engine Admin tool has been enhanced to fully support jQuery look
+     and feel. Customers can also choose a standard jQuery UI theme.</p>
+  </li>
+  <li><strong>[ENGINE-676, -679] - Improved Compatibility with Microsoft Windows</strong>
+     <p>The engine now has improved compatibility with Microsoft Windows. Windows
+     is not a supported production platforms. This is for development purposes
+     only. All known Admin tool compatibility issues with Microsoft Internet Explorer
+     have been resolved.</p>
+  </li>
+</ul>
+<h2>Bug Fixes</h2>
+<ul>
+  <li><strong>[ENGINE-686, ENGINE-687] - didYouMean Fails at Query Time</strong>
+    <p>In certain cases, when didYouMean was applied to an existing text dimension using
+    <code>reindexMethod=warmSwap</code>, if the engine was not restarted, queries against
+    the dimension would fail.</p>
+  </li>
+  <li><strong>[ENGINE-689] - Non-latin1 characters in content type values cause Admin
+  tool "/index" page to fail</strong>
+    <p>The Indices tab now supports UTF-8 encoded characters.</p>
+  </li>
+</ul>
+
+   </div>
+   <div class="clear"></div>
+   <div id="footer">
+     <p id="copyright">Copyright &copy; Transparensee Systems Inc. All rights reserved.</p>
+   </div>
+  </body>
+</html>

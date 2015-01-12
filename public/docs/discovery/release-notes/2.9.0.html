@@ -1,0 +1,219 @@
+<html>
+  <head>
+    <title>Transparensee Documentation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="../../../screen.css" rel="stylesheet" type="text/css"/>
+  </head>
+
+  <body>
+   <div id="header">
+     <div id="navbar">
+       <div id="navbar-logo">
+         <a href="../../../index.html"><img src="../../../images/logo.png" title="Transparensee" alt="Transparensee"/></a>
+       </div>
+     </div>
+   </div>
+
+   <div id="content">
+     <h2>Release Notes - Discovery Search Engine - Version 2.9</h2>
+
+     <h2>New Features</h2>
+     <ul>
+       <li><strong>[ENGINE-193] - Did You Mean? Support</strong>
+         <p>Customers can now enable a power query suggestion feature to provide "Did You Mean?"
+         and spell correction support. Did You Mean will return suggested queries, with highlighted
+         changes, in the query response.</p>
+
+         <p>To define a custom spelling dictionary, create a Word Set and assign the word set to
+         the text or fieldedText dimension's <code>didYouMeanDictionary</code> attribute.</p>
+
+         <p>It is not necessary to define a custom spelling dictionary to use Did You Mean? because
+         the feature will automatically use the indexed words as its original spelling dictionary.</p>
+
+         <p>Example:</p>
+
+         <div class="code panel" style="border-width: 1px;">
+           <div class="codeContent panelContent">
+             <pre class="code-xml">
+         <span class="code-tag">&lt;dimension id=<span class="code-quote">"freetext"</span> key=<span class="code-quote">"venue_name"</span> didYouMean=<span class="code-quote">"true"</span> didYouMeanDictionary-ref=<span class="code-quote">"customDict"</span> <span class="code-tag">/&gt;</span></span>
+         <span class="code-tag">&lt;wordset id=<span class="code-quote">"customDict"</span>&gt;</span>
+           animalz tintinnabulation fantabulous supercalifragilisticexpialidocious
+         <span class="code-tag">&lt;/wordset&gt;</span></pre>
+           </div>
+         </div>
+
+       <h4>Did You Mean at Indexing</h4>
+       <p>When Did You Mean is enabled, a separate spellcheck and relevance index is created
+       based upon the didYouMeanDictionary and any indexed words. This index has additional
+       memory requirements associated with it.</p>
+
+       <h4>Did You Mean at Query Time</h4>
+       <p>The query API has been enhanced to include a didYouMean response that includes
+       alternate query suggestions. The query request API also includes option to determine
+       highlighting of the suggested query words, the number of suggestions to return and
+       information about whether a word was considered a good search term.</p>
+       </li>
+       <li><strong>[ENGINE-428] - Support for match highlighting against tree type dimensions.</strong>
+         <p>The highlighting query criterion and response have been enhanced to return specifically
+         which value indexed in a tree type dimension was a match.</p>
+       </li>
+       <li><strong>[ENGINE-208] - Support for Synonyms</strong>
+         <p>Customers can now create synonym dictionaries to be reused when analyzing
+            text and fieldedText type dimensions. </p>
+
+         <p>They are defined as elements within the dimensions.xml file and then referred
+         to in dimension definitions. The words in the synonym dictionaries are
+         tokenized (split into terms) using the analyzer rules for the dimension to which they
+         apply, so punctuation, whitespace and other extra characters will be automatically
+         removed. These features should minimize any formatting requirements to create a
+         synonym dictionary. </p>
+
+         <p>Synonyms can consist of one or more words (phrases). The lookup word or phrase
+         maps to a list of one or more synonyms. To identify a phrase synonym, the phrase must
+         be surrounded with double-quotes ("massachusetts state").</p>
+
+         <p>A synonym dictionary is created using the <code>thesaurus</code> element. This example
+         creates a simple synonym dictionary for a handful of US States:</p>
+
+     <div class="code panel" style="border-width: 1px;">
+       <div class="codeContent panelContent">
+         <pre class="code-xml">
+     <span class="code-tag">&lt;dimension id=<span class="code-quote">"freetext"</span> key=<span class="code-quote">"venue_name"</span> synonyms-ref=<span class="code-quote">"us-states"</span> <span class="code-tag">/&gt;</span></span>
+     <span class="code-tag">&lt;thesaurus id=<span class="code-quote">"us-states"</span>&gt;</span>
+       <span class="code-tag">&lt;lookup id=<span class="code-quote">"OR"</span>&gt;</span>Oregon Ore<span class="code-tag">&lt;/lookup&gt;</span>
+       <span class="code-tag">&lt;lookup id=<span class="code-quote">"ME"</span>&gt;</span>Maine<span class="code-tag">&lt;/lookup&gt;</span>
+       <span class="code-tag">&lt;lookup id=<span class="code-quote">"FL"</span>&gt;</span>Florida Fla<span class="code-tag">&lt;/lookup&gt;</span>
+       <span class="code-tag">&lt;lookup id=<span class="code-quote">North Carolina</span>&gt;</span>NC "tarheel state"<span class="code-tag">&lt;/lookup&gt;</span>
+     <span class="code-tag">&lt;/thesaurus&gt;</span></pre>
+       </div>
+     </div>
+
+       <p>Synonym dictionaries and dimensions can appear in any order in the
+       dimensions.xml file. The <code>thesaurus</code> element does not need to be
+       defined first in order to referred to  in a dimension definition.</p>
+
+       <h4>Synonym Reduction at Indexing</h4>
+       <p>For efficient storage of synonyms in a text dimension, the engine performs
+       synonym reduction if the synonym lookup has the same number of analyzed words
+       as the synonym itself. In the above example for US States, synonym reduction
+       means that any instances of "Ore" and "Oregon" will be replaced by "OR". Similarly,
+       all instances of "tarheel state" will be replaced with "North Carolina", but "North Carolina"
+       will not be reduced to "NC" since the former has 2 words and the latter but 1. To
+       maintain the original term before it is reduced, use the <code>storeOriginalTerm</code>
+       text type dimension attribute.</p>
+
+       <h4>Synonym Expansion at Query Time</h4>
+       <p>Synonym reduction takes place on the query search string in a similar fashion
+       to what happens at index time. In addition, the query string is expanded to include
+       any synonyms that may be found by scanning the original query, but only if the
+       number of words in the synonym lookup are <i>not equal</i> to the number of words
+       of the synonym itself. In the above example for US States, synonym expansion means that
+       searching for "North Carolina" will also include searching for the phrase
+       "tarheel state" or the word "NC".</p>
+
+       <p>There is no additional query request parameter necessary to enable synonym
+       dictionaries other than to define the synonym dictionaries with the text dimension
+       to be searched.</p>
+
+       <h4>Synonym Dictionary Inversion</h4>
+       <p>Because the engine optimizes and inverts the analyzed synonym dictionaries,
+       queries can search on the lookup value or any synonym value and find the same
+       items.</p>
+       </li>
+       <li><strong>[ENGINE-411] - Support for a Word Delimiter Tokenizer</strong>
+         <p>Customers can now make use of a special text and fieldedText dimension feature
+         that breaks apart and builds up words from the original text. This new feature is particularly
+         useful for product names, numbers and words that are hyphen-delimited, making it easier for
+         users to find results without knowing how the exact word appeared in the original document.</p>
+
+         <p>To enable the Word Delimiter feature, use the dimension attribute <code>wordDelimiter</code>.</p>
+
+       <h4>Features</h4>
+       <ol>
+         <li>Split on intra-word delimiters (by default, all non alpha-numeric characters) and
+         combine word parts to create a single word, for example <code>wi-fi</code>
+         becomes <code>wi</code>, <code>fi</code>, <code>wifi</code> and with
+         <code>storeOriginalWord</code> enabled, <code>wi-fi</code>.  Split on intra-word
+         delimiters also works with numbers, converting <code>555-322-1212</code>
+          into <code>555</code>, <code>322</code> <code>1212</code> and <code>5553221212</code>.</li>
+         <li>Split on case transitions, for example,(with <code>ignoreCase</code> enabled),
+          <code>PowerShot</code> becomes <code>power</code>, <code>shot</code> and <code>powershot</code>.
+          <code>McDonald</code> becomes <code>mc</code>  and <code>donald</code>.</li>
+         <li>Correctly stem English possessives. For example, <code>O'Neil's</code> becomes
+         <code>O'Neil</code>.</li>
+         <li>Split on letter-number transitions, for example, <code>MD80</code> becomes <code>MD</code>,
+         <code>80</code> and with <code>storeOriginalWord</code> enabled, <code>MD80</code>.</li>
+         <li>Maintains leading and trailing currency symbols, plus (+) and minus (-) signs.
+         With <code>storeOriginalWord</code> enabled, customers can search for <code>$10</code> or
+         <code>10</code>, <code>20&#162;</code> or <code>20</code>, <code>+20</code>, <code>10-</code>
+         or <code>-10</code>.</li>
+         <li>Maintains trailing % symbols. With <code>storeOriginalWord</code> enabled,
+         customers can search for <code>10%</code> or <code>10</code>.</li>
+       </ol>
+       <p></p>
+       </li>
+       <li><strong>[ENGINE-228] - Expose Lucene-style QueryParser as Advanced Parser Option</strong>
+         <p>Customers can now create an advanced query using an <i>experimental</i> query parser
+         modeled after Apache Lucene's query parser. The query parser can be selected using
+         the <code>queryParser</code> of a text or fieldedText search criterion.</p>
+       </li>
+     </ul>
+
+     <h2>Behavioral Changes</h2>
+     <ul>
+       <li><strong>[ENGINE-411] - The default tokenizer for text and fieldedText dimensions
+       is now <code>wordDelimiter</code>.</strong>
+         <p>Customers can enable the standard tokenizer by using the dimension attribute
+         <code>tokenizer=standard</code></p>
+       </li>
+       <li><strong>[ENGINE-418] - Removed use of radians</strong>
+         <p>Radians for geoloc type dimensions are no longer supported.</p>
+       </li>
+       <li><strong>[ENGINE-421] - Removed Locale support from WordSets</strong>
+         <p>Locales can no longer be specified for Word Sets. Word Sets are now not
+            related to a locale.</p>
+       </li>
+       <li><strong>[ENGINE-428] - Highlighting &amp; Values query response API Changes</strong>
+         <p>Changeset property data for tree type dimensions are now returned in a dictionary
+         that includes the original value in the tree plus it's label, which is the value associated'
+         with the <code>name</code> attribute of the <code>element</code> tag that indexed the item.</p>
+       </li>
+     </ul>
+
+     <h2>Bug Fixes</h2>
+     <ul>
+       <li><strong>[ENGINE-434] - fieldPositionIncrement gap was ignored</strong>
+         <p>fieldPositionIncrementGap is designed to work on fields of a fieldedText
+         dimension. This setting was being ignored. It now works.</p>
+       </li>
+       <li><strong>[ENGINE-398] - Multi-threaded query setting is for boot time only</strong>
+         <p>The multi-threaded query option that was new in verions 2.8.7 did not property
+            apply itself unless the engine was rebooted. This setting may now be enabled
+            or disabled on-the-fly using the Admin Tool Settings page.</p>
+       </li>
+       <li><strong>[ENGINE-414] - Bulk changesets aren&#39;t correctly committed</strong>
+         <p>If a Bulk changeset was applied and there were no subsequent delta changesets
+             applied, the bulk changeset was not properly committed resulting in the changeset
+             having to be reapplied when the engine rebooted.</p>
+       </li>
+       <li><strong>[ENGINE-417] - Admin Tool buttons and options disappear if engine has
+           never been set to read-only.</strong>
+         <p>The engine's read only setting, if not selected in the Admin Tool, caused
+           various features and buttons to be removed from the Admin Tool. This has been
+           fixed.</p>
+       </li>
+       <li><strong>[ENGINE-423] - Changes to the username or password of protected feed URLs in the Admin Tool were
+       not recognized as being changed and thus those changes were being ignored.</strong>
+       </li>
+       <p/>
+       <li><strong>[ENGINE-424] - Engine was incorrectly logging a success message when a changeset
+       feed failed.</strong>
+       </li>
+     </ul>
+   </div>
+   <div class="clear"></div>
+   <div id="footer">
+     <p id="copyright">Copyright &copy; Transparensee Systems Inc. All rights reserved.</p>
+   </div>
+  </body>
+</html>

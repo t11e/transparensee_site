@@ -1,0 +1,192 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Engine Configuration Scenarios &mdash; Discovery Search Engine 3.10.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Discovery Search Engine 3.10.0 documentation" href="../index.html" />
+    <link rel="up" title="Working with the Engine" href="index.html" />
+    <link rel="next" title="Monitoring Options" href="monitoring.html" />
+    <link rel="prev" title="Admin Tool Interface" href="admin_tool.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="monitoring.html" title="Monitoring Options"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="admin_tool.html" title="Admin Tool Interface"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Working with the Engine</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="engine-configuration-scenarios">
+<span id="engine-config-scenarios"></span><span id="index-0"></span><h1>Engine Configuration Scenarios<a class="headerlink" href="config_scenarios.html#engine-configuration-scenarios" title="Permalink to this headline">¶</a></h1>
+<p>The discovery engine supports two general types of server configuration, depending
+on customer needs.</p>
+<ul class="simple">
+<li><strong>Single Engine</strong>.
+For customers who do not need any backup redundancy, such as in a development environment,
+a single engine setup provides the most flexibility and control because all engine functions are performed
+by the same instance.</li>
+<li><strong>Data Distribution</strong>.
+This configuration scenario allows easy horizontal scaling with scaling cloned copies of a
+query engine. This configuration model works best with a minimum of two engine instances,
+described in more detail below. This configuration is the easiest to configure for a production
+system because it enables easy capacity improvements as traffic increases.</li>
+</ul>
+<div class="section" id="single-engine">
+<span id="index-1"></span><h2>Single Engine<a class="headerlink" href="config_scenarios.html#single-engine" title="Permalink to this headline">¶</a></h2>
+<p>There are no special instructions to configure a single engine instance since a
+single engine can perform all the required tasks. The <cite>discovery.properties</cite>
+file includes all of the necessary configuration information.</p>
+</div>
+<div class="section" id="data-distribution">
+<span id="index-2"></span><h2>Data Distribution<a class="headerlink" href="config_scenarios.html#data-distribution" title="Permalink to this headline">¶</a></h2>
+<p>There are two server types in this configuration: Data Master and Data Slave. It
+is important to understand that any engine instance can support data distribution
+as query processing; however, in this model, it is practical to dedicate specific
+engine instances to fulfill a single role.</p>
+<div class="section" id="data-master-configuration">
+<h3>Data Master Configuration<a class="headerlink" href="config_scenarios.html#data-master-configuration" title="Permalink to this headline">¶</a></h3>
+<p>The Data Master&#8217;s sole role is to process changesets and dimensions. It makes
+them available to any engine that requests either. Any engine instance, regardless of
+the selected configuration, can serve as a data master because this feature is
+built into the engine&#8217;s core functionality.</p>
+<p>If your configuration plans include having the Data Master engine instance
+respond to queries, this can be configured in <tt class="docutils literal"><span class="pre">discovery.properties</span></tt>.
+Transparensee recommends that the Data Master not be configured to respond to
+queries in such a configuration.</p>
+<p>The following <cite>discovery.properties</cite> configures a data master that does not
+respond to queries and only acts as a Data Master. Refer to <a class="reference internal" href="admin_tool.html#data-configuration-properties"><em>Dimension, Changeset, Feed &amp; Checkpoints Configuration</em></a>
+for a full reference to the <tt class="docutils literal"><span class="pre">discovery.properties</span></tt> settings that apply to
+data and query distribution.</p>
+<div class="highlight-text"><div class="highlight"><pre>port = 8090
+total-partitions = 0
+# JVM Memory requirements for a Data Master are minimal
+jvm.memory = 256
+</pre></div>
+</div>
+</div>
+<div class="section" id="data-slave-configuration">
+<h3>Data Slave Configuration<a class="headerlink" href="config_scenarios.html#data-slave-configuration" title="Permalink to this headline">¶</a></h3>
+<p>The Data Slave&#8217;s primary role is to respond to query requests. Its secondary role
+is to periodically query the Data Master for the most recent changeset data. If
+you have multiple Data Slaves, then each Data Slave works independently of all
+other slaves when it pulls its changesets from the Data Master.</p>
+<p>The Data Master does not need to be restarted to connect to and deliver changesets
+to a Data Slave.</p>
+<p>Distribution of queries to the Data Slaves is accomplished by your
+load balancer of choice. Discovery search engines in the Data Distribution
+configuration do not automatically load balance.</p>
+<p>The following <cite>discovery.properties</cite> configures a Data Slave which responds to queries,
+checks for new changeset data and dimensions every 2 minutes from the Data Master
+engine defined in the previous example. Refer to <a class="reference internal" href="admin_tool.html#data-configuration-properties"><em>Dimension, Changeset, Feed &amp; Checkpoints Configuration</em></a>
+for a full reference to the <tt class="docutils literal"><span class="pre">discovery.properties</span></tt> settings that apply to data
+and query distribution.</p>
+<div class="highlight-text"><div class="highlight"><pre>port = 8091
+jvm.memory = 512
+master = http://example.com:8090
+master-interval = 120000
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="config_scenarios.html#">Engine Configuration Scenarios</a><ul>
+<li><a class="reference internal" href="config_scenarios.html#single-engine">Single Engine</a></li>
+<li><a class="reference internal" href="config_scenarios.html#data-distribution">Data Distribution</a><ul>
+<li><a class="reference internal" href="config_scenarios.html#data-master-configuration">Data Master Configuration</a></li>
+<li><a class="reference internal" href="config_scenarios.html#data-slave-configuration">Data Slave Configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="admin_tool.html"
+                        title="previous chapter">Admin Tool Interface</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="monitoring.html"
+                        title="next chapter">Monitoring Options</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="https://transparensee.com/docs/discovery/current/html/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="monitoring.html" title="Monitoring Options"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="admin_tool.html" title="Admin Tool Interface"
+             >previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Working with the Engine</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright Transparensee Systems.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,492 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Admin Tool Interface &mdash; Discovery Search Engine 3.10.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Discovery Search Engine 3.10.0 documentation" href="../index.html" />
+    <link rel="up" title="Working with the Engine" href="index.html" />
+    <link rel="next" title="Engine Configuration Scenarios" href="config_scenarios.html" />
+    <link rel="prev" title="Upgrading an Engine for UNIX Variants" href="upgrades.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="config_scenarios.html" title="Engine Configuration Scenarios"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="upgrades.html" title="Upgrading an Engine for UNIX Variants"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Working with the Engine</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <span class="target" id="index-0"></span><div class="section" id="admin-tool-interface">
+<span id="admin-tool"></span><span id="index-1"></span><h1>Admin Tool Interface<a class="headerlink" href="admin_tool.html#admin-tool-interface" title="Permalink to this headline">¶</a></h1>
+<p>The engine has a built in web interface that you can use to determine its
+current state as well as interact with it in a few limited ways.</p>
+<span class="target" id="index-2"></span><div class="section" id="status-page">
+<span id="index-3"></span><h2>Status Page<a class="headerlink" href="admin_tool.html#status-page" title="Permalink to this headline">¶</a></h2>
+<p>The status page is the default Admin too page. It gives you a summary of the
+current state of the engine. Here you&#8217;ll find out which release you are
+running, how much memory it is using, how it is configured for communication
+with other engines and which, if any, long running tasks are in progress.</p>
+<img alt="../_images/WebInterfaceStatus.png" src="../_images/WebInterfaceStatus.png" />
+<span class="target" id="index-4"></span></div>
+<div class="section" id="changesets-page">
+<span id="index-5"></span><h2>Changesets Page<a class="headerlink" href="admin_tool.html#changesets-page" title="Permalink to this headline">¶</a></h2>
+<p>The changesets page provides information about changesets and checkpoints
+for the engine instance. It let&#8217;s you upload new data into the engine, see a
+history of previous data uploads, create a checkpoint or clear all data from
+the engine.</p>
+<img alt="../_images/WebInterfaceChangesets.png" src="../_images/WebInterfaceChangesets.png" />
+<div class="section" id="import-export">
+<h3>Import/Export<a class="headerlink" href="admin_tool.html#import-export" title="Permalink to this headline">¶</a></h3>
+<ul id="index-6">
+<li><p class="first"><strong>Clear All Changesets and Indexed Data</strong></p>
+<p>This feature will remove any changesets and empty your index.
+This is a developer-feature.</p>
+</li>
+</ul>
+<span class="target" id="index-7"></span><span class="target" id="index-8"></span><span class="target" id="index-9"></span><span class="target" id="index-10"></span><ul id="index-11">
+<li><p class="first"><strong>Changeset Type</strong></p>
+<p>Choose a changeset type from the options: Snapshot, Full, Delta or Bulk.</p>
+<blockquote>
+<div><ul>
+<li><p class="first"><em>snapshot</em></p>
+<p>Clears all data and replaces it with the content of the imported changeset.
+Data will be removed and the index may be temporarily unavailable until the
+new data has been loaded.</p>
+</li>
+<li><p class="first"><em>bulk</em></p>
+<p>Similar to <em>snapshot</em> except that the changeset may only contain set-item elements
+with no duplicate items. This type of changeset can use a highly-optimized load
+process, significantly reducing application time.</p>
+</li>
+<li><p class="first"><em>full</em></p>
+<p>Similar to <em>snapshot</em> except that the data in the index is available at all times.
+The full changeset type loads the data on top of the existing data and then deletes
+any items that were not in the imported changeset.</p>
+</li>
+<li><p class="first"><em>delta</em></p>
+<p>Updates data with the contents of the changeset without affecting any items not
+specifically included in the changeset.</p>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<span class="target" id="index-12"></span><ul id="index-13">
+<li><p class="first"><strong>Import</strong></p>
+<p>Browse for a changeset file, choose a changeset type and use the Import button
+to import the file.</p>
+</li>
+</ul>
+<span class="target" id="index-14"></span></div>
+</div>
+<div class="section" id="dimensions-page">
+<span id="index-15"></span><h2>Dimensions Page<a class="headerlink" href="admin_tool.html#dimensions-page" title="Permalink to this headline">¶</a></h2>
+<p>The dimensions page let&#8217;s you upload new index definitions into the engine, clear
+the dimensions and view the current configuration.</p>
+<img alt="../_images/WebInterfaceDimensions.png" src="../_images/WebInterfaceDimensions.png" />
+<div class="section" id="id1">
+<h3>Import/Export<a class="headerlink" href="admin_tool.html#id1" title="Permalink to this headline">¶</a></h3>
+<ul id="index-16">
+<li><p class="first"><strong>Clear All Dimensions</strong></p>
+<p>This feature will remove any dimensions in effect and empty your index.
+This is a developer-feature.</p>
+</li>
+</ul>
+<span class="target" id="index-17"></span><ul id="index-18">
+<li><p class="first"><strong>Import</strong></p>
+<p>Browse for a dimensions.xml file and use the Import button to import the file.</p>
+</li>
+</ul>
+<span class="target" id="index-19"></span><ul id="index-20">
+<li><p class="first"><strong>Export Dimensions File</strong></p>
+<p>This link will export the dimensions xml to a browser window. To export the dimensions.xml
+to a file, use your browser&#8217;s download link to file action.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-page">
+<span id="index-21"></span><h2>Indices Page<a class="headerlink" href="admin_tool.html#indices-page" title="Permalink to this headline">¶</a></h2>
+<p>The indices page gives you a small summary of which portion of your dataset
+the engine is indexing and then gives a graphical break down of the
+distribution of data over these indexes.</p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.8.3.</span></p>
+</div></blockquote>
+<span class="target" id="index-22"></span><p id="index-23">It also provides links on geoloc dimensions to export the location latitude/longitude
+coordinates and their corresponding index buckets into KML files.</p>
+<img alt="../_images/WebInterfaceIndices.png" src="../_images/WebInterfaceIndices.png" />
+<span class="target" id="index-24"></span><span class="target" id="index-25"></span><span class="target" id="index-26"></span></div>
+<div class="section" id="feeds">
+<span id="admin-tool-feeds"></span><span id="index-27"></span><h2>Feeds<a class="headerlink" href="admin_tool.html#feeds" title="Permalink to this headline">¶</a></h2>
+<p>The Feeds page, previously the Admin page, allows you to configure inter-engine
+data transfer, manage changeset, dimension and built-in data publisher processing.</p>
+<img alt="../_images/WebInterfaceFeedsFull.png" src="../_images/WebInterfaceFeedsFull.png" />
+<span class="target" id="index-28"></span><span class="target" id="index-29"></span><div class="section" id="dimension-changeset-feed-checkpoints-configuration">
+<span id="data-configuration-properties"></span><span id="index-30"></span><h3>Dimension, Changeset, Feed &amp; Checkpoints Configuration<a class="headerlink" href="admin_tool.html#dimension-changeset-feed-checkpoints-configuration" title="Permalink to this headline">¶</a></h3>
+<p>The engine will optionally pull changeset data from another engine (multi-server Data configuration)
+or it can automatically request changeset data on a time interval that you
+choose (only one of these two options can be used at a time). Additionally, the
+time at which the Discovery Search Engine may create a checkpoint can also be
+configured using this option.</p>
+<p>The Admin Tool allows these options to be changed and saved dynamically.</p>
+<p>For more information on setting up a multi-server environment, refer to
+<a class="reference internal" href="config_scenarios.html#engine-config-scenarios"><em>Engine Configuration Scenarios</em></a>.</p>
+</div>
+<div class="section" id="dimensions">
+<span id="index-31"></span><h3>Dimensions<a class="headerlink" href="admin_tool.html#dimensions" title="Permalink to this headline">¶</a></h3>
+<p>Determines that the engine pull it&#8217;s dimensions from another engine or other
+web service. This option is only useful if the dimensions file
+should be synchronized from a different master engine than the engine that
+serves the changeset data.</p>
+<ul>
+<li><p class="first"><strong>Enabled</strong></p>
+<p>Determines if the settings visible in this section are currently enabled.</p>
+</li>
+<li><p class="first"><strong>Engine/URL</strong></p>
+<p>Determines if the URL specified in <strong>Sync</strong> is an another Discovery engine or
+a web service.</p>
+<p>Example:</p>
+<div class="highlight-text"><div class="highlight"><pre>http://localhost:8091
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>Sync</strong></p>
+<p>Determines the URL from which to request the updated dimensions file.</p>
+</li>
+<li><p class="first"><strong>Interval</strong></p>
+<p>Determines the frequency with which dimensions are requested from the URL specifed
+by <strong>Sync</strong>.</p>
+<p>Example:</p>
+<div class="highlight-text"><div class="highlight"><pre>http://example.com:8090/ws/dimension
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="changesets">
+<span id="index-32"></span><h3>Changesets<a class="headerlink" href="admin_tool.html#changesets" title="Permalink to this headline">¶</a></h3>
+<p>This setting determines URL of the Discovery Search Engine (Data Master) from which to pull
+(synchronize) a changeset.</p>
+<p>If both dimensions and changesets will be served by a master engine, then it is only
+necessary to use <tt class="docutils literal"><span class="pre">master</span></tt>. This option is only useful if the changesets
+should be synchronized from a different master engine that the engine that
+serves the dimension data.</p>
+<p>By selecting the Sync or Feeds option, customers can determine the source of their
+changeset data.</p>
+<ul>
+<li><p class="first"><strong>Enabled</strong></p>
+<p>Determines if the settings visible in this section are currently enabled.</p>
+</li>
+<li><p class="first"><strong>Engine/URL</strong></p>
+<p>Determines if the URL specified in <strong>Sync</strong> is an another Discovery engine or
+a web service.</p>
+</li>
+<li><p class="first"><strong>Sync</strong></p>
+<p>When this option is enabled, changesets come from a changeset publisher. Determines
+the URL from which to request the updated dimensions file.</p>
+<p>Example:</p>
+<div class="highlight-text"><div class="highlight"><pre>http://example.com:8090/ws/changeset
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>Feeds</strong></p>
+<p>When this option is enabled, changesets come from a changeset publisher.</p>
+<p>For more information on creating a feed using a changeset publisher, refer
+to <a class="reference internal" href="../data_integration/changesets.html#changesets"><em>Changesets</em></a>.</p>
+</li>
+<li><p class="first"><strong>Restart with complete feed now</strong></p>
+<p>Use this option to request the changeset publisher to send a complete feed at the next scheduled
+interval. The complete feed can be defined as either a Snapshot, Full or Bulk type.</p>
+</li>
+<li><p class="first"><strong>URL</strong></p>
+<p>Determines the URL from which to request the updated changeset.</p>
+<p>Example:</p>
+<div class="highlight-text"><div class="highlight"><pre>http://example.com/changeset.php?profile=production
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>Interval</strong></p>
+<p>Determines the frequency with which changesets are requested from the URL specified
+by <strong>Sync</strong> or <strong>Feeds</strong>.</p>
+<p>For more information on creating a feed using a changeset publisher, refer
+to <a class="reference internal" href="../data_integration/changesets.html#changesets"><em>Changesets</em></a>.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="checkpoints">
+<span id="index-33"></span><h3>Checkpoints<a class="headerlink" href="admin_tool.html#checkpoints" title="Permalink to this headline">¶</a></h3>
+<p>The engine may periodically make a consolidated checkpoint of all changesets applied.
+The time at which the engines checkes to see if a checkpoint is required can be
+specified on this page.</p>
+<ul>
+<li><p class="first"><strong>Time</strong></p>
+<p>This setting determines the time at which the Discovery Engine may create
+a changeset checkpoint.</p>
+</li>
+</ul>
+<span class="target" id="index-34"></span></div>
+</div>
+<div class="section" id="settings">
+<span id="admin-tool-settings"></span><span id="index-35"></span><h2>Settings<a class="headerlink" href="admin_tool.html#settings" title="Permalink to this headline">¶</a></h2>
+<p>Settings page allows you to configure how the engine appears and functions.</p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.8.5.</span></p>
+</div></blockquote>
+<div class="section" id="import-export-settings">
+<h3>Import/Export Settings<a class="headerlink" href="admin_tool.html#import-export-settings" title="Permalink to this headline">¶</a></h3>
+<img alt="../_images/Settings-Import-Export.png" src="../_images/Settings-Import-Export.png" />
+<ul id="index-36">
+<li><p class="first"><strong>Settings File</strong></p>
+<p>This option allows the current engine settings to be stored to a file
+and restored from a saved file.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="engine-preferences">
+<span id="locale-string"></span><span id="index-37"></span><h3>Engine Preferences<a class="headerlink" href="admin_tool.html#engine-preferences" title="Permalink to this headline">¶</a></h3>
+<img alt="../_images/Settings-Engine-Preferences.png" src="../_images/Settings-Engine-Preferences.png" />
+<ul id="index-38">
+<li><p class="first"><strong>Engine Name</strong></p>
+<p>The engine name is used to display on the Admin Tool. It
+is useful for customers that have multiple engines running at one time as it
+makes it easier to identify which Admin Tool window applies to which
+Discovery Search Engine.</p>
+</li>
+</ul>
+<span class="target" id="index-39"></span><ul id="index-40">
+<li><p class="first"><strong>Time Zone</strong></p>
+<p>The time zone is used when displaying dates and times of changeset
+and checkpoint activities in the Admin Tool.</p>
+</li>
+</ul>
+<span class="target" id="index-41"></span><ul id="index-42">
+<li><p class="first"><strong>Locale</strong></p>
+<p>The locale definition string that will determine formatting of numbers and
+dates in the Admin Tool.</p>
+<p>Default: <tt class="docutils literal"><span class="pre">en_US</span></tt></p>
+<p>For more information on specifying a locale, refer to <a class="reference internal" href="../reference/locales.html#locale-spec"><em>Locale Specs</em></a>.</p>
+<p>The following example will set the locale of the Admin Tool to Portuguese as used
+in Brazil.</p>
+<p>Example:</p>
+<div class="highlight-text"><div class="highlight"><pre>pt_BR
+</pre></div>
+</div>
+</li>
+</ul>
+<ul id="index-43">
+<li><p class="first"><strong>Logging</strong></p>
+<p>Determines if the engine HTTP requests are logged or not. When enabled, the
+requests are logged to <tt class="docutils literal"><span class="pre">access-yyyy_mm_dd.log</span></tt> in the engine&#8217;s log directory.</p>
+<p>Default: <tt class="docutils literal"><span class="pre">false</span></tt></p>
+</li>
+</ul>
+<span class="target" id="index-44"></span><ul id="index-45">
+<li><p class="first"><strong>Engine Data</strong></p>
+<p>Determines if the engine data and indices are read-only.</p>
+<p>Default: <tt class="docutils literal"><span class="pre">writable</span></tt></p>
+</li>
+</ul>
+<span class="target" id="index-46"></span><ul id="index-47">
+<li><p class="first"><strong>Queries</strong></p>
+<p>Determines if the engine queries are processed using multiple threads. In some
+instances, using multiple threads can improve query performance.</p>
+<p>Default: <tt class="docutils literal"><span class="pre">disabled</span></tt></p>
+</li>
+</ul>
+<span class="target" id="index-48"></span><span class="target" id="index-49"></span><ul id="index-50">
+<li><p class="first"><strong>Content Type</strong></p>
+<p>Determines the dimension to use as the item content type. Defining a content type
+dimension will enable showing data coverage and stats on the Indices Page.</p>
+<p>Default: <tt class="docutils literal"><span class="pre">none</span> <span class="pre">selected</span></tt></p>
+</li>
+</ul>
+<ul id="index-51">
+<li><p class="first"><strong>Logging</strong></p>
+<p>Determines if HTTP requests to the server are logged.</p>
+<p>Default: <tt class="docutils literal"><span class="pre">not</span> <span class="pre">logged</span></tt></p>
+</li>
+</ul>
+<ul id="index-52">
+<li><p class="first"><strong>Custom CSS</strong></p>
+<p>This setting allows customers to specify a brief CSS  spec that can be used to
+visually identify the engine to which a particular Admin Tool belongs.</p>
+<p>Default: not set</p>
+<p>Example:</p>
+<div class="highlight-text"><div class="highlight"><pre>body {background-color: pink}
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="item-cache">
+<span id="index-53"></span><h3>Item Cache<a class="headerlink" href="admin_tool.html#item-cache" title="Permalink to this headline">¶</a></h3>
+<img alt="../_images/Settings-Item-Cache.png" src="../_images/Settings-Item-Cache.png" />
+<ul id="index-54">
+<li><p class="first"><strong>Items</strong></p>
+<p>The item cache is used for improving the performance of retrieving the original
+changeset properties in response to a query. The value is used to limit the number
+of items that are cached.</p>
+<p>Default: <tt class="docutils literal"><span class="pre">1,000</span></tt></p>
+</li>
+</ul>
+</div>
+<div class="section" id="startup-options">
+<span id="index-55"></span><h3>Startup Options<a class="headerlink" href="admin_tool.html#startup-options" title="Permalink to this headline">¶</a></h3>
+<img alt="../_images/Settings-Startup-Options.png" src="../_images/Settings-Startup-Options.png" />
+<ul id="index-56">
+<li><p class="first"><strong>Engine responds while indexing at startup</strong></p>
+<p>The engine will respond to queries while it is starting up. This means that
+though the engine is responsive, the query results may be incomplete.</p>
+<p>Default: <tt class="docutils literal"><span class="pre">true</span></tt></p>
+</li>
+</ul>
+<ul id="index-57">
+<li><p class="first"><strong>Engine rebuilds indexes from scratch at startup</strong></p>
+<p>Some engine configurations respond better if disk-based indexes are rebuilt from
+scratch, otherwise, the engine tries to optimize the index creation process when
+an engine is restarted.</p>
+<p>Default: <tt class="docutils literal"><span class="pre">false</span></tt></p>
+</li>
+</ul>
+<span class="target" id="index-58"></span></div>
+</div>
+<div class="section" id="applications">
+<span id="index-59"></span><h2>Applications<a class="headerlink" href="admin_tool.html#applications" title="Permalink to this headline">¶</a></h2>
+<p>The applications page contains a list of available stand alone web
+applications that are bundled with the engine.</p>
+<img alt="../_images/WebInterfaceApplications.png" src="../_images/WebInterfaceApplications.png" />
+<span class="target" id="index-60"></span><div class="section" id="json">
+<span id="index-61"></span><h3>JSON<a class="headerlink" href="admin_tool.html#json" title="Permalink to this headline">¶</a></h3>
+<p>The JSON page gives the ability to test the JSON query API and is a great tool
+to help you ramp up on the details as well as debug any queries that don&#8217;t
+behave as you expect.</p>
+<img alt="../_images/WebInterfaceApplicationJson.png" src="../_images/WebInterfaceApplicationJson.png" />
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="admin_tool.html#">Admin Tool Interface</a><ul>
+<li><a class="reference internal" href="admin_tool.html#status-page">Status Page</a></li>
+<li><a class="reference internal" href="admin_tool.html#changesets-page">Changesets Page</a><ul>
+<li><a class="reference internal" href="admin_tool.html#import-export">Import/Export</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="admin_tool.html#dimensions-page">Dimensions Page</a><ul>
+<li><a class="reference internal" href="admin_tool.html#id1">Import/Export</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="admin_tool.html#indices-page">Indices Page</a></li>
+<li><a class="reference internal" href="admin_tool.html#feeds">Feeds</a><ul>
+<li><a class="reference internal" href="admin_tool.html#dimension-changeset-feed-checkpoints-configuration">Dimension, Changeset, Feed &amp; Checkpoints Configuration</a></li>
+<li><a class="reference internal" href="admin_tool.html#dimensions">Dimensions</a></li>
+<li><a class="reference internal" href="admin_tool.html#changesets">Changesets</a></li>
+<li><a class="reference internal" href="admin_tool.html#checkpoints">Checkpoints</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="admin_tool.html#settings">Settings</a><ul>
+<li><a class="reference internal" href="admin_tool.html#import-export-settings">Import/Export Settings</a></li>
+<li><a class="reference internal" href="admin_tool.html#engine-preferences">Engine Preferences</a></li>
+<li><a class="reference internal" href="admin_tool.html#item-cache">Item Cache</a></li>
+<li><a class="reference internal" href="admin_tool.html#startup-options">Startup Options</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="admin_tool.html#applications">Applications</a><ul>
+<li><a class="reference internal" href="admin_tool.html#json">JSON</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="upgrades.html"
+                        title="previous chapter">Upgrading an Engine for UNIX Variants</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="config_scenarios.html"
+                        title="next chapter">Engine Configuration Scenarios</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="https://transparensee.com/docs/discovery/current/html/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="config_scenarios.html" title="Engine Configuration Scenarios"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="upgrades.html" title="Upgrading an Engine for UNIX Variants"
+             >previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Working with the Engine</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright Transparensee Systems.
+    </div>
+  </body>
+</html>

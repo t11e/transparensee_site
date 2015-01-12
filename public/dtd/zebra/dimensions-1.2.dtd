@@ -1,0 +1,16 @@
+<!ELEMENT dimensions (dimension)*>
+
+<!ELEMENT dimension (element)*>
+<!ATTLIST dimension id CDATA #REQUIRED>
+<!ATTLIST dimension type (mutex|ordered|hierarchical|double|integer|geoloc|text|keyword) #REQUIRED>
+<!ATTLIST dimension key CDATA #IMPLIED>
+<!ATTLIST dimension longitude CDATA #IMPLIED>
+<!ATTLIST dimension latitude CDATA #IMPLIED>
+<!ATTLIST dimension zipcode CDATA #IMPLIED>
+<!ATTLIST dimension radians (true|false) "false">
+<!ATTLIST dimension locale CDATA #IMPLIED>
+
+<!ELEMENT element (element)*>
+<!ATTLIST element value  CDATA #REQUIRED>
+<!ATTLIST element name CDATA #IMPLIED>
+<!ATTLIST element structural (true|false) "false">

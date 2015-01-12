@@ -1,0 +1,189 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>discovery.properties Reference &mdash; Discovery Search Engine 3.10.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Discovery Search Engine 3.10.0 documentation" href="../index.html" />
+    <link rel="up" title="Reference" href="index.html" />
+    <link rel="next" title="Discovery Script Command Line Options" href="discovery_script.html" />
+    <link rel="prev" title="Web Services" href="web_services.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="discovery_script.html" title="Discovery Script Command Line Options"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="web_services.html" title="Web Services"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Reference</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <span class="target" id="index-0"></span><div class="section" id="discovery-properties-reference">
+<span id="index-1"></span><span id="id1"></span><h1>discovery.properties Reference<a class="headerlink" href="discovery_properties.html#discovery-properties-reference" title="Permalink to this headline">¶</a></h1>
+<p>The discovery.properties file contains startup and configuration information
+for the Discovery Search Engine.</p>
+<p>NOTE: As of version 2.8.5, most of the <tt class="docutils literal"><span class="pre">discovery.properties</span></tt> settings have been
+migrated to <tt class="docutils literal"><span class="pre">discovery.settings</span></tt>. The Admin Tool now persistently stores settings
+applied in the interface to <tt class="docutils literal"><span class="pre">discovery.settings</span></tt>. Customers should not manually
+edit the settings file.</p>
+<div class="section" id="basic-configuration-options">
+<h2>Basic Configuration Options<a class="headerlink" href="discovery_properties.html#basic-configuration-options" title="Permalink to this headline">¶</a></h2>
+<p>These options would be useful for all engine configurations. The discovery.properties
+file is read once at engine startup, so any changes made to this file will not
+be visible until the server has been restarted.</p>
+<div class="section" id="port">
+<span id="index-2"></span><h3>port<a class="headerlink" href="discovery_properties.html#port" title="Permalink to this headline">¶</a></h3>
+<p>The port setting determines the port on which the Discovery Search Engine
+listens for requests. To choose another port, set the desired port number using
+this entry.</p>
+<p>Default: 8090</p>
+<blockquote>
+<div><p>Example:</p>
+<div class="highlight-text"><div class="highlight"><pre>port = 8091
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="jvm-memory">
+<span id="index-3"></span><h3>jvm.memory<a class="headerlink" href="discovery_properties.html#jvm-memory" title="Permalink to this headline">¶</a></h3>
+<p>The jvm settings are passed to the JVM by the Discovery Search Engine startup
+script. The value for jvm.memory specifies the maximum memory in megabytes, the
+engine will use when running.</p>
+<p>Default: 128</p>
+<blockquote>
+<div><p>Example:</p>
+<div class="highlight-text"><div class="highlight"><pre>jvm.memory = 512
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="jvm-args">
+<span id="index-4"></span><h3>jvm.args<a class="headerlink" href="discovery_properties.html#jvm-args" title="Permalink to this headline">¶</a></h3>
+<p>The jvm settings are passed to the JVM by the Discovery Search Engine startup
+script. The engine&#8217;s startup script will pass the value of jvm.args as a command
+-line parameter to configure the JVM. For example, customers who wish to take
+advantage of Java 1.6 compressed object references in a 64-bit JVM, may wan to
+specify the setting here.</p>
+<p>Default: not set</p>
+<blockquote>
+<div><p>Example:</p>
+<div class="highlight-text"><div class="highlight"><pre>jvm.args = -XX:+UseCompressedOops -XX:+DoEscapeAnalysis
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="total-partitions">
+<h3>total-partitions<a class="headerlink" href="discovery_properties.html#total-partitions" title="Permalink to this headline">¶</a></h3>
+<p>This setting represents the total number of data partitions available to the current engine.
+For Master engines without data, total-partitions would be 0.
+For Query engines with data, total-partitions would be 1.</p>
+<p>Default: 1</p>
+<blockquote>
+<div><p>Example for Master:</p>
+<div class="highlight-text"><div class="highlight"><pre>total-partitions = 0
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="discovery_properties.html#">discovery.properties Reference</a><ul>
+<li><a class="reference internal" href="discovery_properties.html#basic-configuration-options">Basic Configuration Options</a><ul>
+<li><a class="reference internal" href="discovery_properties.html#port">port</a></li>
+<li><a class="reference internal" href="discovery_properties.html#jvm-memory">jvm.memory</a></li>
+<li><a class="reference internal" href="discovery_properties.html#jvm-args">jvm.args</a></li>
+<li><a class="reference internal" href="discovery_properties.html#total-partitions">total-partitions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="web_services.html"
+                        title="previous chapter">Web Services</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="discovery_script.html"
+                        title="next chapter">Discovery Script Command Line Options</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="https://transparensee.com/docs/discovery/current/html/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="discovery_script.html" title="Discovery Script Command Line Options"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="web_services.html" title="Web Services"
+             >previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Reference</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright Transparensee Systems.
+    </div>
+  </body>
+</html>

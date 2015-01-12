@@ -1,0 +1,66 @@
+<html>
+  <head>
+    <title>Transparensee Documentation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="../../../screen.css" rel="stylesheet" type="text/css"/>
+  </head>
+  
+  <body>
+    <div id="header">
+      <div id="navbar">
+        <div id="navbar-logo">
+          <a href="../../../index.html"><img src="../../../images/logo.png" title="Transparensee" alt="Transparensee"/></a>
+        </div>               
+      </div>
+    </div>
+
+<div id="content">      
+
+  <h2>Release Notes - Discovery Search Engine - Version 2.8.4       </h2>
+  <h2>New Features </h2>
+  <ul>
+    <li><strong>[ENGINE-200] -         New Changeset Type: &quot;Full&quot; </strong></li>
+  </ul>
+  <blockquote>
+    <p>Support for a new changeset type that will load a changeset into an engine using a modified Snapshot method. When the changeset has been loaded, any items that were indexed before the changeset was processed will be removed from the engine. With a Snapshot, all items are deleted first, then replaced with the contents of the changeset file that is being imported. </p>
+  </blockquote>
+  <ul>
+    <li><strong>[ENGINE-94] - Support for Kilometers in Geoloc Queries </strong></li>
+  </ul>
+  <blockquote>
+    <p>A new dimension attribute and top-level query field can be used to specify that the units for location searches are in kilometers. The default is miles</p>
+  </blockquote>
+  <h2>Improvements</h2>
+  <ul>
+
+    <li><strong>[ENGINE-111] -         Explain criterion keywords are now case-insensitive </strong></li>
+  </ul>
+
+  <blockquote>
+    <p>For example, to return drill down explanations in a query, you can use &quot;drilldown&quot; or &quot;drillDown&quot; </p>
+  </blockquote>
+  <ul>
+    <li><strong>[ENGINE-236] -         Improved internals </strong></li>
+  </ul>
+  <blockquote>
+    <p>This version includes various internal improvements to promote greater scalability and responsiveness.</p>
+  </blockquote>
+  <ul>
+    <li><strong>[ENGINE-310] -         Improved Highlighting </strong></li>
+  </ul>
+  <blockquote>
+    <p>The highlighting feature released in 2.8.3 has been enhnaced to return just the highlighted properties in a new response field called &quot;highlighting&quot;. To enable this feature, a new value for the highlighting request field </p>
+  </blockquote>
+  <h2>Bug Fixes </h2>
+  <ul>
+    <li><strong>[ENGINE-308] - Index Reader Close Error<br />
+    </strong>Corrects an issue that caused a recoverable indexing error for text dimensions. </li>
+  </ul>
+
+<div class="clear"></div>
+
+    <div id="footer">
+      <p id="copyright">Copyright &copy; Transparensee Systems Inc. All rights reserved.</p>
+    </div>
+  </body>
+</html>

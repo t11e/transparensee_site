@@ -1,0 +1,86 @@
+<html>
+  <head>
+    <title>Transparensee Documentation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="../../../screen.css" rel="stylesheet" type="text/css"/>
+  </head>
+
+  <body>
+   <div id="header">
+     <div id="navbar">
+       <div id="navbar-logo">
+         <a href="../../../index.html"><img src="../../../images/logo.png" title="Transparensee" alt="Transparensee"/></a>
+       </div>
+     </div>
+   </div>
+
+   <div id="content">
+
+     <h2>Release Notes - Discovery Search Engine - Version 3.0.0</h2>
+
+     <h2>New Features</h2>
+     <ul>
+       <li><strong>[ENGINE-275] - GroupBy Support</strong>
+         <p>Version 3.0 now provides full groupBy support for items with a one-to-many
+         relationship. For example, for real estate apartment rental applications, the intent
+         is to find a specific apartment with specific characteristics. In addition to
+         apartment features, many apartments are part of a Site, Community or Development
+         that also has common features.</p>
+
+         <p>This feature requires that the item database include at least two types of items, the
+         parent (the item that determines the groups) and the child (the item the customer
+         wants to locate). The query specifies the child search criteria and then groups the
+         results by the parent <i>in the order of the best match to the child item</i>. To
+         use the real estate example, the query searches for apartments that have specific
+         features (studio, bathrooms, fireplace, washer/dryer), then organizes the results
+         into the Communities in which the first Community returned is the Community for the
+         apartment with the highest relevance!</p>
+         <p>The query API has been enhanced to return <i>any</i> of the Parent item (Community) property
+         values as well as <i>any</i> of the child item property data (apartments) for
+         each group.</p>
+         <p>GroupBy dimensions may index one and only one value.</p>
+         <p>GroupBy requires a <code>groupBy</code> type dimension over the group by value. </p>
+     <div class="code panel" style="border-width: 1px;">
+       <div class="codeContent panelContent">
+         <pre class="code-xml">
+     <span class="code-tag">&lt;dimension type=<span class="code-quote">"groupBy"</span> key=<span class="code-quote">"site_item_id"</span> <span class="code-tag">/&gt;</span></span>
+         </pre>
+       </div>
+     </div>
+       </li>
+       <li><strong>[ENGINE-45] - Dimension Element 'name' Attribute Available in Query Response</strong>
+         <p>A tree type dimension can have elements that include a <code>name</code> attribute. This was useful
+         for customers who index an mnemonic id or some other coded format. The name attribute is now available
+         as a label in the <code>indexValues</code> query response. To enable this feature,
+         use the <code>indexValues</code> request criterion field <code>includeLabel</code>.</p>
+         <p>This feature can further
+         reduce the need for additional round trips to fetch data required to render your UI.</p>
+       </li>
+       <li><strong>[ENGINE-113] - Exact and Fuzzy Relevance Score Overrides</strong>
+         <p>There are two new query request criterion fields that override any built-in scoring
+         that might be assigned to a criterion.  Use <code>exactRelevance</code> to specify
+         the score to use for <i>any exact match</i> for the criterion. Use <code>fuzzyRelevance</code>
+         to specify the score to use for <i>any fuzzy (non-exact) matches</i>.</p>
+       </li>
+     </ul>
+
+     <h2>Improvements</h2>
+     <ul>
+       <li><strong>[ENGINE-326], [ENGINE-466], [ENGINE-469] - Hit Detection enabled for Keyword, Text,
+          fieldedText, geoloc, long, integer, double &amp; time dimensions.</strong>
+          <p>IndexValues was introduced in version 2.9.1. This release adds additional
+          types supported by this feature.</p>
+       </li>
+       <li><strong>[ENGINE-456] - Changeset Importing Error Control Improved</strong>
+       <p>The engine now provides clearer error messages when a changeset failed to
+       import because of invalid data for a property value.</p>
+       </li>
+     </ul>
+
+   </div>
+   <div class="clear"></div>
+   <div id="footer">
+     <p id="copyright">Copyright &copy; Transparensee Systems Inc. All rights reserved.</p>
+   </div>
+  </body>
+</html>

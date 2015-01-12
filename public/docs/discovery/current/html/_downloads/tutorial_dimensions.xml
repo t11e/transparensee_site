@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<dimensions>
+  <dimension id="price" type="integer">
+    <element id="cheap" value="(,10)"/>
+    <element id="moderate" value="[10,20]"/>
+    <element id="expensive" value="(20,)"/>
+  </dimension>
+  <dimension id="weight" type="double">
+    <element id="light" value="(,10)"/>
+    <element id="normal" value="[10,20]"/>
+    <element id="heavy" value="(20,)"/>
+  </dimension>
+  <dimension id="shape" type="tree">
+    <element id="square"/>
+    <element id="circle"/>
+    <element id="triangle"/>
+  </dimension>
+  <dimension id="tags" type="keyword"/>
+</dimensions>

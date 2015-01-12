@@ -1,0 +1,231 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Changesets &mdash; Discovery Search Engine 3.10.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Discovery Search Engine 3.10.0 documentation" href="../index.html" />
+    <link rel="up" title="Data Integration" href="index.html" />
+    <link rel="next" title="Data Tool" href="datatool.html" />
+    <link rel="prev" title="Integrating" href="integrating.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="datatool.html" title="Data Tool"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="integrating.html" title="Integrating"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Data Integration</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="changesets">
+<span id="index-0"></span><span id="id1"></span><h1>Changesets<a class="headerlink" href="changesets.html#changesets" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="getting-changesets-to-the-engine">
+<h2>Getting changesets to the engine<a class="headerlink" href="changesets.html#getting-changesets-to-the-engine" title="Permalink to this headline">¶</a></h2>
+<p>The Discovery Search Engine has been designed as a push-based system. However, it is
+sometimes more convenient for it to pull the data.</p>
+<p>If you would like to use a pull-based approach, refer to the
+<a class="reference internal" href="changeset_publisher.html#changeset-publisher"><em>Changeset Publisher</em></a> chapter of the documentation.</p>
+<p>If you would like to use a push based approach then you will need to track
+changes in your data as well as which ones have been successfully pushed to the
+Discovery Search Engine. The changes tracked should include creation, modification
+and deletion of records. Pushing is probably best handled with a persistent
+queue so that failed pushes can be handled at a later date.</p>
+<div class="section" id="validating-and-pushing-an-initial-changeset-to-the-engine">
+<h3>Validating and pushing an initial changeset to the engine<a class="headerlink" href="changesets.html#validating-and-pushing-an-initial-changeset-to-the-engine" title="Permalink to this headline">¶</a></h3>
+<p>The changeset publisher should generate an XML document that you can validate
+against the schema at <a class="reference external" href="../../../../../dtd/zebra/changeset-1.0.dtd">http://transparensee.com/dtd/zebra/changeset-1.0.dtd</a>.</p>
+<p>For example,</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>xmllint --dtdvalid http://transparensee.com/dtd/zebra/changeset-1.0.dtd <span class="se">\</span>
+    --noout changeset.xml
+</pre></div>
+</div>
+<p>If the document validates, push an initial changeset to the engine at
+its changeset URL, ensuring that Content-Type is text/xml. ( curl does
+not stream data and may fail when POSTing large changesets). The id of
+the changeset is returned.</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>curl --header <span class="s1">&#39;Content-type: text/xml&#39;</span> --data-binary @changeset.xml <span class="se">\</span>
+    http://localhost:8090/ws/changeset
+86d9cc25c9df185898e0affb8385b978-0
+</pre></div>
+</div>
+</div>
+<div class="section" id="changeset-document-structure">
+<h3>Changeset document structure<a class="headerlink" href="changesets.html#changeset-document-structure" title="Permalink to this headline">¶</a></h3>
+<p>A changeset document consists of a set of actions to add and remove
+items and add and remove properties for each of those items. Items are
+the uniquely defined objects that users of your system are searching
+for, while properties are the characteristics of the objects by which
+users will perform searches. Properties usually map well to columns in
+a database and can be named similarly for clarity.</p>
+<p>Definition of actions:</p>
+<dl class="docutils">
+<dt>set-item</dt>
+<dd>Creates the item if it does not already exist. Removes any existing
+properties of the item, and sets the properties specified.</dd>
+<dt>add-item</dt>
+<dd>Adds the item. Ignored if the item already exists.</dd>
+<dt>add-to-item</dt>
+<dd>Adds the properties to the item.</dd>
+<dt>remove-item</dt>
+<dd>Deletes the item. Ignored if the item doesn&#8217;t exist.</dd>
+<dt>remove-from-item</dt>
+<dd>Deletes the properties from the item. Properties that don&#8217;t exist are
+ignored.</dd>
+</dl>
+<p>The order of actions is important, they are guaranteed to be executed
+in the order in which they are defined.</p>
+<p>An item cannot be deleted then added (or added then deleted) within
+the same changeset &#8211; this will cause a conflict on the server due to
+transaction semantics.</p>
+<p>Attempts to remove an item that doesn&#8217;t exist or add properties to an
+item that doesn&#8217;t exist will fail silently.</p>
+<p id="index-1">Example changeset :</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="nt">&lt;changeset&gt;</span>
+  <span class="nt">&lt;set-item</span> <span class="na">id=</span><span class="s">&quot;007&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;properties&gt;</span>
+      <span class="nt">&lt;struct&gt;</span>
+        <span class="nt">&lt;entry</span> <span class="na">name=</span><span class="s">&quot;gender&quot;</span><span class="nt">&gt;&lt;int&gt;</span>1<span class="nt">&lt;/int&gt;&lt;/entry&gt;</span>
+        <span class="nt">&lt;entry</span> <span class="na">name=</span><span class="s">&quot;religion&quot;</span><span class="nt">&gt;&lt;int&gt;</span>5<span class="nt">&lt;/int&gt;&lt;/entry&gt;</span>
+        <span class="nt">&lt;entry</span> <span class="na">name=</span><span class="s">&quot;weight&quot;</span><span class="nt">&gt;&lt;int&gt;</span>140<span class="nt">&lt;/int&gt;&lt;/entry&gt;</span>
+        <span class="nt">&lt;entry</span> <span class="na">name=</span><span class="s">&quot;height&quot;</span><span class="nt">&gt;&lt;real&gt;</span>61.5<span class="nt">&lt;/real&gt;&lt;/entry&gt;</span>
+        <span class="nt">&lt;entry</span> <span class="na">name=</span><span class="s">&quot;bio&quot;</span><span class="nt">&gt;&lt;string&gt;</span>Stand up man<span class="nt">&lt;/string&gt;&lt;/entry&gt;</span>
+        <span class="nt">&lt;entry</span> <span class="na">name=</span><span class="s">&quot;ethnicity&quot;</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;array&gt;</span>
+            <span class="nt">&lt;element&gt;&lt;int&gt;</span>1<span class="nt">&lt;/int&gt;&lt;/element&gt;</span>
+            <span class="nt">&lt;element&gt;&lt;int&gt;</span>5<span class="nt">&lt;/int&gt;&lt;/element&gt;</span>
+          <span class="nt">&lt;/array&gt;</span>
+        <span class="nt">&lt;/entry&gt;</span>
+      <span class="nt">&lt;/struct&gt;</span>
+    <span class="nt">&lt;/properties&gt;</span>
+  <span class="nt">&lt;/set-item&gt;</span>
+  <span class="nt">&lt;add-item</span> <span class="na">id=</span><span class="s">&quot;001&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;remove-item</span> <span class="na">id=</span><span class="s">&quot;002&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;add-to-item</span> <span class="na">id=</span><span class="s">&quot;001&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;properties&gt;</span>
+      <span class="nt">&lt;struct&gt;</span>
+        <span class="nt">&lt;entry</span> <span class="na">name=</span><span class="s">&quot;bio&quot;</span><span class="nt">&gt;&lt;string&gt;</span>Nice guy<span class="nt">&lt;/string&gt;&lt;/entry&gt;</span>
+        <span class="nt">&lt;entry</span> <span class="na">name=</span><span class="s">&quot;religion&quot;</span><span class="nt">&gt;&lt;int&gt;</span>4<span class="nt">&lt;/int&gt;&lt;/entry&gt;</span>
+        <span class="nt">&lt;entry</span> <span class="na">name=</span><span class="s">&quot;ethnicity&quot;</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;array&gt;</span>
+            <span class="nt">&lt;element&gt;&lt;int&gt;</span>2<span class="nt">&lt;/int&gt;&lt;/element&gt;</span>
+          <span class="nt">&lt;/array&gt;</span>
+        <span class="nt">&lt;/entry&gt;</span>
+      <span class="nt">&lt;/struct&gt;</span>
+    <span class="nt">&lt;/properties&gt;</span>
+  <span class="nt">&lt;/add-to-item&gt;</span>
+  <span class="nt">&lt;remove-from-item</span> <span class="na">id=</span><span class="s">&quot;003&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;all/&gt;</span>
+  <span class="nt">&lt;/remove-from-item&gt;</span>
+  <span class="nt">&lt;remove-from-item</span> <span class="na">id=</span><span class="s">&quot;003&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;properties&gt;</span>
+      <span class="nt">&lt;struct&gt;</span>
+        <span class="nt">&lt;entry</span> <span class="na">name=</span><span class="s">&quot;bio&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;/struct&gt;</span>
+    <span class="nt">&lt;/properties&gt;</span>
+  <span class="nt">&lt;/remove-from-item&gt;</span>
+<span class="nt">&lt;/changeset&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="changesets.html#">Changesets</a><ul>
+<li><a class="reference internal" href="changesets.html#getting-changesets-to-the-engine">Getting changesets to the engine</a><ul>
+<li><a class="reference internal" href="changesets.html#validating-and-pushing-an-initial-changeset-to-the-engine">Validating and pushing an initial changeset to the engine</a></li>
+<li><a class="reference internal" href="changesets.html#changeset-document-structure">Changeset document structure</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="integrating.html"
+                        title="previous chapter">Integrating</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="datatool.html"
+                        title="next chapter">Data Tool</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="https://transparensee.com/docs/discovery/current/html/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="datatool.html" title="Data Tool"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="integrating.html" title="Integrating"
+             >previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Data Integration</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright Transparensee Systems.
+    </div>
+  </body>
+</html>

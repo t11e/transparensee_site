@@ -1,0 +1,2061 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Overview &mdash; Discovery Search Engine 3.10.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Discovery Search Engine 3.10.0 documentation" href="../index.html" />
+    <link rel="up" title="Query API" href="index.html" />
+    <link rel="next" title="Query Response" href="query_response.html" />
+    <link rel="prev" title="Query API" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="query_response.html" title="Query Response"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Query API"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Query API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="overview">
+<span id="query-api"></span><span id="index-0"></span><h1>Overview<a class="headerlink" href="query_api.html#overview" title="Permalink to this headline">¶</a></h1>
+<p>The Discovery Search Engine Query API is designed to provide developers with a simple
+interface to query functionality. It can be accessed via HTTP with JSON.</p>
+<p>A query against the Discovery Search Engine takes the search criteria and returns a
+list of relevant item ids. The standard use of this method involves taking
+these item ids and submitting simple queries to your existing data source
+before displaying the results to the end user.</p>
+<div class="section" id="json">
+<h2>JSON<a class="headerlink" href="query_api.html#json" title="Permalink to this headline">¶</a></h2>
+<p>The engine expects JSON to be sent via HTTP POST with the <cite>Content-Type</cite>
+header set to <cite>application/json</cite>. Both the request and response are
+dictionaries.</p>
+<p><a class="reference external" href="http://server:port/ws/query">http://server:port/ws/query</a></p>
+<p>For releases prior to 3.8.2, the URL was: <a class="reference external" href="http://server.port/json/query">http://server.port/json/query</a></p>
+<p>Information about JSON can be found at <a class="reference external" href="http://json.org">http://json.org</a>.</p>
+<span class="target" id="index-1"></span><span class="target" id="index-2"></span></div>
+</div>
+<div class="section" id="query-request">
+<span id="index-3"></span><span id="id1"></span><h1>Query Request<a class="headerlink" href="query_api.html#query-request" title="Permalink to this headline">¶</a></h1>
+<p>The query Request instructs the engine what to search, options to apply to the
+search and what to return in the Response. Most of the request fields result in
+changes to the server response. This section covers the request portion of a query.
+For complete coverage of the response, refer to <a class="reference internal" href="query_response.html#query-response"><em>Query Response</em></a>.</p>
+<p>Note that the engine will perform type conversion in some simple cases,
+meaning that you can pass in a string when an int or double is expected.</p>
+<p>For a cross reference the available options, refer to: <a class="reference internal" href="../reference/query_params_quickref.html#query-quickref"><em>Query Parameters Quick Reference</em></a>.</p>
+<div class="section" id="top-level-request-fields">
+<span id="index-4"></span><h2>Top Level Request Fields<a class="headerlink" href="query_api.html#top-level-request-fields" title="Permalink to this headline">¶</a></h2>
+<p id="index-5"><strong>startIndex</strong></p>
+<blockquote>
+<div><p>The index of the item in the result set at which to begin the page.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">int</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">0</span></tt></p>
+</div></blockquote>
+<p id="index-6"><strong>pageSize</strong></p>
+<blockquote>
+<div><p>The maximum number of items in the returned response result set. If the value is <tt class="docutils literal"><span class="pre">0</span></tt> then
+no results are returned at all, only summary information about the query is returned.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">int</span></tt></p>
+<p>Default: 0</p>
+</div></blockquote>
+<span class="target" id="index-7"></span><p id="index-8"><strong>items</strong></p>
+<blockquote>
+<div><p>Array of item ids over which to search.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt></p>
+<p>Default: all items</p>
+</div></blockquote>
+<span class="target" id="index-9"></span><p id="index-10"><strong>notItems</strong></p>
+<blockquote>
+<div><p>Array of item ids  to be excluded from the search.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt></p>
+<p>Default: no items</p>
+</div></blockquote>
+<span class="target" id="index-11"></span><p id="index-12"><strong>criteria</strong></p>
+<blockquote>
+<div><p>Search criteria as a list of criterion.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of dictionaries</p>
+<p>See: <a class="reference internal" href="query_api.html#search-criterion"><em>Search Criterion</em></a></p>
+</div></blockquote>
+<p id="index-13"><strong>facets</strong></p>
+<blockquote>
+<div><p>The facets criteria that specify on which buckets we want to calculate
+facets counts.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">dictionary</span></tt></p>
+<p>See: <a class="reference internal" href="query_api.html#facets-criterion"><em>Facets Criterion</em></a> for a detailed description of the facets
+API.</p>
+<p>For a description of the facets response format, refer to <a class="reference internal" href="query_response.html#facets-response"><em>facets Response</em></a>.</p>
+</div></blockquote>
+<p id="index-14"><strong>drillDown</strong></p>
+<blockquote>
+<div><p>The drill down criteria that specify which buckets we want to perform drill
+down on and thus obtain the faceted search counts. This is a deprecated API.
+Use the new facets top-level request and response.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of dictionaries</p>
+<p>See: <a class="reference internal" href="query_api.html#drilldown-criterion"><em>Drilldown Criterion</em></a> for a detailed description of the drilldown
+API.</p>
+<p>For a description of the drilldown response format, refer to <a class="reference internal" href="query_response.html#drilldown-response"><em>drillDown</em></a>.</p>
+</div></blockquote>
+<p id="index-15"><strong>sortBy</strong></p>
+<blockquote>
+<div><p>The sorting criteria that specify the order in which items appear in the
+query results.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of dictionaries</p>
+<p>See: <a class="reference internal" href="query_api.html#sort-by"><em>Sort By Criterion</em></a></p>
+</div></blockquote>
+<p id="index-16"><strong>groupBy</strong></p>
+<blockquote>
+<div><p>The groupBy criteria that specify how matching items are grouped in the
+query results.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">dictionary</span></tt></p>
+<p>See: <a class="reference internal" href="query_api.html#group-by"><em>Group By Criterion</em></a> for a description of the groupBy request API.</p>
+<p>For a description of the groupBy response, refer to <a class="reference internal" href="query_response.html#groups-response"><em>Groups</em></a>.</p>
+</div></blockquote>
+<p id="index-17"><strong>exactMatchesOnly</strong></p>
+<blockquote>
+<div><p>Setting this option causes the engine to only return items that are exact
+matches. Fuzzy matches are automatically culled from the query results.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt>.</p>
+</div></blockquote>
+<p id="index-18"><strong>exactRelevance</strong></p>
+<blockquote>
+<div><p>Setting this option causes the engine to assign the specified relevance
+to any exact matched item.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt>.</p>
+</div></blockquote>
+<p id="index-19"><strong>minRelevance</strong></p>
+<blockquote>
+<div><p>Setting this option causes the engine to exclude any items with relevance
+less than the specified relevance from the query results.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt>.</p>
+</div></blockquote>
+<p id="index-20"><strong>maxRelevance</strong></p>
+<blockquote>
+<div><p>Setting this option causes the engine to exclude any items with relevance
+greater than the specified relevance from the query results.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt>.</p>
+</div></blockquote>
+<p id="index-21"><strong>properties</strong></p>
+<blockquote>
+<div><p>Setting this field with one or more changeset property ids causes the engine
+to return the associated stored property values for the named properties.
+The property values are returned in an array with length equal to the number
+of query results on the requested page and in the same order as the item ids
+returned in the response.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt> or array of <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>For a description of the properties response, refer to <a class="reference internal" href="query_response.html#properties-response"><em>Properties</em></a>.</p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.8.3.</span></p>
+</div></blockquote>
+</div></blockquote>
+<p id="index-22"><strong>highlighting</strong></p>
+<blockquote>
+<div><p>The highlighting criteria that specify what type of highlighting to perform
+and the changeset properties to return with highlighting applied. If highlighting
+is used in combination with properties, then the highlighted results are
+returned integrated with the <cite>properties</cite> response (see above) unless the
+highlighting request <tt class="docutils literal"><span class="pre">merge</span></tt> field is set to <tt class="docutils literal"><span class="pre">none</span></tt>.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">dictionary</span></tt></p>
+<p>See: <a class="reference internal" href="query_api.html#get-highlighting"><em>Highlighting Criterion</em></a> for a description of the highlighting request
+API.</p>
+<p>The highlighting response is returned with the <em>properties</em> response or <em>highlighting</em>
+response. For a
+description of the <cite>properties</cite> response, refer to <a class="reference internal" href="query_response.html#properties-response"><em>Properties</em></a>. For
+a description of the <cite>highlighting</cite> response, refer to <a class="reference internal" href="query_response.html#highlighting-response"><em>Highlighting</em></a>.</p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.8.3.</span></p>
+</div></blockquote>
+</div></blockquote>
+<p id="index-23"><strong>indexValues</strong></p>
+<blockquote>
+<div><p>Setting this field with one or more dimension ids causes the engine to return
+the associated new-form indexed values for the specified dimensions. The index values are
+returned in a dictionary with keys for each requested dimension id. The value of the
+key contains the relevant index values data.</p>
+<p>Type: array of <tt class="docutils literal"><span class="pre">dictionary</span></tt></p>
+<p>See: <a class="reference internal" href="query_api.html#dimension-indexvalues"><em>indexValues Criterion</em></a> for a description of the indexValues request
+API.</p>
+<p>For a description of the indexValues response, refer to <a class="reference internal" href="query_response.html#indexvalues-response"><em>Index Values</em></a>.</p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.9.1.</span></p>
+</div></blockquote>
+</div></blockquote>
+<p id="index-24"><strong>values</strong></p>
+<blockquote>
+<div><p>Setting this field with one or more dimension ids causes the engine to return
+the associated legacy indexed values for the specified dimensions. The values are
+returned in an array with length equal to the number of query results on the
+requested page.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt> or array of <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>See: <a class="reference internal" href="query_api.html#dimension-values"><em>Values Criterion</em></a> for a description of the values request
+API.</p>
+<p>For a description of the values response, refer to <a class="reference internal" href="query_response.html#values-response"><em>Values</em></a>.</p>
+</div></blockquote>
+<p id="index-25"><strong>calculate</strong></p>
+<blockquote>
+<div><p>Setting this field with one or more dimension keys configured appropriately will
+be used to return calculated values in the response. For example, in geoloc type
+dimensions, the distance from the search centroid or polygon can be returned for use
+in the presentation layer.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">dictionary</span></tt> of calculate criteria</p>
+<p>See: <a class="reference internal" href="query_api.html#calculate-request"><em>Calculate Criterion</em></a> for a description of the calculate criterion request
+API.</p>
+<p>For a description of the calculate response, refer to <a class="reference internal" href="query_response.html#calculate-response"><em>Calculate</em></a>.</p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 3.1.0.</span></p>
+</div></blockquote>
+</div></blockquote>
+<p id="index-26"><strong>explain</strong></p>
+<blockquote>
+<div><p>Setting this option with one or more directives causes the engine to return
+information about how each search criterion and indexed values contributed
+to the query result.</p>
+<p><em>Transparensee Systems reserves the right to alter or remove this API in any way
+and at any time in the future. It provides this feature solely for debugging purposes.</em></p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>See: <a class="reference internal" href="query_api.html#query-explain"><em>Explain</em></a> for a detailed description of the explain
+API.</p>
+<p>For a description of the explain response format, refer to <a class="reference internal" href="query_response.html#explain-response"><em>Explain</em></a>.</p>
+</div></blockquote>
+<p id="index-27"><strong>renderParameters</strong></p>
+<blockquote>
+<div><p>Setting this option causes the engine to return a URL-encoded query
+string that represents the query results and can be passed directly
+to a template for rendering of search results.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt> or <tt class="docutils literal"><span class="pre">dictionary</span></tt>.</p>
+<p>See: <a class="reference internal" href="query_api.html#render-parameters"><em>Render Parameters</em></a> for a detailed description of the renderParmeters
+API.</p>
+<p>For a description of the renderParameters response format, refer to <a class="reference internal" href="query_response.html#render-parameters-response"><em>renderParmeters</em></a>.</p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.6.17.</span></p>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="search-criterion">
+<span id="index-28"></span><span id="id2"></span><h2>Search Criterion<a class="headerlink" href="query_api.html#search-criterion" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="index-29"></span><p id="index-30">The following can be specified for each criterion:</p>
+<p><strong>dimension</strong></p>
+<blockquote>
+<div><p>Dimension to use.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-31"></span><span class="target" id="index-32"></span><p id="index-33">The following can be specified if the dimension includes nested <tt class="docutils literal"><span class="pre">element</span></tt> tags.</p>
+<p><strong>id</strong></p>
+<blockquote>
+<div><p>Single dimension element id or array of element ids for the dimension nodes you want to match against.</p>
+<p>Note: Not applicable to <strong>text</strong> type dimensions.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">any</span></tt> or <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">any</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-34"></span><span class="target" id="index-35"></span><p id="index-36"><strong>notId</strong></p>
+<blockquote>
+<div><p>Single id or array of ids for the dimension nodes you do not want to
+match against.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">any</span></tt> or <tt class="docutils literal"><span class="pre">array</span></tt> of any</p>
+</div></blockquote>
+<span class="target" id="index-37"></span><p id="index-38"><strong>value</strong></p>
+<blockquote>
+<div><p>Single value or array of values where the values can be strings, numbers, date/times or ranges
+of either.</p>
+<p>When the value or range includes a time value, then the <em>time</em> value must be
+formatted using the same format as specified in the <a class="reference internal" href="../dimensions/types.html#time-dimension"><em>Time Type (Scalar)</em></a>
+dimension declaration.</p>
+<p>Ranges for <strong>integer</strong>, <strong>double</strong> and <strong>time</strong> type dimensions can be
+specified using <a class="reference internal" href="../reference/interval_notation.html#interval-notation"><em>Interval Notation</em></a>.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt>, <tt class="docutils literal"><span class="pre">int</span></tt>, <tt class="docutils literal"><span class="pre">double</span></tt>, <tt class="docutils literal"><span class="pre">formatted</span> <span class="pre">date/time</span> <span class="pre">string</span></tt>, <tt class="docutils literal"><span class="pre">string</span></tt> or array of any</p>
+</div></blockquote>
+<span class="target" id="index-39"></span><p id="index-40"><strong>notValue</strong></p>
+<blockquote>
+<div><p>Single value or array of values that should be <em>excluded</em> from the criterion. Items
+will be culled from the query results.</p>
+<p>Type: depends on the data type of the dimension</p>
+</div></blockquote>
+<span class="target" id="index-41"></span><p id="index-42"><strong>weight</strong></p>
+<blockquote>
+<div><p>Optional weight to apply to this criterion during the scoring phase. Setting
+a lower weight makes this criterion less important.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt></p>
+<p>Constraints: must be in the range <cite>[0,1]</cite></p>
+<p>Default: <tt class="docutils literal"><span class="pre">1.0</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-43"></span><p id="index-44"><strong>cull</strong></p>
+<blockquote>
+<div><p>Explicitly remove items from the result set that have no relevance under
+this dimension.</p>
+<p>For <strong>integer</strong>, <strong>double</strong> and <strong>time</strong> type dimensions, note that culling on
+these dimensions is performed on <tt class="docutils literal"><span class="pre">min</span></tt> and <tt class="docutils literal"><span class="pre">max</span></tt>, not on <tt class="docutils literal"><span class="pre">value</span></tt>.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+<p>Default: false for <em>tree</em>, <em>keyword</em> and <em>text</em> dimensions, true for all
+others.</p>
+</div></blockquote>
+<span class="target" id="index-45"></span><span class="target" id="index-46"></span><span class="target" id="index-47"></span><span class="target" id="index-48"></span><span class="target" id="index-49"></span><span class="target" id="index-50"></span><span class="target" id="index-51"></span><p id="index-52"><strong>searchStyle</strong></p>
+<blockquote>
+<div><p>For <strong>keyword</strong> and <strong>text</strong> dimensions this key determines the style of search to perform.
+The values are <tt class="docutils literal"><span class="pre">startsWith</span></tt>, <tt class="docutils literal"><span class="pre">lastWordStartsWith</span></tt>  or <tt class="docutils literal"><span class="pre">exact</span></tt>.</p>
+<p>For <strong>text</strong> type dimensions, <tt class="docutils literal"><span class="pre">startsWith</span></tt> applies to any analyzed word in a query.
+<tt class="docutils literal"><span class="pre">lastWordStartsWith</span></tt> only applies starts with logic to the last word in a multi-word
+query when using the word query parser.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>Values: <tt class="docutils literal"><span class="pre">exact</span></tt>, <tt class="docutils literal"><span class="pre">startsWith</span></tt>, <tt class="docutils literal"><span class="pre">lastWordStartsWith</span></tt> (text type only)</p>
+<p>Default: <tt class="docutils literal"><span class="pre">exact</span></tt></p>
+<blockquote>
+<div><p><strong>searchStyle types</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="81%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>exact</strong></td>
+<td>Applies text analysis rules but does not perform &#8220;starts with&#8221; searches.</td>
+</tr>
+<tr class="row-odd"><td><strong>startsWith</strong></td>
+<td>Searches every analyzed term using &#8220;starts with&#8221;</td>
+</tr>
+<tr class="row-even"><td><strong>lastWordStartsWith</strong></td>
+<td>Only performs &#8220;starts with&#8221; searches for the last word of the query. Text type dimensions only.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div></blockquote>
+<span class="target" id="index-53"></span><p id="index-54">Sample criterion:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="s2">&quot;criteria&quot;</span><span class="o">:</span>
+<span class="p">[</span>
+    <span class="p">{</span>
+    <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;state_name&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;New&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;searchStyle&quot;</span><span class="o">:</span> <span class="s2">&quot;startsWith&quot;</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<span class="target" id="index-55"></span><span class="target" id="index-56"></span><p id="index-57"><strong>minStartsWithLength</strong></p>
+<blockquote>
+<div><p>Minimum length of value that will be used when searchStyle is startsWith.
+For <strong>text</strong> type dimensions, this setting avoids costly searches for any
+word starting with less than the specified value</p>
+<p>Type: <tt class="docutils literal"><span class="pre">int</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">3</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-58"></span><span class="target" id="index-59"></span><p id="index-60"><strong>exactRequires</strong></p>
+<blockquote>
+<div><p>When an array of values in a query, this key allows you to determine what
+constitutes an exact match.</p>
+<p>When <tt class="docutils literal"><span class="pre">exactRequires</span></tt> is <tt class="docutils literal"><span class="pre">all</span></tt>, then all values must be found in order for the item
+to be considered an exact match, otherwise, any match to any value will be determine
+if the item is exact or not.</p>
+<p>Note: <strong>Text</strong> type dimensions also support exactRequires, however the feature applies
+to the number of term matches in a phrase.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>Values: <tt class="docutils literal"><span class="pre">any</span></tt> | <tt class="docutils literal"><span class="pre">all</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">any</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-61"></span><p id="index-62"><strong>exactMatch</strong></p>
+<blockquote>
+<div><p>This criterion field affects whether a result is considered an exact match or not.
+Typically you&#8217;d set this to <cite>true</cite> to cause the engine to ignore this criterion
+when it comes to the exact match calculation.</p>
+<p>When used as part of a nested query, setting <tt class="docutils literal"><span class="pre">exactMatch</span></tt> to <tt class="docutils literal"><span class="pre">false</span></tt> means
+that the nested criterion should participate in relevance calculations but should
+never be considered an exact match.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+<p>Default: not set</p>
+<p>Warning: Setting this to false will cause all records to be considered
+<em>not</em> exact matches.</p>
+</div></blockquote>
+<span class="target" id="index-63"></span><p id="index-64"><strong>nullExactMatch</strong></p>
+<blockquote>
+<div><p>Setting this field causes records that don&#8217;t have a valid value under this
+dimension to be left in the result set. The value of this field determines
+whether these records should be considered an exact match for this criterion
+only. i.e. Setting this to <cite>true</cite> will only cause a record with no valid
+value for this dimension to be considered an exact match if it is also
+considered an exact match for all other dimensions. Setting it to false will
+cause that record to not be an exact match, regardless of the other
+criterion.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+<p>Default: not set</p>
+</div></blockquote>
+<span class="target" id="index-65"></span><span class="target" id="index-66"></span><span class="target" id="index-67"></span><p id="index-68"><strong>exactRelevance</strong></p>
+<blockquote>
+<div><p>Determines the relevance score override to apply to any exact matches for this
+criterion. This field is often used in combination with <tt class="docutils literal"><span class="pre">fuzzyRelevance</span></tt> and
+<tt class="docutils literal"><span class="pre">nullRelevance</span></tt>.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt></p>
+<p>Default: use built-in relevance algorithms</p>
+<p>Sample criterion:</p>
+</div></blockquote>
+<div class="highlight-javascript"><pre>"criteria":
+[
+    {
+        "dimension": "genre",
+        "id": "drama",
+        "maxSiblingHops: 1,
+        "cull": true,
+        "exactRelevance": 1.0
+    }
+]</pre>
+</div>
+<span class="target" id="index-69"></span><p id="index-70"><strong>fuzzyRelevance</strong></p>
+<blockquote>
+<div><p>Determines the relevance score override to apply to any fuzzy (not-exact) matches for this
+criterion. This field is often used in combination with <tt class="docutils literal"><span class="pre">exactRelevance</span></tt>  and
+<tt class="docutils literal"><span class="pre">nullRelevance</span></tt>.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt></p>
+<p>Default: use built-in relevance algorithms</p>
+<p>Sample criterion:</p>
+</div></blockquote>
+<div class="highlight-javascript"><pre>"criteria":
+[
+    {
+        "dimension": "genre",
+        "id": "drama",
+        "maxSiblingHops: 1,
+        "cull": true,
+        "exactRelevance": 1.0,
+        "fuzzyRelevance": 0.5
+    }
+]</pre>
+</div>
+<span class="target" id="index-71"></span><p id="index-72"><strong>nullRelevance</strong></p>
+<blockquote>
+<div><p>Setting this field causes records that don&#8217;t have a valid value under this
+dimension to be left in the result set. The value of this field determines
+what the calculated relevance score for these records should be for this
+criterion.</p>
+<p>This field is often used in combination with <tt class="docutils literal"><span class="pre">exactRelevance</span></tt>  and
+<tt class="docutils literal"><span class="pre">fuzzyRelevance</span></tt>.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt></p>
+<p>Default: not set</p>
+<p>Sample criterion:</p>
+</div></blockquote>
+<div class="highlight-javascript"><pre>"criteria":
+[
+    {
+        "dimension": "gender",
+        "value": "M",
+        "weight: 0.5,
+        "cull": false,
+        "exactMatch": true,
+        "nullExactMatch": true,
+        "exactRelevance": 1.0,
+        "fuzzyRelevance": 0.5,
+        "nullRelevance": 0.25
+    }
+]</pre>
+</div>
+<span class="target" id="index-73"></span><span class="target" id="index-74"></span><p id="index-75"><strong>didYouMean</strong></p>
+<blockquote>
+<div><p>Disables or configures Did You Mean processing for the criterion. Did You Mean? is automatically
+enabled if the dimension has been defined with the <tt class="docutils literal"><span class="pre">didYouMean</span></tt> attribute. To disable, set <tt class="docutils literal"><span class="pre">didYouMean</span></tt> to
+<tt class="docutils literal"><span class="pre">false.</span></tt>. To configure the Did You Mean feature, create a dictionary as defined in <a class="reference internal" href="query_api.html#get-didyoumean"><em>DidYouMean Criterion</em></a>.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt> or <tt class="docutils literal"><span class="pre">dictionary</span></tt></p>
+<p>Default: Defaults to the value of the <tt class="docutils literal"><span class="pre">didYouMean</span></tt> attribute of the text dimension
+for the criterion.</p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.9.</span></p>
+</div></blockquote>
+</div></blockquote>
+<div class="section" id="integer-double-time">
+<h3>integer, double, time<a class="headerlink" href="query_api.html#integer-double-time" title="Permalink to this headline">¶</a></h3>
+<p>The following can be specified if the dimension is an int, double or time.</p>
+<span class="target" id="index-76"></span><p id="index-77"><strong>max</strong></p>
+<blockquote>
+<div><p>Items with values above have a relevance of 0.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">int</span></tt> or <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-78"></span><p id="index-79"><strong>maxInclusive</strong></p>
+<blockquote>
+<div><p>Makes max inclusive when true (default), otherwise makes it exclusive.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-80"></span><p id="index-81"><strong>min</strong></p>
+<blockquote>
+<div><p>Minimum value. Items with values below have a relevance of 0.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">int</span></tt> or <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-82"></span><p id="index-83"><strong>minInclusive</strong></p>
+<blockquote>
+<div><p>Makes min inclusive when true (default), otherwise makes it exclusive.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">int</span></tt> or <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-84"></span><p id="index-85"><strong>exactDistance</strong></p>
+<blockquote>
+<div><p>Distance from the target value within which an item is considered an exact match.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-86"></span><p id="index-87"><strong>normalDistance</strong></p>
+<blockquote>
+<div><p>Distance from the target value beyond which relevance is 0.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-88"></span><p id="index-89"><strong>cullDistance</strong></p>
+<blockquote>
+<div><p>Distance from the target value beyond which the item is culled.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-90"></span><span class="target" id="index-91"></span><p id="index-92">Sample criterion:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="s2">&quot;criteria&quot;</span><span class="o">:</span>
+<span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;birth_year&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;min&quot;</span><span class="o">:</span> <span class="mi">1945</span><span class="p">,</span>
+        <span class="s2">&quot;max&quot;</span><span class="o">:</span> <span class="mi">2010</span><span class="p">,</span>
+        <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;[,2010]&quot;</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+
+<span class="nx">Birthdate</span> <span class="nx">is</span> <span class="nx">a</span> <span class="nx">time</span> <span class="nx">dimension</span> <span class="nx">defined</span> <span class="nx">as</span> <span class="nx">follows</span>
+</pre></div>
+</div>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;dimension</span> <span class="na">id=</span><span class="s">&quot;birthdate&quot;</span> <span class="na">type=</span><span class="s">&quot;time&quot;</span> <span class="na">format=</span><span class="s">&quot;yyyy-MM-dd&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="s2">&quot;criteria&quot;</span><span class="o">:</span>
+<span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;birthdate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;min&quot;</span><span class="o">:</span> <span class="s2">&quot;1945-01-01&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;max&quot;</span><span class="o">:</span> <span class="s2">&quot;1960-12-01&quot;</span>
+        <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;[\&quot;1955-06-30\&quot;,\&quot;1959-08-31\&quot;]&quot;</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="geoloc">
+<span id="id3"></span><h3>geoloc<a class="headerlink" href="query_api.html#geoloc" title="Permalink to this headline">¶</a></h3>
+<p>The following can be specified if the dimension is geoloc. In general, if you use
+<tt class="docutils literal"><span class="pre">latitude</span></tt> and <tt class="docutils literal"><span class="pre">longitude</span></tt>, then you are searching using a radius around
+that point. Alternatively, you can specify one or more polygon shapes that
+define the boundaries of the search.</p>
+<span class="target" id="index-93"></span><p id="index-94">See <a class="reference internal" href="query_examples.html#geoloc-examples"><em>Querying geoloc dimensions</em></a></p>
+<p><strong>latitude</strong></p>
+<blockquote>
+<div><p>Latitude of the position.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-95"></span><p id="index-96"><strong>longitude</strong></p>
+<blockquote>
+<div><p>Longitude of the position.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</div></blockquote>
+<p>Sample criterion with a coordinate:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="s2">&quot;criteria&quot;</span><span class="o">:</span>
+<span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;location&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;latitude&quot;</span><span class="o">:</span> <span class="mf">41.3433</span><span class="p">,</span>
+    <span class="s2">&quot;longitude&quot;</span><span class="o">:</span> <span class="o">-</span><span class="mf">165.9899</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<span class="target" id="index-97"></span><p id="index-98"><strong>isoRelevanceDistance</strong></p>
+<blockquote>
+<div><p>When scoring matches against a specific point on the map, by default, the engine
+will only score a match perfectly if the searched for and item coordinates match
+exactly. As the item coordinates diverge from the searched point, their relevance
+will be less than 1.0 where the end result is that no two items will have the same
+relevance.</p>
+<p>Using <cite>exactDistance</cite> will score all matches within the distance equally; however
+a side effect of this option is that items nearest the center will not necessarily
+appear as relevant, particularly when there are more items in the response than
+fit on the current page.</p>
+<p><cite>isoRelevanceDistance</cite> allows for the creation of distances from the target
+(the point identified with <cite>latitude</cite> and <cite>longitude</cite>) in which the relevance
+is equal. The distances are expressed in <cite>distanceUnit</cite> units.</p>
+<p>For example, defining a <cite>isoRelevanceDistance [0.5, 5, 10, 20]</cite> would mean that
+the relevances of each item would be calculated by assuming
+a point at each isoRelevanceDistance and using that relevance for any points
+within the applicable relevance distance.  Concretely, an item that is 7 miles
+away from the target would be assigned a relevance value as if it were just 5
+miles away (the best score for that range).</p>
+<p>The score of the first element of the list defaults to 1.0. To change the maximum
+relevance, use the existing <cite>exactRelevance</cite> query criterion key.</p>
+<p>The default target is determined by <cite>latitude</cite> and <cite>longitude</cite>.</p>
+<p>Note: This setting only affects the relevance of a match. It has no impact on
+the exact or fuzzy status.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt> or <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</div></blockquote>
+<p>Sample criterion with a coordinate:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="s2">&quot;criteria&quot;</span><span class="o">:</span>
+<span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;location&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;latitude&quot;</span><span class="o">:</span> <span class="mf">41.3433</span><span class="p">,</span>
+    <span class="s2">&quot;longitude&quot;</span><span class="o">:</span> <span class="o">-</span><span class="mf">165.9899</span><span class="p">,</span>
+    <span class="s2">&quot;distanceUnit&quot;</span><span class="o">:</span> <span class="s2">&quot;miles&quot;</span>
+    <span class="s2">&quot;isoRelevanceDistance&quot;</span><span class="o">:</span> <span class="p">[</span><span class="mf">0.25</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<span class="target" id="index-99"></span><span class="target" id="index-100"></span><span class="target" id="index-101"></span><span class="target" id="index-102"></span><p id="index-103"><strong>shapes</strong></p>
+<blockquote>
+<div><p>The shapes criteria that specify which polygons/shapes to use for
+matching. Shapes can be used in place of specifying a single point using
+<tt class="docutils literal"><span class="pre">latitude</span></tt> and <tt class="docutils literal"><span class="pre">longitude</span></tt>.</p>
+<p>The coordinates for non-point shapes are presented using two parallel arrays, one
+for latitude and one for longitude. The <em>n</em> th element of each array is combined
+to create the coordinate, e.g. latLng1 = new Point(latitude[0], longitude[0]),
+latLng2 = new Point(latitude[1], longitude[2]), etc.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of polygon criteria</p>
+<p>See: <a class="reference internal" href="query_api.html#geo-polygons"><em>Geographic Polygons</em></a> for a detailed description of the polygon shapes
+API.</p>
+</div></blockquote>
+<p>Sample criterion with shapes:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="s2">&quot;criteria&quot;</span><span class="o">:</span>
+<span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;location&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;shapes&quot;</span><span class="o">:</span>
+      <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="s2">&quot;latitude&quot;</span><span class="o">:</span>  <span class="p">[</span><span class="mf">34.7899</span><span class="p">,</span>     <span class="mf">45.6766</span><span class="p">,</span>  <span class="mf">33.6444</span><span class="p">,</span>  <span class="mf">44.5565</span><span class="p">],</span>
+          <span class="s2">&quot;longitude&quot;</span><span class="o">:</span> <span class="p">[</span><span class="mf">112.34566</span><span class="p">,</span> <span class="mf">112.24566</span><span class="p">,</span> <span class="mf">112.5677</span><span class="p">,</span> <span class="mf">112.5689</span><span class="p">]</span>
+        <span class="p">}</span>
+      <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<span class="target" id="index-104"></span><p id="index-105"><strong>zipcode</strong></p>
+<blockquote>
+<div><p>Zip code of the position. The engine contain a small lookup table that will
+convert zip code to latitude/longitude for US zip codes only.</p>
+<p>It doesn&#8217;t make sense to set latitude, longitude and zip code. If all three
+are set then latitude and longitude take precedence and zipcode is ignored.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-106"></span><p id="index-107"><strong>exactDistance</strong></p>
+<blockquote>
+<div><p>Distance from (longitude, latitude) within which an item is considered an exact match.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-108"></span><p id="index-109"><strong>normalDistance</strong></p>
+<blockquote>
+<div><p>Distance from (longitude, latitude) beyond which relevance is 0.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-110"></span><p id="index-111"><strong>cullDistance</strong></p>
+<blockquote>
+<div><p>Distance from (longitude, latitude) beyond which the item is culled.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-112"></span><span class="target" id="index-113"></span><p id="index-114"><strong>distanceUnit</strong></p>
+<blockquote>
+<div><p>Determines the distance unit used for <tt class="docutils literal"><span class="pre">exactDistance</span></tt>, <tt class="docutils literal"><span class="pre">normalDistance</span></tt>
+and <tt class="docutils literal"><span class="pre">cullDistance</span></tt>.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>Values: <tt class="docutils literal"><span class="pre">miles</span></tt> | <tt class="docutils literal"><span class="pre">km</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">miles</span></tt></p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.8.4.</span></p>
+</div></blockquote>
+</div></blockquote>
+<span class="target" id="index-115"></span><p id="index-116"><strong>maxMiles</strong></p>
+<blockquote>
+<div><p><cite>Deprecated</cite>. Override value for normalDistance and cullDistance. When this field is &gt;= 0
+then any values for normalDistance or cullDistance are replaced by this value
+when determining relevance.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt></p>
+<p>Units: miles</p>
+<span class="target" id="index-117"></span><span class="target" id="index-118"></span><p id="index-119">Sample criterion:</p>
+</div></blockquote>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="s2">&quot;criteria&quot;</span><span class="o">:</span>
+<span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;location&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;latitude&quot;</span><span class="o">:</span> <span class="mf">41.3433</span><span class="p">,</span>
+        <span class="s2">&quot;longitude&quot;</span><span class="o">:</span> <span class="o">-</span><span class="mf">165.9899</span><span class="p">,</span>
+        <span class="s2">&quot;exactDistance&quot;</span><span class="o">:</span> <span class="mi">30</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<span class="target" id="index-120"></span></div>
+<div class="section" id="builtin">
+<span id="index-121"></span><h3>builtin<a class="headerlink" href="query_api.html#builtin" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="index-122"></span><p id="index-123">The following can be specified in order to return random relevance values to the
+query results.</p>
+<p><strong>random</strong></p>
+<blockquote>
+<div><p>This value creates random relevances.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-124"></span><p id="index-125"><strong>seed</strong></p>
+<blockquote>
+<div><p>The seed to use to create the random sequence. This parameter is optional; however to
+make paginating result sets consistent, seed should be specified.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-126"></span><p id="index-127"><strong>minRelevance</strong></p>
+<blockquote>
+<div><p>Used to specify the minimum relevance value to generate.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-128"></span><p id="index-129"><strong>maxRelevance</strong></p>
+<blockquote>
+<div><p>Used to specify the maximum relevance value to generate.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</div></blockquote>
+<p>Sample usage:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;builtin&quot;</span><span class="o">:</span> <span class="s2">&quot;random&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;seed&quot;</span><span class="o">:</span> <span class="mi">123456789</span><span class="p">,</span>
+  <span class="s2">&quot;minRelevance&quot;</span><span class="o">:</span> <span class="mf">0.0</span><span class="p">,</span>
+  <span class="s2">&quot;maxRelevance&quot;</span><span class="o">:</span> <span class="mf">1.0</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="text">
+<span id="query-parser"></span><h3>text<a class="headerlink" href="query_api.html#text" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="index-130"></span><p id="index-131">The following can be specified if the dimension is text.</p>
+<p><strong>value</strong></p>
+<blockquote>
+<div><p>Single query string or array of query strings.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt> or array of <tt class="docutils literal"><span class="pre">string</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-132"></span><span class="target" id="index-133"></span><p id="index-134"><strong>exactRequires</strong></p>
+<blockquote>
+<div><p>When using the <tt class="docutils literal"><span class="pre">word</span></tt> query parser, this option allows the exact match flag
+to be set based upon how many words in the query match an item.</p>
+<p>When <tt class="docutils literal"><span class="pre">exactRequires</span></tt> is <tt class="docutils literal"><span class="pre">all</span></tt>, then all analyzed terms must be found in order for the item
+to be considered an exact match.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>Values: <tt class="docutils literal"><span class="pre">any</span></tt> | <tt class="docutils literal"><span class="pre">all</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">any</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-135"></span><span class="target" id="index-136"></span><p id="index-137"><strong>ignoreFieldLength</strong></p>
+<blockquote>
+<div><p>If this parameter is <cite>true</cite>, then matches against the dimension (or field)
+will not be made less relevant as the text length of the field increases. The default behavior
+will automatically reduce relevance of matches as the field length increases.</p>
+<p>Note: <tt class="docutils literal"><span class="pre">ignoreFieldLength</span></tt> will only have effect if the dimension (or field) was
+created with the ignoreFieldLength attribute set to <tt class="docutils literal"><span class="pre">true</span></tt>. Using this query parameter requires
+that the dimension be correctly configured.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">false</span></tt></p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.8.2.</span></p>
+</div></blockquote>
+</div></blockquote>
+<span class="target" id="index-138"></span><span class="target" id="index-139"></span><p id="index-140"><strong>ignoreInverseDocumentFrequency</strong></p>
+<blockquote>
+<div><p>If this parameter is <cite>true</cite>, then matches against the dimension (or field)
+will not be boosted because the matched search terms are infrequent amongst
+the values of the entire text dimension. The default behavior
+will automatically boost relevance of matches just because of their uniqueness
+amongst the entire set of values in the dimension index.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+</div></blockquote>
+<p>Default <tt class="docutils literal"><span class="pre">false</span></tt> for releases &lt; 3.7</p>
+<p>Default <tt class="docutils literal"><span class="pre">true</span></tt> for releases &gt;= 3.7</p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.8.2.</span></p>
+</div></blockquote>
+<span class="target" id="index-141"></span><span class="target" id="index-142"></span><p id="index-143">Sample criterion:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="s2">&quot;criteria&quot;</span><span class="o">:</span>
+<span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;full_text&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;mandolin&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;searchStyle&quot;</span><span class="o">:</span> <span class="s2">&quot;startsWith&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;minStartsWithLength&quot;</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">&quot;expandPhrases&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="s2">&quot;ignoreFieldLength&quot;</span><span class="o">:</span> <span class="kc">true</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<span class="target" id="index-144"></span><p id="index-145">The following can be specified if the dimension is text.</p>
+<p><strong>fields</strong></p>
+<blockquote>
+<div><p>Determines the field ids to be searched. By default, every field of a text
+dimension criteria are searched equally.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt> or array of <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>Default: all fields</p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.8.1.</span></p>
+</div></blockquote>
+</div></blockquote>
+<span class="target" id="index-146"></span><span class="target" id="index-147"></span><span class="target" id="index-148"></span><p id="index-149"><strong>fieldBoosts</strong></p>
+<blockquote>
+<div><p>Determines the relevance boosts to be applied to matches for the specified fields.
+Field boosts are used as multipliers against the internal relevance calculation.
+See: <a class="reference internal" href="query_api.html#fieldboosts"><em>Field Boosts</em></a>.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">dictionary</span></tt></p>
+<p>Default: No fields are boosted.</p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.8.1.</span></p>
+</div></blockquote>
+</div></blockquote>
+<span class="target" id="index-150"></span><span class="target" id="index-151"></span><p id="index-152">Sample criterion:</p>
+<div class="highlight-javascript"><pre>"criteria":
+[
+    {
+        "dimension": "description",
+        "value": "dec",
+        "searchStyle": "startsWith",
+        "fields": "title,keywords",
+        "fieldBoosts":
+        {
+            "title": 1.5,
+            "keywords": 1.0
+        }
+    }
+]</pre>
+</div>
+<span class="target" id="index-153"></span><span class="target" id="index-154"></span><span class="target" id="index-155"></span></div>
+<div class="section" id="field-boosts">
+<span id="fieldboosts"></span><span id="index-156"></span><h3>Field Boosts<a class="headerlink" href="query_api.html#field-boosts" title="Permalink to this headline">¶</a></h3>
+<p>The following can be specified for fieldBoosts.</p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.8.1.</span></p>
+</div></blockquote>
+<span class="target" id="index-157"></span><span class="target" id="index-158"></span><p id="index-159"><strong>field</strong></p>
+<blockquote>
+<div><p>Determines the field match to boost. Replace <tt class="docutils literal"><span class="pre">field</span></tt> with the id of a field
+in the text dimension in the enclosing criterion.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-160"></span><span class="target" id="index-161"></span><p id="index-162"><strong>boost</strong></p>
+<blockquote>
+<div><p>Determines the boost value. Boost values cannot be negative but are not required to
+be whole numbers, e.g. valid values might be 0.5, 1, 20, 100.5.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt></p>
+<p>Default: 1.0</p>
+</div></blockquote>
+<span class="target" id="index-163"></span><p id="index-164">Sample fieldBoosts:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;title&quot;</span><span class="o">:</span> <span class="mf">10.5</span><span class="p">,</span>
+  <span class="s2">&quot;body&quot;</span><span class="o">:</span> <span class="mf">0.5</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<span class="target" id="index-165"></span><span class="target" id="index-166"></span></div>
+</div>
+<div class="section" id="nested-queries">
+<span id="index-167"></span><span id="id4"></span><h2>Nested Queries<a class="headerlink" href="query_api.html#nested-queries" title="Permalink to this headline">¶</a></h2>
+<p>Nested queries are useful in grouping search criterion together such that the
+matches against the criterion in the group are considered as a whole when applied
+to the rest of the other top-level search criteria. A nested query can replace
+an individual search criterion in a top-level query request.</p>
+<p>When nesting search criterion in a nested query, the operator included in the
+nested query criterion determines how each nested criterion relates to the other.
+Only one operator can be used at one time for a nested query.</p>
+<span class="target" id="index-168"></span><p id="index-169">The overall score that the nested query contributes to the top-level query
+score depends on the <tt class="docutils literal"><span class="pre">operator</span></tt> specified.</p>
+<p><strong>criteria</strong></p>
+<blockquote>
+<div><p>The criteria defines the criterion to include in the nested query.</p>
+<p>Refer to <a class="reference internal" href="query_api.html#search-criterion"><em>Search Criterion</em></a> for a detailed description of how to
+create a top-level query criteria.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of search criteria</p>
+</div></blockquote>
+<p><strong>operator</strong></p>
+<blockquote>
+<div><p>The operator to use between each query criteria in the nested query.</p>
+<p>The valid values are <tt class="docutils literal"><span class="pre">or</span></tt> and <tt class="docutils literal"><span class="pre">and</span></tt>. When using <tt class="docutils literal"><span class="pre">or</span></tt>, then if ANY of the
+criteria in the nested query are exact matches, the entire nested query is considered
+an exact match when scored with the parent query.</p>
+<p>When using <tt class="docutils literal"><span class="pre">and</span></tt>, then only if ALL of the criteria in the nested query are exact
+matches, is the nested query considered an exact match when scored with the parent query.</p>
+<p>Relevance scoring of a nested query depends on the operator used. When <tt class="docutils literal"><span class="pre">or</span></tt> is
+specified, the score of the best-matched nested search criterion is used.
+When <tt class="docutils literal"><span class="pre">and</span></tt> is specified, the sum (average) of the relevance scores
+from each nested query criterion is used.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+</div></blockquote>
+<p id="index-170">Sample nested query:</p>
+<p>In this example, the query would be read as follows:</p>
+<p>find all items where</p>
+<div class="highlight-text"><div class="highlight"><pre>Paid=1
+AND Beds=2
+AND (
+      City_ID = 111714-60
+    OR
+    (
+      Location.latitude = 37.040028
+      AND
+      Location.longitude = -76.360235
+    )
+  )
+AND (
+      Zip = 11174
+      AND
+      Neighborhood = Chelsea
+    )
+</pre></div>
+</div>
+<p>In JSON notation...</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s2">&quot;startIndex&quot;</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;pageSize&quot;</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">&quot;criteria&quot;</span><span class="o">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;Paid&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;weight&quot;</span><span class="o">:</span> <span class="mi">1</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;Beds&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="s2">&quot;weight&quot;</span><span class="o">:</span> <span class="mi">1</span>
+        <span class="p">},</span>
+</pre></div>
+</div>
+<p>Nested query starts here in which ANY criterion may be met</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s2">&quot;operator&quot;</span><span class="o">:</span> <span class="s2">&quot;or&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;criteria&quot;</span><span class="o">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;City_Id&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;111714-60&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;cull&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="s2">&quot;weight&quot;</span><span class="o">:</span> <span class="mi">1</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;Location&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;latitude&quot;</span><span class="o">:</span> <span class="mf">37.040028</span><span class="p">,</span>
+            <span class="s2">&quot;longitude&quot;</span><span class="o">:</span> <span class="o">-</span><span class="mf">76.360235</span><span class="p">,</span>
+            <span class="s2">&quot;cullDistance&quot;</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
+            <span class="s2">&quot;exactMatch&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="s2">&quot;weight&quot;</span><span class="o">:</span> <span class="mi">1</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">},</span>
+</pre></div>
+</div>
+<p>Another nested query starts here in which BOTH criterion must be met</p>
+<div class="highlight-javascript"><div class="highlight"><pre>        <span class="p">{</span>
+            <span class="s2">&quot;operator&quot;</span><span class="o">:</span> <span class="s2">&quot;and&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;criteria&quot;</span><span class="o">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;Zip&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;11174&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;weight&quot;</span><span class="o">:</span> <span class="mi">1</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;Neighborhood&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;Chelsea&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;exactMatch&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+                    <span class="s2">&quot;weight&quot;</span><span class="o">:</span> <span class="mi">1</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<span class="target" id="index-171"></span><span class="target" id="index-172"></span></div>
+<div class="section" id="facets-criterion">
+<span id="index-173"></span><span id="id5"></span><h2>Facets Criterion<a class="headerlink" href="query_api.html#facets-criterion" title="Permalink to this headline">¶</a></h2>
+<p>The facets criterion determines which facet count values and data are returned in the
+query response. Its primary use is for faceted or guided navigation.</p>
+<p id="index-174">The key is a user-defined value that specifies the tag to use to identify
+in the response which facets data applies to which facets request. This allows
+for creating multiple facet count requests over the same dimension. The key specified
+in the calculate will appear in the query response.</p>
+<p>For a description of the facets response format, refer to <a class="reference internal" href="query_response.html#facets-response"><em>facets Response</em></a>.</p>
+<p>The following fields can be specified in the dictionary:</p>
+<span class="target" id="index-175"></span><p id="index-176"><strong>dimension</strong></p>
+<blockquote>
+<div><p>The dimension to use for the facet counts. If this field is omitted, then the
+dimension name is assumed to be the same as they key name.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>Default: The name of the key.</p>
+</div></blockquote>
+<span class="target" id="index-177"></span><p id="index-178"><strong>navigable</strong></p>
+<blockquote>
+<div><p>For tree type dimensions, determines whether automatic node navigation is applied.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">true</span></tt>.</p>
+</div></blockquote>
+<span class="target" id="index-179"></span><p id="index-180"><strong>depth</strong></p>
+<blockquote>
+<div><p>How many levels of children to include. Also works with <tt class="docutils literal"><span class="pre">rootId</span></tt>.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">integer</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">1</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-181"></span><span class="target" id="index-182"></span><span class="target" id="index-183"></span><p id="index-184"><strong>rootId</strong></p>
+<blockquote>
+<div><p>When provided, the <tt class="docutils literal"><span class="pre">rootId</span></tt> will be used as the root node rather
+than the true root node of the tree.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>Default: empty string (the tree&#8217;s true root)</p>
+</div></blockquote>
+<span class="target" id="index-185"></span><p id="index-186"><strong>dataIds</strong></p>
+<blockquote>
+<div><p>Determines the dimension element ids for which facet data should be returned
+independent from the data requested in any related criteria. The ids listed
+here do not impact navigation or selections.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>Default: empty array (none).</p>
+</div></blockquote>
+<span class="target" id="index-187"></span><p id="index-188"><strong>navChildIds</strong></p>
+<blockquote>
+<div><p>Determines which ids appear in the childIds that may not have been in the childIds
+list.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>Values: <tt class="docutils literal"><span class="pre">remove</span></tt>, <tt class="docutils literal"><span class="pre">inplace</span></tt>, <tt class="docutils literal"><span class="pre">begin</span></tt> and <tt class="docutils literal"><span class="pre">end</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">inplace</span></tt></p>
+<p><strong>navChildIds types</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="81%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>remove</strong></td>
+<td>Never include select or whose children are select in childIds response key.</td>
+</tr>
+<tr class="row-odd"><td><strong>inplace</strong></td>
+<td>Include in the childIds but maintain the specified sort order and TopN setting.</td>
+</tr>
+<tr class="row-even"><td><strong>begin</strong></td>
+<td>Include the childIds but at the beginning of the list.</td>
+</tr>
+<tr class="row-odd"><td><strong>end</strong></td>
+<td>Include the childIds but at the end of the list.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<span class="target" id="index-189"></span><p id="index-190"><strong>countType</strong></p>
+<blockquote>
+<div><p>Determines which type of count should be returned in the response. There are basically
+two types of counts: those that are calculated to include the dimension&#8217;s query criterion
+and those that do not. For all counts, any query criterion for other dimensions are <em>always</em>
+applied such that the counts reflect the result set after those criteria have been applied.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>Values: <tt class="docutils literal"><span class="pre">exact</span></tt>, <tt class="docutils literal"><span class="pre">exactDim</span></tt>, <tt class="docutils literal"><span class="pre">fuzzy</span></tt>, <tt class="docutils literal"><span class="pre">fuzzyDim</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">exact</span></tt></p>
+<p><strong>Count types</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>exact</strong></td>
+<td>The exact counts for the dimension.</td>
+</tr>
+<tr class="row-odd"><td><strong>fuzzy</strong></td>
+<td>The fuzzy counts for the dimension.</td>
+</tr>
+<tr class="row-even"><td><strong>exactdim</strong></td>
+<td>Same as exact except that the counts include other criteria against the same dimension.</td>
+</tr>
+<tr class="row-odd"><td><strong>fuzzydim</strong></td>
+<td>Same as fuzzy except that the counts include other criteria against the same dimension.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<span class="target" id="index-191"></span><p id="index-192"><strong>sortBy</strong></p>
+<blockquote>
+<div><p>Determines how the order in which the counts should be returned.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>Values: <tt class="docutils literal"><span class="pre">countAsc</span></tt>, <tt class="docutils literal"><span class="pre">countDesc</span></tt>, <tt class="docutils literal"><span class="pre">declaredAsc</span></tt>, <tt class="docutils literal"><span class="pre">declaredDesc</span></tt>,
+<tt class="docutils literal"><span class="pre">idAsc</span></tt>, <tt class="docutils literal"><span class="pre">idDesc</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">countDesc</span></tt></p>
+<p><strong>sortBy types</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>countAsc</strong></td>
+<td>The results are returned order by count ascending</td>
+</tr>
+<tr class="row-odd"><td><strong>countDesc</strong></td>
+<td>The results are returned order by count descending</td>
+</tr>
+<tr class="row-even"><td><strong>idAsc</strong></td>
+<td>Ascending order of the id/value of the dimension element/property value.</td>
+</tr>
+<tr class="row-odd"><td><strong>idDesc</strong></td>
+<td>Descending order of the id/value of the dimension element/property value.</td>
+</tr>
+<tr class="row-even"><td><strong>declaredAsc</strong></td>
+<td>Results returned in the order that the elements were declared in dimensions.xml.</td>
+</tr>
+<tr class="row-odd"><td><strong>declaredDesc</strong></td>
+<td>Results returned in the reverse order that the elements were declared in dimensions.xml.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<span class="target" id="index-193"></span><p id="index-194"><strong>minCount</strong></p>
+<blockquote>
+<div><p>The value to use to filter the counts such that only counts with value equal to
+or greater than the value will be returned. For example, to only return non-zero
+counts, minCount should be 1.</p>
+<p>Applies only to childIds lists, not navigableIds.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">integer</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">0</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-195"></span><p id="index-196"><strong>topN</strong></p>
+<blockquote>
+<div><p>The value to use to limit the number of counts returned such that only the
+facets with the greatest counts are returned. For example, to return the
+top 5 facet counts in descending count order, topN should be 5.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">integer</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">100</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-197"></span><p id="index-198"><strong>includeLabel</strong></p>
+<blockquote>
+<div><p>Determines if the name attribute value of the dimension element should be returned.
+The name attribute can be used to create labels in the UI.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">true</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-199"></span><p id="index-200"><strong>includeBounds</strong></p>
+<blockquote>
+<div><p>When this option is enabled against scalar type dimensions, the response
+will include bounds information related to the items in the identified buckets.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">false</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-201"></span><p id="index-202">Sample criterion:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;facets&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;category&quot;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;minCount&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+          <span class="s2">&quot;toN&quot;</span><span class="o">:</span> <span class="mi">20</span>
+      <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<span class="target" id="index-203"></span><span class="target" id="index-204"></span></div>
+<div class="section" id="drilldown-criterion">
+<span id="index-205"></span><span id="id6"></span><h2>Drilldown Criterion<a class="headerlink" href="query_api.html#drilldown-criterion" title="Permalink to this headline">¶</a></h2>
+<p>This is a deprecated API that is replaced by the facets top-level request.</p>
+<p>The following can be specified for each facets criterion. Note that facets
+have a cost query time. It is recommended to calculate
+facet counts only for values that are pertinent to the application.</p>
+<p>For a description of the facets response format, refer to <a class="reference internal" href="query_response.html#drilldown-response"><em>drillDown</em></a>.</p>
+<span class="target" id="index-206"></span><p id="index-207">See also <a class="reference internal" href="query_examples.html#drilldown-examples"><em>Querying with drill down counts</em></a>.</p>
+<p><strong>dimension</strong></p>
+<blockquote>
+<div><p>The dimension over which we want drilldown information.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-208"></span><p id="index-209"><strong>ids</strong></p>
+<blockquote>
+<div><p>Ids of dimension elements we want drilldown information for. If this value
+is not set then all immediate children of the dimension specifed dimension
+ids will be used.</p>
+<p>Type: array of <tt class="docutils literal"><span class="pre">string</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-210"></span><p id="index-211"><strong>depth</strong></p>
+<blockquote>
+<div><p>How many levels of children to include.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">integer</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">0</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-212"></span><p id="index-213"><strong>isolated</strong></p>
+<blockquote>
+<div><p>Whether to isolate the drilldown counts for this criterion from the main
+search. Practically, this means that if the search contains a criterion over
+the same dimension then the counts for anything not selected won&#8217;t all be
+zero.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">true</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-214"></span><p id="index-215">Sample criterion:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;category&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;ids&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<span class="target" id="index-216"></span><span class="target" id="index-217"></span><span class="target" id="index-218"></span></div>
+<div class="section" id="geographic-polygons">
+<span id="geo-polygons"></span><span id="index-219"></span><h2>Geographic Polygons<a class="headerlink" href="query_api.html#geographic-polygons" title="Permalink to this headline">¶</a></h2>
+<p>Geographic polygons are useful to create shapes on maps in which to automatically
+match. Instead of using a distance from a point on a map, polygons can identify
+points inside or outside of the polygon and correctly score matches differently
+if the match falls outside of the polygon.</p>
+<p>The query API supports multiple polygons. Each polygon shape is defined by matching
+arrays of latitude and longitude points.</p>
+<p>The coordinates for non-point shapes are presented using two parallel arrays, one
+for latitude and one for longitude. The <em>n</em> th element of each array is combined
+to create the coordinate, e.g. latLng1 = new Point(latitude[0], longitude[0]),
+latLng2 = new Point(latitude[1], longitude[2]), etc.</p>
+<span class="target" id="index-220"></span><p id="index-221">Refer to the section on <a class="reference internal" href="query_api.html#geoloc"><em>geoloc</em></a> query criteria for more information on other
+options related to geographical searches.</p>
+<p><strong>latitude</strong></p>
+<blockquote>
+<div><p>The latitudes of a polygon.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-222"></span><p id="index-223"><strong>longitude</strong></p>
+<blockquote>
+<div><p>The longitudes of a polygon.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">array</span></tt> of <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-224"></span><p id="index-225">Sample criterion:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="s2">&quot;criteria&quot;</span><span class="o">:</span>
+<span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;location&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;shapes&quot;</span><span class="o">:</span>
+      <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="s2">&quot;latitude&quot;</span><span class="o">:</span>  <span class="p">[</span><span class="mf">34.7899</span><span class="p">,</span>     <span class="mf">45.6766</span><span class="p">,</span>  <span class="mf">33.6444</span><span class="p">,</span>  <span class="mf">44.5565</span><span class="p">],</span>
+          <span class="s2">&quot;longitude&quot;</span><span class="o">:</span> <span class="p">[</span><span class="mf">112.34566</span><span class="p">,</span> <span class="mf">112.24566</span><span class="p">,</span> <span class="mf">112.5677</span><span class="p">,</span> <span class="mf">112.5689</span><span class="p">]</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="s2">&quot;latitude&quot;</span><span class="o">:</span>  <span class="p">[</span><span class="mf">45.7899</span><span class="p">,</span>     <span class="mf">44.6766</span><span class="p">,</span>  <span class="mf">44.6444</span><span class="p">,</span>  <span class="mf">45.5565</span><span class="p">],</span>
+          <span class="s2">&quot;longitude&quot;</span><span class="o">:</span> <span class="p">[</span><span class="mf">112.34566</span><span class="p">,</span> <span class="mf">112.24566</span><span class="p">,</span> <span class="mf">112.5677</span><span class="p">,</span> <span class="mf">112.5689</span><span class="p">]</span>
+        <span class="p">}</span>
+      <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="highlighting-criterion">
+<span id="get-highlighting"></span><span id="index-226"></span><h2>Highlighting Criterion<a class="headerlink" href="query_api.html#highlighting-criterion" title="Permalink to this headline">¶</a></h2>
+<p>The highlighting criterion specifies how to apply highlighting to matches
+against <em>tree</em>, <em>text</em> dimensions. The criterion works along with the <em>properties</em>
+top-level request field in that highlighted results will be applied to the
+requested property values when returned in the query response.</p>
+<p>If you only want to return highlighted values for specific changeset properties
+then you should specify the properties to return using the <em>properties</em> crtierion.
+If no <em>properties</em> were specified, then all properties for the matched items
+will be returned with highlighting only applied to those properties that matched
+the text dimension search criterion.</p>
+<p>The highlighting response is integrated with the properties response unless
+the request includes the <tt class="docutils literal"><span class="pre">merge</span></tt> field with value <tt class="docutils literal"><span class="pre">none</span></tt>. When <tt class="docutils literal"><span class="pre">merge</span></tt> is
+set to &#8220;none&#8221;, the response will include a highlighting field that includes
+only the properties that were actually highlighted. For a
+description of the properties response, refer to <a class="reference internal" href="query_response.html#properties-response"><em>Properties</em></a>.
+For a description of the highlighting response, refer to
+<a class="reference internal" href="query_response.html#highlighting-response"><em>Highlighting</em></a>.</p>
+<p>Highlighting of text type dimensions is done inline with the output,
+effectively adding marker text around the match. Text type highlighting can be configured
+by specifying a template that determines formatting such as HTML.</p>
+<span class="target" id="index-227"></span><p id="index-228">The following fields can be specified:</p>
+<p><strong>fragmentType</strong></p>
+<blockquote>
+<div><p>The engine&#8217;s highlighter can return the full changeset property value with
+highlighting applied or it can return fragments of the original text. Fragments
+are useful when using highlighted results from long text blocks in a search
+results display where screen real estate is limited.</p>
+<p>Value <em>none</em> indicates to not return fragments but apply highlighting to the
+original property value. Value <em>best</em> indicates to return the best fragments that
+matched the query. When using <em>best</em>, the <em>maxFragments</em>, <em>delimiter</em> and
+<em>fragmentSize</em> determine how the fragments are composed.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>Values: <tt class="docutils literal"><span class="pre">none</span></tt> | <tt class="docutils literal"><span class="pre">best</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">none</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-229"></span><p id="index-230"><strong>template</strong></p>
+<blockquote>
+<div><p>The formatting to apply around highlighted words and phrases. The template consists
+of pre- and post tag strings.</p>
+<p>Type: array of <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>Default: [ &#8220;&lt;b&gt;&#8221;, &#8220;&lt;/b&gt;&#8221;]</p>
+</div></blockquote>
+<span class="target" id="index-231"></span><p id="index-232"><strong>maxFragments</strong></p>
+<blockquote>
+<div><p>The maximum number of fragments to return. This field only applies
+if the highlighting criteria specifies <tt class="docutils literal"><span class="pre">fragmentType</span></tt> is <tt class="docutils literal"><span class="pre">best</span></tt>.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">integer</span></tt></p>
+<p>Default: 10 fragments</p>
+</div></blockquote>
+<span class="target" id="index-233"></span><p id="index-234"><strong>fragmentSize</strong></p>
+<blockquote>
+<div><p>The number of characters to return in each fragment. This field only applies
+if the highlighting criteria specifies <tt class="docutils literal"><span class="pre">fragmentType</span></tt> is <tt class="docutils literal"><span class="pre">best</span></tt>.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">integer</span></tt></p>
+<p>Default: 100 characters</p>
+</div></blockquote>
+<span class="target" id="index-235"></span><p id="index-236"><strong>delimiter</strong></p>
+<blockquote>
+<div><p>The string used to connect fragments to each other, if more than one fragment
+is found.  This field only applies if the highlighting criteria specifies
+<tt class="docutils literal"><span class="pre">fragmentType</span></tt> is <tt class="docutils literal"><span class="pre">best</span></tt>.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">...</span></tt> (elipsis)</p>
+</div></blockquote>
+<span class="target" id="index-237"></span><p id="index-238"><strong>merge</strong></p>
+<blockquote>
+<div><p>The highlighted properties are normally returned in the properties response. To
+return just the highlighted properties, use the <tt class="docutils literal"><span class="pre">merge</span></tt> field.</p>
+<p>Value <tt class="docutils literal"><span class="pre">none</span></tt> indicates to return the highlighed properties in the highlighting
+response. Only the properties that were actually highlighted will be included.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>Values: <tt class="docutils literal"><span class="pre">none</span></tt> | <tt class="docutils literal"><span class="pre">properties</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">properties</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-239"></span><p id="index-240"><strong>excludeDimensions</strong></p>
+<blockquote>
+<div><p>When highlighting is enabled, all candidate dimension types used in the query
+will be included in the highlighting response if there was something to highlight.</p>
+<p>To exclude one or more dimensions from the highlighting process, use this attribute.
+The values should be one or more dimension ids.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt> or  array of <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>Default: all dimensions are included</p>
+</div></blockquote>
+<p id="index-241">Sample query:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;startIndex&quot;</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s2">&quot;pageSize&quot;</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="s2">&quot;highlighting&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;fragmentType&quot;</span><span class="o">:</span> <span class="s2">&quot;best&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;maxFragments&quot;</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="s2">&quot;delimiter&quot;</span><span class="o">:</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;template&quot;</span><span class="o">:</span> <span class="p">[</span> <span class="s2">&quot;&lt;b&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&lt;/b&gt;&quot;</span> <span class="p">],</span>
+    <span class="s2">&quot;fragmentSize&quot;</span><span class="o">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;excludeDimensions&quot;</span><span class="o">:</span> <span class="s2">&quot;job_title&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;criteria&quot;</span><span class="o">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;fulltext&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;Tom Jones&quot;</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="didyoumean-criterion">
+<span id="get-didyoumean"></span><span id="index-242"></span><h2>DidYouMean Criterion<a class="headerlink" href="query_api.html#didyoumean-criterion" title="Permalink to this headline">¶</a></h2>
+<p>The didYouMean criterion specifies how to apply didYouMean to the enclosing
+search criterion against <em>text</em> dimensions.</p>
+<p>For a description of the didYouMean response, refer to <a class="reference internal" href="query_response.html#didyoumean-response"><em>DidYouMean</em></a>.</p>
+<span class="target" id="index-243"></span><span class="target" id="index-244"></span><span class="target" id="index-245"></span><span class="target" id="index-246"></span><span class="target" id="index-247"></span><p id="index-248">The following fields can be specified:</p>
+<p><strong>distanceAlgorithm</strong></p>
+<blockquote>
+<div><p>The Did You Mean processor can be customized to use generally recognized word distance
+algorithms to determine word similarities and mispellings.</p>
+<p>For more information on the various word distance algorithms, refer to these
+URLs.</p>
+<blockquote>
+<div><p><a class="reference external" href="http://en.wikipedia.org/wiki/Levenshtein_distance">http://en.wikipedia.org/wiki/Levenshtein_distance</a></p>
+<p><a class="reference external" href="http://en.wikipedia.org/wiki/Jaro">http://en.wikipedia.org/wiki/Jaro</a>–Winkler_distance</p>
+<p><a class="reference external" href="http://en.wikipedia.org/wiki/Ngram">http://en.wikipedia.org/wiki/Ngram</a></p>
+</div></blockquote>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>Values: <tt class="docutils literal"><span class="pre">levenshtein</span></tt> | <tt class="docutils literal"><span class="pre">bigram</span></tt> | <tt class="docutils literal"><span class="pre">trigram</span></tt> | <tt class="docutils literal"><span class="pre">jarowinkler</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">levenshtein</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-249"></span><p id="index-250"><strong>morePopular</strong></p>
+<blockquote>
+<div><p>Indicates that suggestions should be ranked using more popular (relevant) terms
+that have been indexed.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">true</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-251"></span><p id="index-252"><strong>maxSuggestions</strong></p>
+<blockquote>
+<div><p>The maximum number of query suggestions to return. There is a limit of 20 suggestions.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">integer</span></tt></p>
+<p>Default: 5 suggestions</p>
+</div></blockquote>
+<span class="target" id="index-253"></span><p id="index-254"><strong>userValue</strong></p>
+<blockquote>
+<div><p>By default, the Did You Mean? process will use the <tt class="docutils literal"><span class="pre">value</span></tt> field of the enclosing
+search criterion to use to suggest alternative queries. If the <tt class="docutils literal"><span class="pre">value</span></tt> is computed
+from the original user&#8217;s query text, then the original query text can be placed in
+this field.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-255"></span><p id="index-256"><strong>highlighting</strong></p>
+<blockquote>
+<div><p>The highlighting criteria that specify what type of highlighting to perform
+on the search terms that were replaced with suggestions. To disable highlighting,
+set this field to <tt class="docutils literal"><span class="pre">false</span></tt>.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt> or <tt class="docutils literal"><span class="pre">dictionary</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">false</span></tt></p>
+<p>See: <a class="reference internal" href="query_api.html#get-didyoumean-highlighting"><em>Did You Mean? Highlighting Criterion</em></a> for a description of the highlighting request
+API for Did You Mean?</p>
+</div></blockquote>
+<span class="target" id="index-257"></span><p id="index-258"><strong>escapeHtml</strong></p>
+<blockquote>
+<div><p>Sanitizes input from a user by stripping out HTML that poses a security
+vulnerability, namely: &#8220;&lt;&#8221; becomes &#8220;&amp;lt;&#8221;, &#8220;&gt;&#8221; becomes &#8220;&amp;gt;&#8221; and &#8220;&amp;&#8221; becomes
+&#8220;&amp;amp;&#8221;.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">dictionary</span></tt></p>
+<p>See: <a class="reference internal" href="query_api.html#get-didyoumean-highlighting"><em>Did You Mean? Highlighting Criterion</em></a> for a description of the highlighting request
+API for Did You Mean?</p>
+</div></blockquote>
+<p id="index-259">Sample query:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;startIndex&quot;</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s2">&quot;pageSize&quot;</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="s2">&quot;criteria&quot;</span><span class="o">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;fulltext&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;Tom Jones&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;maxSuggestions&quot;</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="s2">&quot;didYouMean&quot;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;morePopular&quot;</span><span class="o">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;highlighting&quot;</span><span class="o">:</span> <span class="p">{</span>
+              <span class="s2">&quot;template&quot;</span><span class="o">:</span> <span class="p">[</span> <span class="s2">&quot;&lt;i&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&lt;/i&gt;&quot;</span> <span class="p">],</span>
+          <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="did-you-mean-highlighting-criterion">
+<span id="get-didyoumean-highlighting"></span><span id="index-260"></span><h2>Did You Mean? Highlighting Criterion<a class="headerlink" href="query_api.html#did-you-mean-highlighting-criterion" title="Permalink to this headline">¶</a></h2>
+<p>The highlighting criterion for Did You Mean? specifies how to format highlighting
+to the suggested terms in a user&#8217;s query..</p>
+<span class="target" id="index-261"></span><p id="index-262"><strong>template</strong></p>
+<blockquote>
+<div><p>The formatting to apply around highlighted query words. The template consists
+of pre- and post tag strings.</p>
+<p>Type: array of <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>Default: [ &#8220;&lt;b&gt;&#8221;, &#8220;&lt;/b&gt;&#8221;]</p>
+</div></blockquote>
+</div>
+<div class="section" id="indexvalues-criterion">
+<span id="dimension-indexvalues"></span><span id="index-263"></span><h2>indexValues Criterion<a class="headerlink" href="query_api.html#indexvalues-criterion" title="Permalink to this headline">¶</a></h2>
+<p>The indexValues criterion determines the dimensions whose indexed values should be
+returned as part of the query response. Each dimension must be requested in its own dictionary.
+Multiple dimension requests are specified by requesting an array of dimension dictionaries.</p>
+<p>For a description of the indexValues response, refer to <a class="reference internal" href="query_response.html#indexvalues-response"><em>Index Values</em></a>.</p>
+<dl class="docutils">
+<dt><strong>Note</strong>:</dt>
+<dd>Only tree, mutex, ordered, keyword, integer, double, time, geoloc, text
+type dimensions are currently supported.</dd>
+</dl>
+<span class="target" id="index-264"></span><p id="index-265">The following fields can be specified in the dimension dictionary:</p>
+<p><strong>dimension</strong></p>
+<blockquote>
+<div><p>The id of a dimension for which the indexed values are requested.</p>
+<p>Type: string or array of string.</p>
+</div></blockquote>
+<span class="target" id="index-266"></span><p id="index-267"><strong>hitDetection</strong></p>
+<blockquote>
+<div><p>Determines whether or not match hit detection is enabled.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt>.</p>
+<p>Default: <tt class="docutils literal"><span class="pre">false</span></tt>.</p>
+</div></blockquote>
+<span class="target" id="index-268"></span><p id="index-269"><strong>includeLabel</strong></p>
+<blockquote>
+<div><p>Determines whether or not the value of the dimension element <tt class="docutils literal"><span class="pre">name</span></tt>
+attribute is returned as well as the <tt class="docutils literal"><span class="pre">id</span></tt>. This feature makes it possible
+to translate coded values to readable forms for use in the UI.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt>.</p>
+<p>Default: <tt class="docutils literal"><span class="pre">false</span></tt>.</p>
+</div></blockquote>
+<p>Sample query:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;indexValues&quot;</span><span class="o">:</span> <span class="p">[</span>
+     <span class="p">{</span>
+       <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;genres&quot;</span><span class="p">,</span>
+       <span class="s2">&quot;hitDetection&quot;</span><span class="o">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
+       <span class="s2">&quot;includeLabel&quot;</span><span class="o">:</span> <span class="s2">&quot;true&quot;</span>
+     <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="calculate-criterion">
+<span id="calculate-request"></span><span id="index-270"></span><h2>Calculate Criterion<a class="headerlink" href="query_api.html#calculate-criterion" title="Permalink to this headline">¶</a></h2>
+<p>The calculate criterion determines which calculated values are returned in the
+query response.</p>
+<p>For a description of the calculate response, refer to <a class="reference internal" href="query_response.html#calculate-response"><em>Calculate</em></a>.</p>
+<span class="target" id="index-271"></span><p id="index-272">The key is a user-defined value that identifies the tag to use in the query
+response. The key specified in the calculate will appear in the query response.</p>
+<p>The following fields can be specified in the user-defined key dictionary:</p>
+<p><strong>method</strong></p>
+<blockquote>
+<div><p>The name of the calculation method. Only value <tt class="docutils literal"><span class="pre">distance</span></tt> is currently supported.
+Distance supports calculated values for each item in the query result.</p>
+<p>Type: string.</p>
+<p>Values: <tt class="docutils literal"><span class="pre">distance</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-273"></span><p id="index-274"><strong>dimension</strong></p>
+<blockquote>
+<div><p>The dimension to use whose values contain the item&#8217;s location, e.g. latitude and
+longitude.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-275"></span><span class="target" id="index-276"></span><p id="index-277"><strong>distanceUnit</strong></p>
+<blockquote>
+<div><p>The unit of distance to use when creating the distance values.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>Values: <tt class="docutils literal"><span class="pre">miles</span></tt> | <tt class="docutils literal"><span class="pre">km</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-278"></span><p id="index-279"><strong>longitude</strong></p>
+<blockquote>
+<div><p>The longitude of the point against which to calculate the distance.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt> or array of <tt class="docutils literal"><span class="pre">double</span></tt>.</p>
+</div></blockquote>
+<span class="target" id="index-280"></span><p id="index-281"><strong>latitude</strong></p>
+<blockquote>
+<div><p>The latitude of the point against which to calculate the distance.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt> or array of <tt class="docutils literal"><span class="pre">double</span></tt>.</p>
+</div></blockquote>
+<p>Sample query:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;calculate&quot;</span><span class="o">:</span>
+     <span class="p">{</span>
+       <span class="s2">&quot;distanceFromSchool&quot;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;method&quot;</span><span class="o">:</span> <span class="s2">&quot;distance&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;house_location_geoloc&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;distanceUnit&quot;</span><span class="o">:</span> <span class="s2">&quot;km&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;longitude&quot;</span><span class="o">:</span> <span class="s2">&quot;-70.3&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;latitude&quot;</span><span class="o">:</span> <span class="s2">&quot;43.455&quot;</span>
+     <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="values-criterion">
+<span id="dimension-values"></span><span id="index-282"></span><h2>Values Criterion<a class="headerlink" href="query_api.html#values-criterion" title="Permalink to this headline">¶</a></h2>
+<p>The values criterion determines the dimensions whose indexed values should be
+returned as part of the query response. If the id of at least one dimension appears
+in this parameter, then the response will include an array of indexed values for
+the specified dimension. The array of values is in the same order as the query
+result item ID array.</p>
+<p><strong>Note</strong>: Text dimension values are not returned.</p>
+<span class="target" id="index-283"></span><p id="index-284">The following fields can be specified:</p>
+<p><strong>dimension</strong></p>
+<blockquote>
+<div><p>The id of one or more dimensions for which the indexed values are requested.</p>
+<p>Type: string or array of string.</p>
+</div></blockquote>
+<p>For a description of the values response, refer to <a class="reference internal" href="query_response.html#values-response"><em>Values</em></a>.</p>
+<p>Sample query:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;values&quot;</span><span class="o">:</span> <span class="p">[</span>
+    <span class="s2">&quot;genres&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ethnicity&quot;</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sort-by-criterion">
+<span id="sort-by"></span><span id="index-285"></span><h2>Sort By Criterion<a class="headerlink" href="query_api.html#sort-by-criterion" title="Permalink to this headline">¶</a></h2>
+<p>The system uses the following logic to determine the default sort order for search results:</p>
+<ul class="simple">
+<li>Exact matches before fuzzy matches</li>
+<li>Descending order of relevance</li>
+<li>Ascending order of item-id using alphanumeric ordering</li>
+</ul>
+<p>To change the sort order in any way, include one or more sortBy criterion in the query request.</p>
+<span class="target" id="index-286"></span><span class="target" id="index-287"></span><span class="target" id="index-288"></span><span class="target" id="index-289"></span><span class="target" id="index-290"></span><p id="index-291">The order in which sortBy criterion appear is significant. For a single
+sortBy criterion, either <tt class="docutils literal"><span class="pre">builtin</span></tt> or <tt class="docutils literal"><span class="pre">dimension</span></tt> must minimally be specified.</p>
+<p><strong>builtin</strong></p>
+<blockquote>
+<div><p>The type of builtin dynamic value to use for the sort.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>Values: <tt class="docutils literal"><span class="pre">exactMatch</span></tt>, <tt class="docutils literal"><span class="pre">relevance</span></tt>, <tt class="docutils literal"><span class="pre">id</span></tt> or <tt class="docutils literal"><span class="pre">random</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-292"></span><span class="target" id="index-293"></span><span class="target" id="index-294"></span><p id="index-295"><strong>dimension</strong></p>
+<blockquote>
+<div><p>The dimension whose value we want to use for a sort. Text
+dimensions may not be specified.</p>
+<p>If the dimension is a geoloc dimension
+then the sorting will be based on distance from the point specified by
+the additional <tt class="docutils literal"><span class="pre">latitude</span></tt> and <tt class="docutils literal"><span class="pre">longitude</span></tt> fields described below.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-296"></span><p id="index-297"><strong>latitude</strong></p>
+<blockquote>
+<div><p>If a geoloc <tt class="docutils literal"><span class="pre">dimension</span></tt> is used, then this parameter specifies to use the latitude
+value of geo point from which to compare the item results and sort by distance. The
+longitude of the point is specified using``longitude``.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-298"></span><p id="index-299"><strong>longitude</strong></p>
+<blockquote>
+<div><p>If a geoloc <tt class="docutils literal"><span class="pre">dimension</span></tt> is used, then this parameter specifies to use the longitude
+value of geo point from which to compare the item results and sort by distance. The
+latitude of the point is specified using``latitude``.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-300"></span><span class="target" id="index-301"></span><p id="index-302"><strong>distanceUnit</strong></p>
+<blockquote>
+<div><p>Determines the distance unit used when displaying the explain distances
+used to order the results. Refer to <a class="reference internal" href="query_api.html#query-explain"><em>Explain</em></a> for more information.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>Values: <tt class="docutils literal"><span class="pre">miles</span></tt> | <tt class="docutils literal"><span class="pre">km</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">miles</span></tt></p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.8.4.</span></p>
+</div></blockquote>
+</div></blockquote>
+<span class="target" id="index-303"></span><p id="index-304"><strong>reverse</strong></p>
+<blockquote>
+<div><p>Each <tt class="docutils literal"><span class="pre">builtin</span></tt> sort has a default sort direction: ascending or descending. To
+reverse the default sort direction, set this parameter to true. All default sort directions are
+ascending with the exception of <tt class="docutils literal"><span class="pre">exactMatch</span></tt> (from Exact to Fuzzy) and <tt class="docutils literal"><span class="pre">relevance</span></tt>
+(descending).</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-305"></span><p id="index-306"><strong>seed</strong></p>
+<blockquote>
+<div><p>If builtin is <tt class="docutils literal"><span class="pre">random</span></tt>, then the seed is used to create the random sequence. This parameter is optional; however to
+make paginating result sets consistent, <tt class="docutils literal"><span class="pre">seed</span></tt> should be specified.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-307"></span><p id="index-308"><strong>minRelevance</strong></p>
+<blockquote>
+<div><p>If builtin <tt class="docutils literal"><span class="pre">random</span></tt>, then this specifies the minimum relevance value to generate for the sort</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-309"></span><p id="index-310"><strong>maxRelevance</strong></p>
+<blockquote>
+<div><p>If builtin <tt class="docutils literal"><span class="pre">random</span></tt>, then this specifies the maximum relevance value to generate for the sort</p>
+<p>Type: <tt class="docutils literal"><span class="pre">double</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-311"></span><p id="index-312">NOTE: Builtin type <tt class="docutils literal"><span class="pre">random</span></tt> in combination with top-level parameter <tt class="docutils literal"><span class="pre">exactRelevance</span></tt> can be used to set a relevance
+score for all exact matches in the query. This combines well with the random index so that you could randomize exact
+matches only (as they&#8217;d all have the same relevance) but order close matches by relevance using just one query.</p>
+<p id="index-313">For example:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;startIndex&quot;</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s2">&quot;pageSize&quot;</span><span class="o">:</span> <span class="mi">20</span><span class="p">,</span>
+  <span class="s2">&quot;exactRelevance&quot;</span><span class="o">:</span> <span class="mf">1.0</span><span class="p">,</span>
+  <span class="s2">&quot;sortBy&quot;</span><span class="o">:</span>
+    <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="s2">&quot;builtin&quot;</span><span class="o">:</span> <span class="s2">&quot;random&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;seed&quot;</span><span class="o">:</span> <span class="mi">123456789</span><span class="p">,</span>
+          <span class="s2">&quot;minRelevance&quot;</span><span class="o">:</span> <span class="mf">0.0</span><span class="p">,</span>
+          <span class="s2">&quot;maxRelevance&quot;</span><span class="o">:</span> <span class="mf">1.0</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<span class="target" id="index-314"></span></div>
+<div class="section" id="group-by-criterion">
+<span id="group-by"></span><span id="index-315"></span><h2>Group By Criterion<a class="headerlink" href="query_api.html#group-by-criterion" title="Permalink to this headline">¶</a></h2>
+<p>The system uses the following logic to determine special groupings for search results:</p>
+<p>To use a groupBy dimension, create a dimension on the values that will be used
+in a groupBy query. When the engine executes the query, it will group the results
+by the values in the associated groupBy dimension id/value.</p>
+<p>For a description of the groupBy response, refer to <a class="reference internal" href="query_response.html#groups-response"><em>Groups</em></a>.</p>
+<blockquote>
+<div>See also:  <a class="reference internal" href="../dimensions/types.html#group-by-dimension"><em>Group By Type</em></a>.</div></blockquote>
+<span class="target" id="index-316"></span><p id="index-317"><strong>dimension</strong></p>
+<blockquote>
+<div><p>The groupBy type dimension whose value we want to use for the grouping.
+Text dimensions may not be specified.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-318"></span><p id="index-319"><strong>topN</strong></p>
+<blockquote>
+<div><p>Determines that the top N values of the groupBy dimension should be presented
+in descending order. Specifying a value of <tt class="docutils literal"><span class="pre">0</span></tt> will not return any topN group-related
+information (properties, highlihting, indexValues).</p>
+<p>Type: <tt class="docutils literal"><span class="pre">int</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">1</span></tt></p>
+</div></blockquote>
+<span class="target" id="index-320"></span><p id="index-321"><strong>properties</strong></p>
+<blockquote>
+<div><p>Setting this field with one or more changeset property ids causes the engine
+to return the associated stored property values for the named properties <em>for
+the topN items in each groupBy group</em>. The format and behavior of this field is the same
+as for the top-level request.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">string</span></tt> or array of <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>Default: no properties returned.</p>
+<p>The properties response is nested in the groups response dictionary.
+For a description of the properties response, refer to <a class="reference internal" href="query_response.html#properties-response"><em>Properties</em></a>.</p>
+</div></blockquote>
+<span class="target" id="index-322"></span><p id="index-323"><strong>highlighting</strong></p>
+<blockquote>
+<div><p>The highlighting criteria that specify what type of highlighting to perform
+and the changeset properties to return with highlighting applied <em>for
+the topN items in each groupBy group</em>. The format and behavior of this field is the same
+as for the top-level request.</p>
+<p>See: <a class="reference internal" href="query_api.html#get-highlighting"><em>Highlighting Criterion</em></a> for a description of the highlighting request
+API.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">dictionary</span></tt></p>
+<p>The highlighting response is nested in the groups response dictionary.  For a
+description of the <cite>highlighting</cite> response, refer to <a class="reference internal" href="query_response.html#highlighting-response"><em>Highlighting</em></a>.</p>
+</div></blockquote>
+<span class="target" id="index-324"></span><p id="index-325"><strong>indexValues</strong></p>
+<blockquote>
+<div><p>Setting this field with one or more dimension ids causes the engine to return
+the associated new-form indexed values for the specified dimensions  <em>for
+the topN items in each groupBy group</em>. The index values are
+returned in a dictionary with keys for each requested dimension id. The value of the
+key contains the relevant index values data. The format and behavior of this field is the same
+as for the top-level request.</p>
+<p>Type: array of <tt class="docutils literal"><span class="pre">dictionary</span></tt></p>
+<p>See: <a class="reference internal" href="query_api.html#dimension-indexvalues"><em>indexValues Criterion</em></a> for a description of the indexValues request
+API.</p>
+<p>The indexValue response is nested in the groups response dictionary.
+For a description of the indexValues response, refer to <a class="reference internal" href="query_response.html#indexvalues-response"><em>Index Values</em></a>.</p>
+</div></blockquote>
+<span class="target" id="index-326"></span><span class="target" id="index-327"></span><p id="index-328"><strong>legacyGroupBy</strong></p>
+<blockquote>
+<div><p>Determines whether the response should be returned in a pre-version 3.0 format
+or not.</p>
+<p>Type: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+<p>Default: <tt class="docutils literal"><span class="pre">false</span></tt></p>
+</div></blockquote>
+<p id="index-329">For example:</p>
+<div class="highlight-javascript"><div class="highlight"><pre>  <span class="p">{</span>
+    <span class="s2">&quot;criteria&quot;</span><span class="o">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;price&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="mi">3</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;groupBy&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;shape-group&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;pageSize&quot;</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">&quot;startIndex&quot;</span><span class="o">:</span> <span class="mi">0</span>
+  <span class="p">}</span>
+
+<span class="nx">or</span>
+
+  <span class="p">{</span>
+    <span class="s2">&quot;criteria&quot;</span><span class="o">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;price&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="mi">3</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;groupBy&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;shape-group&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;topN&quot;</span><span class="o">:</span> <span class="mi">3</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;pageSize&quot;</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">&quot;startIndex&quot;</span><span class="o">:</span> <span class="mi">0</span>
+  <span class="p">}</span>
+</pre></div>
+</div>
+<span class="target" id="index-330"></span></div>
+<div class="section" id="explain">
+<span id="query-explain"></span><span id="index-331"></span><h2>Explain<a class="headerlink" href="query_api.html#explain" title="Permalink to this headline">¶</a></h2>
+<p>Returns information about the contribution of each request criteria as it pertains
+to the entire query. The response returned by <tt class="docutils literal"><span class="pre">explain</span></tt> can be very long. For
+convenience, similar types of explain information can be requested using a
+composite value or a comma-delimited list of explain directives
+specifying which information to return.</p>
+<p><strong>Transparensee Systems reserves the right to alter or remove this API in any way
+and at any time in the future. It provides this feature soley for debugging purposes.</strong></p>
+<p>For a description of the explain response format, refer to <a class="reference internal" href="query_response.html#explain-response"><em>Explain</em></a>.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="66%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Composite Directive</th>
+<th class="head">Purpose</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">all</span></tt></td>
+<td>All available explanations</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">time</span></tt></td>
+<td>All available execution times</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">none</span></tt></td>
+<td>No explanations at all</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">default-2.4</span></tt></td>
+<td>Default explanations for engine version 2.4</td>
+</tr>
+</tbody>
+</table>
+<p>Default: <tt class="docutils literal"><span class="pre">none</span></tt></p>
+<p>To cherry-pick which explanations to return, create a space or comma-delimited
+string using one or more of the following case-insensitive explain directives:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="66%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Explain Directive</th>
+<th class="head">Purpose</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">queryTime</span></tt></td>
+<td>Execution time in milliseconds</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">propertiesTime</span></tt></td>
+<td>Execution time to fetch changeset properties</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">highlightTime</span></tt></td>
+<td>Execution time to highlight property values</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">criterionType</span></tt></td>
+<td>Type of dimension</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">criterionValue</span></tt></td>
+<td>Dimension name and value(s) used</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">criterionInput</span></tt></td>
+<td>Original request criterion</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">drillDown</span></tt></td>
+<td>Drilldown contribution</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">cullSize</span></tt></td>
+<td>Count of items remaining after culling</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">cullTime</span></tt></td>
+<td>Execution time taken to cull in milliseconds</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">relevanceSize</span></tt></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">relevanceTime</span></tt></td>
+<td>Time it elapse to determine relevance</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">partialRelevances</span></tt></td>
+<td>Relevance values for criterion</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">relevanceReasons</span></tt></td>
+<td>Detailed relevance values for text matches</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">textTokens</span></tt></td>
+<td>Tokens used for searching a text dimension</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">sortBy</span></tt></td>
+<td>Order and values used to sort the results</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">cost</span></tt></td>
+<td>Internal indication of cost</td>
+</tr>
+</tbody>
+</table>
+<p>To return all explanations:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;startIndex&quot;</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s2">&quot;pageSize&quot;</span><span class="o">:</span> <span class="mi">20</span><span class="p">,</span>
+  <span class="s2">&quot;explain&quot;</span><span class="o">:</span> <span class="s2">&quot;all&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>To cherry-pick explanations:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;explain&quot;</span><span class="o">:</span> <span class="s2">&quot;queryTime,partialRelevances&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>To include all and cherry-pick what to remove, place a “-” before the parameter:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;explain&quot;</span><span class="o">:</span> <span class="s2">&quot;all -time&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;explain&quot;</span><span class="o">:</span> <span class="s2">&quot;all -time&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="render-parameters">
+<span id="index-332"></span><span id="id7"></span><h2>Render Parameters<a class="headerlink" href="query_api.html#render-parameters" title="Permalink to this headline">¶</a></h2>
+<p class="versionadded">
+<span class="versionmodified">New in version 2.6.17.</span></p>
+<p>If set as a boolean then this either enables or disables the output
+of render parameters in the results. Passing in an empty dictionary
+has the same effect as true.</p>
+<p>renderParmeters is used primarily for integration with the Transparensee
+jQuery widget suite.</p>
+<p>For a description of the renderParameters response format, refer to <a class="reference internal" href="query_response.html#render-parameters-response"><em>renderParmeters</em></a>.</p>
+<span class="target" id="index-333"></span><p id="index-334">The following fields can be specified:</p>
+<p><strong>itemIdsDelimiter</strong></p>
+<blockquote>
+<div><p>The delimiter to use when concatenating the <em>itemIds</em> from the response
+into the <em>itemIds</em> URL query parameter value.</p>
+<p>Type: string</p>
+<p>Default: space</p>
+</div></blockquote>
+<p>Sample queries:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;renderParameters&quot;</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;renderParameters&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;itemIdsDelimiter&quot;</span><span class="o">:</span> <span class="s2">&quot;,&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>For a description of the renderParameters response, refer to
+<a class="reference internal" href="query_response.html#render-parameters-response"><em>renderParmeters</em></a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="query_api.html#">Overview</a><ul>
+<li><a class="reference internal" href="query_api.html#json">JSON</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="query_api.html#query-request">Query Request</a><ul>
+<li><a class="reference internal" href="query_api.html#top-level-request-fields">Top Level Request Fields</a></li>
+<li><a class="reference internal" href="query_api.html#search-criterion">Search Criterion</a><ul>
+<li><a class="reference internal" href="query_api.html#integer-double-time">integer, double, time</a></li>
+<li><a class="reference internal" href="query_api.html#geoloc">geoloc</a></li>
+<li><a class="reference internal" href="query_api.html#builtin">builtin</a></li>
+<li><a class="reference internal" href="query_api.html#text">text</a></li>
+<li><a class="reference internal" href="query_api.html#field-boosts">Field Boosts</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="query_api.html#nested-queries">Nested Queries</a></li>
+<li><a class="reference internal" href="query_api.html#facets-criterion">Facets Criterion</a></li>
+<li><a class="reference internal" href="query_api.html#drilldown-criterion">Drilldown Criterion</a></li>
+<li><a class="reference internal" href="query_api.html#geographic-polygons">Geographic Polygons</a></li>
+<li><a class="reference internal" href="query_api.html#highlighting-criterion">Highlighting Criterion</a></li>
+<li><a class="reference internal" href="query_api.html#didyoumean-criterion">DidYouMean Criterion</a></li>
+<li><a class="reference internal" href="query_api.html#did-you-mean-highlighting-criterion">Did You Mean? Highlighting Criterion</a></li>
+<li><a class="reference internal" href="query_api.html#indexvalues-criterion">indexValues Criterion</a></li>
+<li><a class="reference internal" href="query_api.html#calculate-criterion">Calculate Criterion</a></li>
+<li><a class="reference internal" href="query_api.html#values-criterion">Values Criterion</a></li>
+<li><a class="reference internal" href="query_api.html#sort-by-criterion">Sort By Criterion</a></li>
+<li><a class="reference internal" href="query_api.html#group-by-criterion">Group By Criterion</a></li>
+<li><a class="reference internal" href="query_api.html#explain">Explain</a></li>
+<li><a class="reference internal" href="query_api.html#render-parameters">Render Parameters</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Query API</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="query_response.html"
+                        title="next chapter">Query Response</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="https://transparensee.com/docs/discovery/current/html/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="query_response.html" title="Query Response"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Query API"
+             >previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Query API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright Transparensee Systems.
+    </div>
+  </body>
+</html>

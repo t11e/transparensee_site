@@ -1,0 +1,129 @@
+<html>
+  <head>
+    <title>Transparensee Documentation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="../../../screen.css" rel="stylesheet" type="text/css"/>
+  </head>
+
+  <body>
+   <div id="header">
+     <div id="navbar">
+       <div id="navbar-logo">
+         <a href="../../../index.html"><img src="../../../images/logo.png" title="Transparensee" alt="Transparensee"/></a>
+       </div>
+     </div>
+   </div>
+
+   <div id="content">
+
+     <h2>Release Notes - Discovery Search Engine - Version 3.2.0</h2>
+
+     <h2>New Features</h2>
+     <ul>
+       <li><strong>[ENGINE-529] - New Facets API</strong>
+          <p>The engine now supports a new <code>facets</code> API the enables the creation of dynamic interfaces that drill
+          down into increasingly refined facets. The API will return facet counts for any items in the query; allow
+          you to filter out any facets with no items and will also return user-facing text which can be used to create
+          the UI.</p>
+         <p>The request is created using the new <code>facets</code> top-level request. The key used for the request is up
+         to the developer, similar to the <code>calculate</code> request. The result is then placed in a dictionary with
+         the named key. This enables returning more than one facet count request for the same dimension.</p>
+         <p>The <code>drillDown</code> API is now deprecated and will be replaced with the new <code>facets</code> API.</p>
+         <p>Request example:</p>
+     <pre>
+    {
+         facets: {
+           myFacetKey: {
+             dimension: 'property_type',
+             topN: 20,
+             minCount: 1,
+             countType: "exact",
+             markSelected: true
+           }
+         }
+     }
+     </pre>
+         <p>The response appears in the new <code>facets</code> top-level response field.</p>
+     <pre>
+     {
+        facets: {
+           myFacetKey: {
+               "ids": [
+                 "3133",
+                 "2972",
+                 "3116"
+               ],
+               "data": {
+                 "3133": {
+                   "label": "musician",
+                   "count": 3140,
+                   "selected": false
+                 },
+                 "2972": {
+                   "label": "producer",
+                   "count": 2291,
+                   "selected": false
+                 },
+                 "3116": {
+                   "label": "songwriter",
+                   "count": 1548,
+                   "selected": false
+                 }
+              }
+           }
+         }
+     }
+     </pre>
+       </li>
+     </ul>
+
+     <h2>Improvements</h2>
+     <ul>
+       <li><strong>[ENGINE-3] - Reduced Memory Footprint</strong>
+          <p>The memory footprint for tree, keyword and scalar type dimensions have been
+          optimized. Faceting memory footprint has been significantly reduced as well.</p>
+       </li>
+       <li><strong>[ENGINE-455] - No limits to facet count buckets</strong>
+          <p>The engine no longer has any limits to the number of buckets that can be
+          used for facet counts.</p>
+       </li>
+       <li><strong>[ENGINE-555] [DOCS-39] - Init Scripts Documented</strong>
+          <p>The documentation's "Working with the Engine" section now includes guidelines for
+          configuring your servers to manage engine instances at server start and stop. Sample scripts
+          are included in the engine distribution binaries.</p>
+       </li>
+       <li><strong>[ENGINE-521] - ignoreInverseDocumentFrequency now applies to Word Queries.</strong>
+          <p>The text dimension option to ignore the inverse document frequency score now applied to Word queries.</p>
+       </li>
+       <li><strong>[ENGINE-364] - Improved item count logic</strong>
+          <p>The now uses a cached item count value rather than calculating it on-the-fly.</p>
+       </li>
+     </ul>
+     <h2>Behavioral Changes</h2>
+     <ul>
+       <li><strong>[ENGINE-518] - Database compaction is disabled</strong>
+         <p>The engine no longer compacts the internal item database after performing
+         a checkpoint, improving overall performance.</p>
+       </li>
+       <li><strong>[ENGINE-523] - <code>maxBuckets</code> no longer necessary</strong>
+         <p>With the removal of facet count limits (ENGINE-455), the engine no longer requires
+         <code>maxBuckets</code> for keyword type dimensions other than to disable facets
+         for a particular dimension. When <code>maxBuckets</code> is 0, faceting will be disabled.</p>
+       </li>
+     </ul>
+
+     <h2>Bug Fixes</h2>
+     <ul>
+       <li><strong>[ENGINE-515] - Clearing Dimensions did not refresh Admin page</strong>
+         <p>When all dimensions are cleared in the Admin tool, the page now correctly
+         refreshes to show an empty dimensions file.</p>
+       </li>
+     </ul>
+
+   </div>
+   <div class="clear"></div>
+   <div id="footer">
+     <p id="copyright">Copyright &copy; Transparensee Systems Inc. All rights reserved.</p>
+   </div>
+  </body>
+</html>

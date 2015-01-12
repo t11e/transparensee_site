@@ -1,0 +1,172 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Data Integration &mdash; Discovery Search Engine 3.10.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Discovery Search Engine 3.10.0 documentation" href="../index.html" />
+    <link rel="next" title="Integrating" href="integrating.html" />
+    <link rel="prev" title="Tutorial" href="../tutorial/tutorial.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="integrating.html" title="Integrating"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../tutorial/tutorial.html" title="Tutorial"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="data-integration">
+<h1>Data Integration<a class="headerlink" href="index.html#data-integration" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="integrating.html">Integrating</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="integrating.html#install-dependencies-and-the-engine">Install dependencies and the engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integrating.html#create-a-changeset-publisher">Create a changeset publisher</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integrating.html#create-the-dimension-definition">Create the dimension definition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integrating.html#integrate-queries-into-your-application">Integrate queries into your application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integrating.html#monitor-the-engine">Monitor the engine</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changesets.html">Changesets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changesets.html#getting-changesets-to-the-engine">Getting changesets to the engine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changesets.html#validating-and-pushing-an-initial-changeset-to-the-engine">Validating and pushing an initial changeset to the engine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changesets.html#changeset-document-structure">Changeset document structure</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="datatool.html">Data Tool</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datatool.html#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datatool.html#optional-url-parameters">Optional URL Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datatool.html#configuration">Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datatool.html#accesscontrol">accessControl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datatool.html#datasources">DataSources</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datatool.html#mysql-datasource">MySQL DataSource</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datatool.html#mysql-driver">MySQL Driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datatool.html#sql-server-datasource">SQL Server DataSource</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datatool.html#sql-server-driver">SQL Server Driver</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="datatool.html#profiles">Profiles</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datatool.html#sqlprofile">SqlProfile</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="datatool.html#publishers">Publishers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datatool.html#sqlpublisher">SqlPublisher</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="datatool.html#propertycase-for-item-property-name-handling"><cite>propertyCase</cite> for item property name handling</a></li>
+<li class="toctree-l5"><a class="reference internal" href="datatool.html#changeset-categories">Changeset Categories</a></li>
+<li class="toctree-l5"><a class="reference internal" href="datatool.html#provider-and-kind-support">Provider and Kind Support</a></li>
+<li class="toctree-l5"><a class="reference internal" href="datatool.html#vertical-table-support">Vertical Table Support</a></li>
+<li class="toctree-l5"><a class="reference internal" href="datatool.html#subqueries">Subqueries</a></li>
+<li class="toctree-l5"><a class="reference internal" href="datatool.html#supported-column-types">Supported Column Types</a></li>
+<li class="toctree-l5"><a class="reference internal" href="datatool.html#unsupported-column-types">Unsupported Column Types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datatool.html#ssl">SSL</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datatool.html#create-the-rsa-key-certificate-and-java-key-store">Create the RSA key, Certificate and Java Key Store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datatool.html#configuration-options-in-datatool-properties">Configuration options in <cite>datatool.properties</cite></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changeset_publisher.html">Changeset Publisher</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changeset_publisher.html#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changeset_publisher.html#de-normalized-views">De-normalized views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changeset_publisher.html#id2">Changeset publisher</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changeset_publisher.html#configuring-feeds">Configuring feeds</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="custom_publisher.html">Custom Changeset Publisher</a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../tutorial/tutorial.html"
+                        title="previous chapter">Tutorial</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="integrating.html"
+                        title="next chapter">Integrating</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="https://transparensee.com/docs/discovery/current/html/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="integrating.html" title="Integrating"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../tutorial/tutorial.html" title="Tutorial"
+             >previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright Transparensee Systems.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,44 @@
+<!ENTITY % item-data "((categories, properties?) | (properties, categories?))?">
+
+<!ENTITY % data-value "(string | int | real | array | struct)">
+
+<!ELEMENT changeset (add-item | add-to-item | remove-item | remove-from-item | set-item)*>
+
+<!ELEMENT add-item EMPTY>
+<!ATTLIST add-item id CDATA #REQUIRED>
+
+<!ELEMENT remove-item EMPTY>
+<!ATTLIST remove-item id CDATA #REQUIRED>
+
+<!ELEMENT add-to-item (%item-data;)>
+<!ATTLIST add-to-item id CDATA #REQUIRED>
+
+<!ELEMENT remove-from-item (%item-data; | all)>
+<!ATTLIST remove-from-item id CDATA #REQUIRED>
+
+<!ELEMENT set-item (%item-data;)>
+<!ATTLIST set-item id CDATA #REQUIRED>
+
+<!ELEMENT string (#PCDATA)>
+
+<!ELEMENT int (#PCDATA)>
+
+<!ELEMENT real (#PCDATA)>
+
+<!ELEMENT element (%data-value;)>
+
+<!ELEMENT array (element*)>
+
+<!ELEMENT struct (entry*)>
+
+<!ELEMENT entry (%data-value;)?>
+<!ATTLIST entry name CDATA #REQUIRED>
+
+<!ELEMENT properties (struct | all)?>
+
+<!ELEMENT categories (category* | all)>
+
+<!ELEMENT category EMPTY>
+<!ATTLIST category id CDATA #REQUIRED>
+
+<!ELEMENT all EMPTY>

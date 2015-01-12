@@ -1,0 +1,225 @@
+<?xml version="1.0"?>
+<changeset>
+  <set-item id="Square">
+    <properties>
+      <struct>
+        <entry name="price">
+          <int>14</int>
+        </entry>
+        <entry name="weight">
+          <real>11.2</real>
+        </entry>
+        <entry name="shape">
+          <string>square</string>
+        </entry>
+        <entry name="tags">
+          <array>
+            <element>
+              <string>A</string>
+            </element>
+            <element>
+              <string>B</string>
+            </element>
+            <element>
+              <string>C</string>
+            </element>
+          </array>
+        </entry>
+      </struct>
+    </properties>
+  </set-item>
+  <set-item id="LightCircle">
+    <properties>
+      <struct>
+        <entry name="price">
+          <int>13</int>
+        </entry>
+        <entry name="weight">
+          <real>5.3</real>
+        </entry>
+        <entry name="shape">
+          <string>circle</string>
+        </entry>
+        <entry name="tags">
+          <array>
+            <element>
+              <string>A</string>
+            </element>
+          </array>
+        </entry>
+      </struct>
+    </properties>
+  </set-item>
+  <set-item id="HeavyTriangle">
+    <properties>
+      <struct>
+        <entry name="price">
+          <int>12</int>
+        </entry>
+        <entry name="weight">
+          <real>22.4</real>
+        </entry>
+        <entry name="shape">
+          <string>triangle</string>
+        </entry>
+        <entry name="tags">
+          <array>
+            <element>
+              <string>B</string>
+            </element>
+            <element>
+              <string>C</string>
+            </element>
+          </array>
+        </entry>
+      </struct>
+    </properties>
+  </set-item>
+  <set-item id="CheapTriangle">
+    <properties>
+      <struct>
+        <entry name="price">
+          <int>6</int>
+        </entry>
+        <entry name="weight">
+          <real>15.5</real>
+        </entry>
+        <entry name="shape">
+          <string>triangle</string>
+        </entry>
+        <entry name="tags">
+          <array>
+            <element>
+              <string>A</string>
+            </element>
+            <element>
+              <string>B</string>
+            </element>
+          </array>
+        </entry>
+      </struct>
+    </properties>
+  </set-item>
+  <set-item id="CheapLightCircle">
+    <properties>
+      <struct>
+        <entry name="price">
+          <int>9</int>
+        </entry>
+        <entry name="weight">
+          <real>8.4</real>
+        </entry>
+        <entry name="shape">
+          <string>circle</string>
+        </entry>
+        <entry name="tags">
+          <array>
+            <element>
+              <string>A</string>
+            </element>
+            <element>
+              <string>C</string>
+            </element>
+          </array>
+        </entry>
+      </struct>
+    </properties>
+  </set-item>
+  <set-item id="CheapHeavyCircle">
+    <properties>
+      <struct>
+        <entry name="price">
+          <int>3</int>
+        </entry>
+        <entry name="weight">
+          <real>22.3</real>
+        </entry>
+        <entry name="shape">
+          <string>circle</string>
+        </entry>
+        <entry name="tags">
+          <array>
+            <element>
+              <string>C</string>
+            </element>
+          </array>
+        </entry>
+      </struct>
+    </properties>
+  </set-item>
+  <set-item id="ExpensiveSquare">
+    <properties>
+      <struct>
+        <entry name="price">
+          <int>24</int>
+        </entry>
+        <entry name="weight">
+          <real>15.4</real>
+        </entry>
+        <entry name="shape">
+          <string>square</string>
+        </entry>
+        <entry name="tags">
+          <array>
+            <element>
+              <string>B</string>
+            </element>
+          </array>
+        </entry>
+      </struct>
+    </properties>
+  </set-item>
+  <set-item id="ExpensiveLightTriangle">
+    <properties>
+      <struct>
+        <entry name="price">
+          <int>29</int>
+        </entry>
+        <entry name="weight">
+          <real>2.1</real>
+        </entry>
+        <entry name="shape">
+          <string>triangle</string>
+        </entry>
+        <entry name="tags">
+          <array>
+            <element>
+              <string>A</string>
+            </element>
+            <element>
+              <string>C</string>
+            </element>
+          </array>
+        </entry>
+      </struct>
+    </properties>
+  </set-item>
+  <set-item id="ExpensiveHeavySquare">
+    <properties>
+      <struct>
+        <entry name="price">
+          <int>21</int>
+        </entry>
+        <entry name="weight">
+          <real>27.8</real>
+        </entry>
+        <entry name="shape">
+          <string>square</string>
+        </entry>
+        <entry name="tags">
+          <array>
+            <element>
+              <string>A</string>
+            </element>
+            <element>
+              <string>B</string>
+            </element>
+            <element>
+              <string>C</string>
+            </element>
+          </array>
+        </entry>
+      </struct>
+    </properties>
+  </set-item>
+</changeset>

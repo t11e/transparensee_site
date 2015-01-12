@@ -1,0 +1,207 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Defining Word Sets &mdash; Discovery Search Engine 3.10.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Discovery Search Engine 3.10.0 documentation" href="../index.html" />
+    <link rel="up" title="Dimensions" href="index.html" />
+    <link rel="next" title="Defining Synonyms/Thesauruses" href="thesauri.html" />
+    <link rel="prev" title="Scalar Features" href="misc.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="thesauri.html" title="Defining Synonyms/Thesauruses"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="misc.html" title="Scalar Features"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Dimensions</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="defining-word-sets">
+<span id="creating-word-sets"></span><span id="index-0"></span><h1>Defining Word Sets<a class="headerlink" href="wordsets.html#defining-word-sets" title="Permalink to this headline">¶</a></h1>
+<p>Word sets are created as part of the dimensions XML document. Word sets can be
+used to define stop words, stemming exclusion words and analysis exclusion words.</p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.8.6.</span></p>
+</div></blockquote>
+<p>Word sets are defined as elements within
+the dimensions.xml file and then referred to in dimension definitions using a
+reference. The list of words
+in the word set definition are analyzed using the analyzer rules
+for the dimension to which they apply, so punctuation, whitespace and other extra
+characters will be automatically removed or words broken up at punctuation marks.</p>
+<p>Word sets and dimensions can appear in any order in the dimensions.xml file.</p>
+<p>This example creates a simple word set and includes extra punctuation that will
+not be included in the final word set:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;wordset</span> <span class="na">id=</span><span class="s">&quot;stopwords&quot;</span><span class="nt">&gt;</span>a an, the: that; whose<span class="nt">&lt;/wordset&gt;</span>
+</pre></div>
+</div>
+<p>The word set from the above XML snippet would be: <tt class="docutils literal"><span class="pre">a</span> <span class="pre">an</span> <span class="pre">the</span> <span class="pre">that</span> <span class="pre">whose</span></tt></p>
+<p>To use a word set in a text type dimension, refer to the
+word set using the appropriate reference attribute.</p>
+<p id="index-1">To create a stop word list, use <tt class="docutils literal"><span class="pre">stopWords-ref</span></tt>. To create a stemming exclusion
+word set, use <tt class="docutils literal"><span class="pre">stemmingExclusion-ref</span></tt> and to create an analysis exclusion word set,
+use <tt class="docutils literal"><span class="pre">noAnalysis-ref</span></tt> when defining your dimension.</p>
+<span class="target" id="index-2"></span><span class="target" id="index-3"></span><span class="target" id="index-4"></span><div class="section" id="creating-merged-word-sets">
+<span id="index-5"></span><h2>Creating Merged Word Sets<a class="headerlink" href="wordsets.html#creating-merged-word-sets" title="Permalink to this headline">¶</a></h2>
+<p>Word sets can be created in manageable blocks and merged with other word sets before
+they are used on a dimension. There are several variants that you can use to refer to an
+individual word set or merged word sets.</p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.8.7.</span></p>
+</div></blockquote>
+<div class="section" id="variant-1-inline-word-set-with-dimension">
+<h3>Variant 1: Inline Word Set with Dimension<a class="headerlink" href="wordsets.html#variant-1-inline-word-set-with-dimension" title="Permalink to this headline">¶</a></h3>
+<p>This variant is the simplest in which the word set is defined inline with a
+dimension declaration.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;dimension</span> <span class="na">id=</span><span class="s">&quot;example&quot;</span> <span class="na">stopwords=</span><span class="s">&quot;then am are in on it&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="variant-2-word-set-reference-with-dimension">
+<h3>Variant 2: Word Set Reference with Dimension<a class="headerlink" href="wordsets.html#variant-2-word-set-reference-with-dimension" title="Permalink to this headline">¶</a></h3>
+<p>This variant simplifies the dimension declaration and isolates the definition
+of the word set. This variant also is the easiest way to reuse a word set.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;dimension</span> <span class="na">id=</span><span class="s">&quot;example&quot;</span> <span class="na">stopWords-ref=</span><span class="s">&quot;myStopWords&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;wordset</span> <span class="na">id=</span><span class="s">&quot;myStopWords&quot;</span><span class="nt">&gt;</span>
+  then am are in on it
+<span class="nt">&lt;/wordset&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="variant-3-multiple-word-set-references-with-dimension">
+<h3>Variant 3: Multiple Word Set References with Dimension<a class="headerlink" href="wordsets.html#variant-3-multiple-word-set-references-with-dimension" title="Permalink to this headline">¶</a></h3>
+<p>This variant allows multiple pre-defined word sets to be merged by listing
+the necessary word sets on the dimension declaration.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;dimension</span> <span class="na">id=</span><span class="s">&quot;example&quot;</span> <span class="na">stopWords-ref=</span><span class="s">&quot;myStopWords,myStopWords2&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;wordset</span> <span class="na">id=</span><span class="s">&quot;myStopWords&quot;</span><span class="nt">&gt;</span>
+  then am are in on it
+<span class="nt">&lt;/wordset&gt;</span>
+<span class="nt">&lt;wordset</span> <span class="na">id=</span><span class="s">&quot;myStopWords2&quot;</span><span class="nt">&gt;</span>
+  into a through between under over
+<span class="nt">&lt;/wordset&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="variant-4-word-sets-referring-to-wordsets-with-dimension">
+<h3>Variant 4: Word Sets Referring to Wordsets with Dimension<a class="headerlink" href="wordsets.html#variant-4-word-sets-referring-to-wordsets-with-dimension" title="Permalink to this headline">¶</a></h3>
+<p>This variant allows you to create a new wordset by merging the words from one
+or more word sets. It also allows you to add additional words to the merged word sets.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;dimension</span> <span class="na">id=</span><span class="s">&quot;example&quot;</span> <span class="na">stopWords-ref=</span><span class="s">&quot;combinedStopWords&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;wordset</span> <span class="na">id=</span><span class="s">&quot;combinedStopWords&quot;</span> <span class="na">wordset-ref=</span><span class="s">&quot;myStopWords,myStopWords2&quot;</span><span class="nt">&gt;</span>
+  super great new words added to the merged word sets
+<span class="nt">&lt;/wordset&gt;</span>
+<span class="nt">&lt;wordset</span> <span class="na">id=</span><span class="s">&quot;myStopWords&quot;</span><span class="nt">&gt;</span>
+  then am are in on it
+<span class="nt">&lt;/wordset&gt;</span>
+<span class="nt">&lt;wordset</span> <span class="na">id=</span><span class="s">&quot;myStopWords2&quot;</span><span class="nt">&gt;</span>
+  into a through between under over
+<span class="nt">&lt;/wordset&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="wordsets.html#">Defining Word Sets</a><ul>
+<li><a class="reference internal" href="wordsets.html#creating-merged-word-sets">Creating Merged Word Sets</a><ul>
+<li><a class="reference internal" href="wordsets.html#variant-1-inline-word-set-with-dimension">Variant 1: Inline Word Set with Dimension</a></li>
+<li><a class="reference internal" href="wordsets.html#variant-2-word-set-reference-with-dimension">Variant 2: Word Set Reference with Dimension</a></li>
+<li><a class="reference internal" href="wordsets.html#variant-3-multiple-word-set-references-with-dimension">Variant 3: Multiple Word Set References with Dimension</a></li>
+<li><a class="reference internal" href="wordsets.html#variant-4-word-sets-referring-to-wordsets-with-dimension">Variant 4: Word Sets Referring to Wordsets with Dimension</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="misc.html"
+                        title="previous chapter">Scalar Features</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="thesauri.html"
+                        title="next chapter">Defining Synonyms/Thesauruses</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="https://transparensee.com/docs/discovery/current/html/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="thesauri.html" title="Defining Synonyms/Thesauruses"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="misc.html" title="Scalar Features"
+             >previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Dimensions</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright Transparensee Systems.
+    </div>
+  </body>
+</html>

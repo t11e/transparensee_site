@@ -1,0 +1,201 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Defining Synonyms/Thesauruses &mdash; Discovery Search Engine 3.10.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Discovery Search Engine 3.10.0 documentation" href="../index.html" />
+    <link rel="up" title="Dimensions" href="index.html" />
+    <link rel="next" title="Query API" href="../query/index.html" />
+    <link rel="prev" title="Defining Word Sets" href="wordsets.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../query/index.html" title="Query API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="wordsets.html" title="Defining Word Sets"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Dimensions</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <span class="target" id="index-0"></span><div class="section" id="defining-synonyms-thesauruses">
+<span id="creating-synonyms"></span><span id="index-1"></span><h1>Defining Synonyms/Thesauruses<a class="headerlink" href="thesauri.html#defining-synonyms-thesauruses" title="Permalink to this headline">¶</a></h1>
+<p>Synonym dictionaries are created as part of the dimensions XML document.</p>
+<blockquote>
+<div><p class="versionadded">
+<span class="versionmodified">New in version 2.9.</span></p>
+</div></blockquote>
+<p>Synonym dictionaries are defined as elements within
+the dimensions.xml file and then referred to in dimension definitions using a
+reference. The list of entries in the are defined using a <tt class="docutils literal"><span class="pre">thesaurus</span></tt> definition
+are analyzed using the analyzer rules for the dimension to which they apply, so
+punctuation, whitespace and other extra characters will be automatically removed
+or words broken up at punctuation marks.</p>
+<p>Thesauruses and dimensions can appear in any order in the dimensions.xml file.</p>
+<p>This example creates a simple synonym dictionary for sample US states:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;thesaurus</span> <span class="na">id=</span><span class="s">&quot;us_states&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;lookup</span> <span class="na">value=</span><span class="s">&quot;OR&quot;</span><span class="nt">&gt;</span>oregon or ore<span class="nt">&lt;/lookup&gt;</span>
+  <span class="nt">&lt;lookup</span> <span class="na">value=</span><span class="s">&quot;NY&quot;</span><span class="nt">&gt;</span>&quot;new york&quot; ny nys<span class="nt">&lt;/lookup&gt;</span>
+  <span class="nt">&lt;lookup</span> <span class="na">value=</span><span class="s">&quot;NC&quot;</span><span class="nt">&gt;</span>&quot;north carolina&quot; nc<span class="nt">&lt;/lookup&gt;</span>
+<span class="nt">&lt;/thesaurus&gt;</span>
+</pre></div>
+</div>
+<p>The lookup id is the key that the engine will use for synonym reduction. It can be
+defined as a single word or phrase. There should be one lookup for each list of synonyms.
+The synonyms are defined as a set of words. If the
+synonym is a phrase, then enclose the words in double quotes.</p>
+<p>To use a synonym dictionary in a text type dimension, refer to the
+thesaurus using the appropriate reference attribute, for example <tt class="docutils literal"><span class="pre">synonyms-ref</span></tt>.</p>
+<span class="target" id="index-2"></span><span class="target" id="index-3"></span><span class="target" id="index-4"></span><div class="section" id="creating-merged-synonym-dictionaries">
+<span id="index-5"></span><h2>Creating Merged Synonym Dictionaries<a class="headerlink" href="thesauri.html#creating-merged-synonym-dictionaries" title="Permalink to this headline">¶</a></h2>
+<p>Synonym dictionaries can be created in manageable blocks and merged with other synonym
+dictionaries before they are used on a dimension. There are several variants that you can use to refer to an
+individual synonym dictionary or merged synonym dictionaries.</p>
+<p>When synonym dictionaries are merged,two lookups of with the same id will result
+in a single lookup including the merged unique list of synonyms.</p>
+<div class="section" id="variant-1-synonym-dictionary-reference-with-dimension">
+<h3>Variant 1: Synonym Dictionary Reference with Dimension<a class="headerlink" href="thesauri.html#variant-1-synonym-dictionary-reference-with-dimension" title="Permalink to this headline">¶</a></h3>
+<p>This variant also is the easiest way to reuse a synonym dictionary.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;dimension</span> <span class="na">id=</span><span class="s">&quot;example&quot;</span> <span class="na">synonyms-ref=</span><span class="s">&quot;mySynonyms&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;thesaurus</span> <span class="na">id=</span><span class="s">&quot;mySynonyms&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;lookup</span> <span class="na">value=</span><span class="s">&quot;st&quot;</span><span class="nt">&gt;</span>Saint Sante, Ste, Santa<span class="nt">&lt;/lookup&gt;</span>
+<span class="nt">&lt;/thesaurus&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="variant-2-multiple-synonym-dictionary-references-with-dimension">
+<h3>Variant 2: Multiple Synonym Dictionary References with Dimension<a class="headerlink" href="thesauri.html#variant-2-multiple-synonym-dictionary-references-with-dimension" title="Permalink to this headline">¶</a></h3>
+<p>This variant allows multiple pre-defined synonym dictionaries to be merged by listing
+the necessary thesaurus ids on the dimension declaration.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;dimension</span> <span class="na">id=</span><span class="s">&quot;example&quot;</span> <span class="na">synonyms-ref=</span><span class="s">&quot;mySynonyms,states&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;thesaurus</span> <span class="na">id=</span><span class="s">&quot;mySynonyms&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;lookup</span> <span class="na">value=</span><span class="s">&quot;st&quot;</span><span class="nt">&gt;</span>Saint Sante, Ste, Santa<span class="nt">&lt;/lookup&gt;</span>
+<span class="nt">&lt;/thesaurus&gt;</span>
+<span class="nt">&lt;thesaurus</span> <span class="na">id=</span><span class="s">&quot;states&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;lookup</span> <span class="na">value=</span><span class="s">&quot;OR&quot;</span><span class="nt">&gt;</span>Oregon Ore<span class="nt">&lt;/lookup&gt;</span>
+  <span class="nt">&lt;lookup</span> <span class="na">value=</span><span class="s">&quot;ME&quot;</span><span class="nt">&gt;</span>Maine<span class="nt">&lt;/lookup&gt;</span>
+<span class="nt">&lt;/thesaurus&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="variant-3-synonym-dictionaries-referring-to-thesauruses-with-dimension">
+<h3>Variant 3: Synonym Dictionaries Referring to Thesauruses with Dimension<a class="headerlink" href="thesauri.html#variant-3-synonym-dictionaries-referring-to-thesauruses-with-dimension" title="Permalink to this headline">¶</a></h3>
+<p>This variant allows you to create a new synonym dictionary by merging the words from one
+or more synonym dictionaries. It also allows you to add additional synonyms to the merged
+synonym dictionaries.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;dimension</span> <span class="na">id=</span><span class="s">&quot;example&quot;</span> <span class="na">synonyms-ref=</span><span class="s">&quot;combinedSynonyms&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;thesaurus</span> <span class="na">id=</span><span class="s">&quot;combinedSynonyms&quot;</span> <span class="na">thesaurus-ref=</span><span class="s">&quot;mySynonyms,states&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;lookup</span> <span class="na">value=</span><span class="s">&quot;FL&quot;</span><span class="nt">&gt;</span>Florida Fla<span class="nt">&lt;/lookup&gt;</span>
+  <span class="nt">&lt;lookup</span> <span class="na">value=</span><span class="s">&quot;AK&quot;</span><span class="nt">&gt;</span>Alaska<span class="nt">&lt;/lookup&gt;</span>
+<span class="nt">&lt;/thesaurus&gt;</span>
+<span class="nt">&lt;thesaurus</span> <span class="na">id=</span><span class="s">&quot;mySynonyms&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;lookup</span> <span class="na">value=</span><span class="s">&quot;st&quot;</span><span class="nt">&gt;</span>Saint Sante, Ste, Santa<span class="nt">&lt;/lookup&gt;</span>
+<span class="nt">&lt;/thesaurus&gt;</span>
+<span class="nt">&lt;thesaurus</span> <span class="na">id=</span><span class="s">&quot;states&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;lookup</span> <span class="na">value=</span><span class="s">&quot;OR&quot;</span><span class="nt">&gt;</span>Oregon Ore<span class="nt">&lt;/lookup&gt;</span>
+  <span class="nt">&lt;lookup</span> <span class="na">value=</span><span class="s">&quot;ME&quot;</span><span class="nt">&gt;</span>Maine<span class="nt">&lt;/lookup&gt;</span>
+<span class="nt">&lt;/thesaurus&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="thesauri.html#">Defining Synonyms/Thesauruses</a><ul>
+<li><a class="reference internal" href="thesauri.html#creating-merged-synonym-dictionaries">Creating Merged Synonym Dictionaries</a><ul>
+<li><a class="reference internal" href="thesauri.html#variant-1-synonym-dictionary-reference-with-dimension">Variant 1: Synonym Dictionary Reference with Dimension</a></li>
+<li><a class="reference internal" href="thesauri.html#variant-2-multiple-synonym-dictionary-references-with-dimension">Variant 2: Multiple Synonym Dictionary References with Dimension</a></li>
+<li><a class="reference internal" href="thesauri.html#variant-3-synonym-dictionaries-referring-to-thesauruses-with-dimension">Variant 3: Synonym Dictionaries Referring to Thesauruses with Dimension</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="wordsets.html"
+                        title="previous chapter">Defining Word Sets</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../query/index.html"
+                        title="next chapter">Query API</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="https://transparensee.com/docs/discovery/current/html/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../query/index.html" title="Query API"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="wordsets.html" title="Defining Word Sets"
+             >previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Dimensions</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright Transparensee Systems.
+    </div>
+  </body>
+</html>

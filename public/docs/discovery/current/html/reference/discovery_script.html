@@ -1,0 +1,174 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Discovery Script Command Line Options &mdash; Discovery Search Engine 3.10.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Discovery Search Engine 3.10.0 documentation" href="../index.html" />
+    <link rel="up" title="Reference" href="index.html" />
+    <link rel="next" title="Locale Specs" href="locales.html" />
+    <link rel="prev" title="discovery.properties Reference" href="discovery_properties.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="locales.html" title="Locale Specs"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="discovery_properties.html" title="discovery.properties Reference"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Reference</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <span class="target" id="index-0"></span><span class="target" id="index-1"></span><div class="section" id="discovery-script-command-line-options">
+<span id="discovery-script"></span><span id="index-2"></span><h1>Discovery Script Command Line Options<a class="headerlink" href="discovery_script.html#discovery-script-command-line-options" title="Permalink to this headline">¶</a></h1>
+<p>The discovery script provides basic features to start, stop and check the status
+of a running discovery search engine. The discovery script used to start an
+engine should be a symlink to the actual discovery script located in the <cite>bin</cite>
+directory of the engine version&#8217;s releases directory.</p>
+<p>If you have set up your directory structure per Transparensee&#8217;s recommendations,
+to run discovery, change working directory to the <cite>engine</cite>
+directory of the instance before starting the script:. This example changes working
+directories to the <cite>production</cite> engine instance, then starts the engine:</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ~discovery/engines/production
+<span class="nv">$ </span>./discovery start
+</pre></div>
+</div>
+<p>For information on setting the discovery engine, the releases directory and the
+engines directory, refer to <a class="reference internal" href="../getting_started/install_unix.html#install-unix"><em>Engine and Data Tool Installation for UNIX Variants</em></a>.</p>
+<p>The options available for discovery are:</p>
+<ul class="simple">
+<li>start</li>
+<li>stop</li>
+<li>status</li>
+<li>kill</li>
+<li>restart</li>
+<li>threads</li>
+</ul>
+<div class="section" id="start">
+<span id="index-3"></span><h2>start<a class="headerlink" href="discovery_script.html#start" title="Permalink to this headline">¶</a></h2>
+<p>Starts the engine if it has not already been started.</p>
+</div>
+<div class="section" id="stop">
+<span id="index-4"></span><h2>stop<a class="headerlink" href="discovery_script.html#stop" title="Permalink to this headline">¶</a></h2>
+<p>Gracefully stops the engine if it is already running.</p>
+</div>
+<div class="section" id="status">
+<span id="index-5"></span><h2>status<a class="headerlink" href="discovery_script.html#status" title="Permalink to this headline">¶</a></h2>
+<p>Reports on the status of the engine: starting, running, stopping, stopped.</p>
+</div>
+<div class="section" id="restart">
+<span id="index-6"></span><h2>restart<a class="headerlink" href="discovery_script.html#restart" title="Permalink to this headline">¶</a></h2>
+<p>Gracefully stops the engine if it is already running, then immediately
+restarts the engine.</p>
+</div>
+<div class="section" id="kill">
+<span id="index-7"></span><h2>kill<a class="headerlink" href="discovery_script.html#kill" title="Permalink to this headline">¶</a></h2>
+<p>Forces the engine to stop by killing the engine process&#8211;regardless of the
+processing state of the engine.</p>
+<p><strong>WARNING</strong>: Use <cite>kill</cite> only if required because the server is not responsive and
+you are able to recreate the engine instance files manually.</p>
+<span class="target" id="index-8"></span></div>
+<div class="section" id="threads">
+<span id="index-9"></span><h2>threads<a class="headerlink" href="discovery_script.html#threads" title="Permalink to this headline">¶</a></h2>
+<p>Forces a thread dump to the discovery log file. This option only should be used
+at the request of a Transparensee customer support engineer.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="discovery_script.html#">Discovery Script Command Line Options</a><ul>
+<li><a class="reference internal" href="discovery_script.html#start">start</a></li>
+<li><a class="reference internal" href="discovery_script.html#stop">stop</a></li>
+<li><a class="reference internal" href="discovery_script.html#status">status</a></li>
+<li><a class="reference internal" href="discovery_script.html#restart">restart</a></li>
+<li><a class="reference internal" href="discovery_script.html#kill">kill</a></li>
+<li><a class="reference internal" href="discovery_script.html#threads">threads</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="discovery_properties.html"
+                        title="previous chapter">discovery.properties Reference</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="locales.html"
+                        title="next chapter">Locale Specs</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="https://transparensee.com/docs/discovery/current/html/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="locales.html" title="Locale Specs"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="discovery_properties.html" title="discovery.properties Reference"
+             >previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Reference</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright Transparensee Systems.
+    </div>
+  </body>
+</html>

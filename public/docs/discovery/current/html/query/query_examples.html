@@ -1,0 +1,847 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Examples &mdash; Discovery Search Engine 3.10.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Discovery Search Engine 3.10.0 documentation" href="../index.html" />
+    <link rel="up" title="Query API" href="index.html" />
+    <link rel="next" title="Reference" href="../reference/index.html" />
+    <link rel="prev" title="Query Response" href="query_response.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../reference/index.html" title="Reference"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="query_response.html" title="Query Response"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Query API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="examples">
+<span id="query-examples"></span><span id="index-0"></span><h1>Examples<a class="headerlink" href="query_examples.html#examples" title="Permalink to this headline">¶</a></h1>
+<p>The data used to generate the following examples can be downloaded here: <a class="reference internal" href="../reference/query_example_dataset.html#example-dataset"><em>Example Real Estate Dataset</em></a>.</p>
+<div class="section" id="querying-geoloc-dimensions">
+<span id="geoloc-examples"></span><h2>Querying geoloc dimensions<a class="headerlink" href="query_examples.html#querying-geoloc-dimensions" title="Permalink to this headline">¶</a></h2>
+<p>The Discovery Search Engine supports searching geographic data using both zip codes and
+latitude/longitude. Changeset entries typically encode geographic data as
+latitude and longitude values. The Discovery Search Engine also supports using
+zipcodes.</p>
+<p>If you have latitude and longitude values, the changeset entry would
+look this way:</p>
+<blockquote>
+<div><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;entry</span> <span class="na">name=</span><span class="s">&quot;myLat&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;string&gt;</span>40.6949005<span class="nt">&lt;/string&gt;</span>
+<span class="nt">&lt;/entry&gt;</span>
+<span class="nt">&lt;entry</span> <span class="na">name=</span><span class="s">&quot;myLong&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;string&gt;</span>-74.270401<span class="nt">&lt;/string&gt;</span>
+<span class="nt">&lt;/entry&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>If you have an entry with a zip code, you would do the following in the
+changeset file:</p>
+<blockquote>
+<div><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;entry</span> <span class="na">name=</span><span class="s">&quot;myZipcode&quot;</span><span class="nt">&gt;&lt;string&gt;</span>10072<span class="nt">&lt;/string&gt;&lt;/entry&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>When defining a <tt class="docutils literal"><span class="pre">geoloc</span></tt> dimension, you associate the name of the entry with
+the type of geographic data it represents. For example, if the changeset uses
+zipcode data, like the previous example, then the dimension file would be
+configured like so:</p>
+<blockquote>
+<div><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;dimension</span> <span class="na">id=</span><span class="s">&quot;location&quot;</span> <span class="na">zipcode=</span><span class="s">&quot;myZipcode&quot;</span> <span class="na">type=</span><span class="s">&quot;geoloc&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Likewise, if the changeset uses latitude and longitude data, the dimensions file
+would look like the following:</p>
+<blockquote>
+<div><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;dimension</span> <span class="na">id=</span><span class="s">&quot;location&quot;</span> <span class="na">latitude=</span><span class="s">&quot;myLat&quot;</span> <span class="na">longitude=</span><span class="s">&quot;myLong&quot;</span> <span class="na">type=</span><span class="s">&quot;geoloc&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>If you do not specify names for zip code or latitude/longitude, the Discovery
+Engine defaults to naming them &#8220;zipcode&#8221;, &#8220;latitude&#8221; and &#8220;longitude&#8221;.
+This means the simplest definition for a <tt class="docutils literal"><span class="pre">geoloc</span></tt> dimension is as follows:</p>
+<blockquote>
+<div><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;dimension</span> <span class="na">id=</span><span class="s">&quot;location&quot;</span> <span class="na">type=</span><span class="s">&quot;geoloc&quot;</span><span class="nt">&gt;&lt;/dimension&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The sample dataset contains zip codes for 50 real estate listings. A basic query
+for all listings in the <tt class="docutils literal"><span class="pre">10072</span></tt> zip code looks like this:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&quot;criteria&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s">&quot;dimension&quot;</span><span class="p">:</span> <span class="s">&quot;location&quot;</span><span class="p">,</span>
+            <span class="s">&quot;zipcode&quot;</span><span class="p">:</span> <span class="s">&quot;10072&quot;</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">5</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>There are two such listings in the dataset, which is reflected in the response
+from the engine.</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;itemIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;41&quot;</span><span class="p">,</span> <span class="s">&quot;44&quot;</span><span class="p">,</span> <span class="s">&quot;45&quot;</span><span class="p">,</span> <span class="s">&quot;46&quot;</span><span class="p">,</span> <span class="s">&quot;47&quot;</span><span class="p">],</span>
+  <span class="s">&quot;exactMatches&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">],</span>
+  <span class="s">&quot;relevanceValues&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+  <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s">&quot;currentPageSize&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s">&quot;exactSize&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+  <span class="s">&quot;totalSize&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+  <span class="s">&quot;availableSize&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+  <span class="s">&quot;datasetSize&quot;</span><span class="p">:</span> <span class="mi">50</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<div class="section" id="exactdistance">
+<h3>exactDistance<a class="headerlink" href="query_examples.html#exactdistance" title="Permalink to this headline">¶</a></h3>
+<p>The <tt class="docutils literal"><span class="pre">exactDistance</span></tt> setting determines how the Discovery Search Engine decides an
+exact match. The setting defines a radius, in miles, from the location being
+searched. All items whose location falls within that radius are considered exact
+matches.</p>
+<p>In this example, we want to consider all items within 1 mile of the location we
+were searching for to be considered exact.</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&quot;criteria&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s">&quot;dimension&quot;</span><span class="p">:</span> <span class="s">&quot;location&quot;</span><span class="p">,</span>
+            <span class="s">&quot;zipcode&quot;</span><span class="p">:</span> <span class="s">&quot;10072&quot;</span><span class="p">,</span>
+            <span class="s">&quot;exactDistance&quot;</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">5</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>In the first example, only the first two listings were considered exact matches,
+but you can see in the following response that now all of the listings are
+considered exact. Everything else has remained the same.</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;itemIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;41&quot;</span><span class="p">,</span> <span class="s">&quot;44&quot;</span><span class="p">,</span> <span class="s">&quot;45&quot;</span><span class="p">,</span> <span class="s">&quot;46&quot;</span><span class="p">,</span> <span class="s">&quot;47&quot;</span><span class="p">],</span>
+  <span class="s">&quot;exactMatches&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">],</span>
+  <span class="s">&quot;relevanceValues&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+  <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s">&quot;currentPageSize&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s">&quot;exactSize&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+  <span class="s">&quot;totalSize&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+  <span class="s">&quot;availableSize&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+  <span class="s">&quot;datasetSize&quot;</span><span class="p">:</span> <span class="mi">50</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="normaldistance">
+<h3>normalDistance<a class="headerlink" href="query_examples.html#normaldistance" title="Permalink to this headline">¶</a></h3>
+<p>The <tt class="docutils literal"><span class="pre">normalDistance</span></tt> setting tells the Discovery Search Engine how to calculate the
+relevance scores of listings that fall outside a given radius. Just like the
+<tt class="docutils literal"><span class="pre">exactDistance</span></tt> setting, a value is set that defines a radius, in miles,
+around the location being searched.</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&quot;criteria&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s">&quot;dimension&quot;</span><span class="p">:</span> <span class="s">&quot;location&quot;</span><span class="p">,</span>
+            <span class="s">&quot;zipcode&quot;</span><span class="p">:</span> <span class="s">&quot;10072&quot;</span><span class="p">,</span>
+            <span class="s">&quot;normalDistance&quot;</span><span class="p">:</span> <span class="mf">0.5</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">5</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The response shows a result set very similar to the first example, but in this
+case, the relevance scores are much lower for those listings whose location
+falls outside of the radius defined in the query.</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;itemIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;41&quot;</span><span class="p">,</span> <span class="s">&quot;44&quot;</span><span class="p">,</span> <span class="s">&quot;45&quot;</span><span class="p">,</span> <span class="s">&quot;46&quot;</span><span class="p">,</span> <span class="s">&quot;47&quot;</span><span class="p">],</span>
+  <span class="s">&quot;exactMatches&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">],</span>
+  <span class="s">&quot;relevanceValues&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+  <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s">&quot;currentPageSize&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s">&quot;exactSize&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+  <span class="s">&quot;totalSize&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+  <span class="s">&quot;availableSize&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+  <span class="s">&quot;datasetSize&quot;</span><span class="p">:</span> <span class="mi">50</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="culldistance">
+<h3>cullDistance<a class="headerlink" href="query_examples.html#culldistance" title="Permalink to this headline">¶</a></h3>
+<p>Setting the <tt class="docutils literal"><span class="pre">cullDistance</span></tt> in the query establishes a radius beyond which all
+listings are culled, or removed from the result set.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&quot;criteria&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s">&quot;dimension&quot;</span><span class="p">:</span> <span class="s">&quot;location&quot;</span><span class="p">,</span>
+            <span class="s">&quot;zipcode&quot;</span><span class="p">:</span> <span class="s">&quot;10072&quot;</span><span class="p">,</span>
+            <span class="s">&quot;cullDistance&quot;</span><span class="p">:</span> <span class="mf">0.5</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">5</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The response from this search looks similar to the first example in terms of
+exact matches and relevance scores. The big difference is with the
+<tt class="docutils literal"><span class="pre">availableSize</span></tt> and <tt class="docutils literal"><span class="pre">totalSize</span></tt> values in the result. In this particular
+example, there are only six listings within .5 miles of the 10072 zip code and
+those are the only items returned by the Discovery Search Engine.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;itemIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;41&quot;</span><span class="p">,</span> <span class="s">&quot;44&quot;</span><span class="p">,</span> <span class="s">&quot;45&quot;</span><span class="p">,</span> <span class="s">&quot;46&quot;</span><span class="p">,</span> <span class="s">&quot;47&quot;</span><span class="p">],</span>
+  <span class="s">&quot;exactMatches&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">],</span>
+  <span class="s">&quot;relevanceValues&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+  <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s">&quot;currentPageSize&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s">&quot;exactSize&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+  <span class="s">&quot;totalSize&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="s">&quot;availableSize&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="s">&quot;datasetSize&quot;</span><span class="p">:</span> <span class="mi">50</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="querying-mutex-dimensions">
+<span id="mutex-examples"></span><h2>Querying mutex dimensions<a class="headerlink" href="query_examples.html#querying-mutex-dimensions" title="Permalink to this headline">¶</a></h2>
+<p>Mutex dimensions are for values that are mutually exclusive of each other. In
+the example dataset, the <tt class="docutils literal"><span class="pre">type</span></tt> dimension is a mutex dimension which means
+that a listing can be either a <tt class="docutils literal"><span class="pre">rental</span></tt> or a <tt class="docutils literal"><span class="pre">sales</span></tt> property, but never
+both.</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&quot;criteria&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s">&quot;dimension&quot;</span><span class="p">:</span> <span class="s">&quot;type&quot;</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;rentals&quot;</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">5</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Half the listings in the example dataset are <tt class="docutils literal"><span class="pre">rentals</span></tt> and the other half are
+<tt class="docutils literal"><span class="pre">sales</span></tt>, so the search for <tt class="docutils literal"><span class="pre">rentals</span></tt> returns a result set whose size is 25.</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;itemIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;26&quot;</span><span class="p">,</span> <span class="s">&quot;27&quot;</span><span class="p">,</span> <span class="s">&quot;28&quot;</span><span class="p">,</span> <span class="s">&quot;29&quot;</span><span class="p">,</span> <span class="s">&quot;30&quot;</span><span class="p">],</span>
+  <span class="s">&quot;exactMatches&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">],</span>
+  <span class="s">&quot;relevanceValues&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+  <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s">&quot;currentPageSize&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s">&quot;exactSize&quot;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span>
+  <span class="s">&quot;totalSize&quot;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span>
+  <span class="s">&quot;availableSize&quot;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span>
+  <span class="s">&quot;datasetSize&quot;</span><span class="p">:</span> <span class="mi">50</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="querying-tree-dimensions">
+<span id="tree-examples"></span><h2>Querying tree dimensions<a class="headerlink" href="query_examples.html#querying-tree-dimensions" title="Permalink to this headline">¶</a></h2>
+<p>Tree dimensions represent hierarchical data structures. The example dataset
+defines a tree dimensions named <cite>style</cite> that represents a categories of
+architectural styles.</p>
+<blockquote>
+<div><div class="highlight-xml"><div class="highlight"><pre>    <span class="nt">&lt;dimension</span> <span class="na">type=</span><span class="s">&quot;tree&quot;</span> <span class="na">id=</span><span class="s">&quot;style&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;multi-family&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;apartment&quot;</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;condo&quot;</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;co-op&quot;</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;townhome&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/element&gt;</span>
+        <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;single-family&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;colonial&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;new england&quot;</span> <span class="nt">/&gt;</span>
+                <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;cape cod&quot;</span> <span class="nt">/&gt;</span>
+            <span class="nt">&lt;/element&gt;</span>
+            <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;classical&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;federal&quot;</span> <span class="nt">/&gt;</span>
+                <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;greek revival&quot;</span> <span class="nt">/&gt;</span>
+                <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;tidewater&quot;</span> <span class="nt">/&gt;</span>
+                <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;antebellum&quot;</span> <span class="nt">/&gt;</span>
+            <span class="nt">&lt;/element&gt;</span>
+            <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;victorian&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;gothic&quot;</span> <span class="nt">/&gt;</span>
+                <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;second empire&quot;</span> <span class="nt">/&gt;</span>
+                <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;queen anne&quot;</span> <span class="nt">/&gt;</span>
+            <span class="nt">&lt;/element&gt;</span>
+            <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;contemporary&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;ranch&quot;</span><span class="nt">/&gt;</span>
+                <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;raised ranch&quot;</span> <span class="nt">/&gt;</span>
+                <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;split-level&quot;</span> <span class="nt">/&gt;</span>
+                <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;bauhaus&quot;</span> <span class="nt">/&gt;</span>
+                <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;art moderne&quot;</span> <span class="nt">/&gt;</span>
+                <span class="nt">&lt;element</span> <span class="na">id=</span><span class="s">&quot;transitional&quot;</span> <span class="nt">/&gt;</span>
+            <span class="nt">&lt;/element&gt;</span>
+        <span class="nt">&lt;/element&gt;</span>
+    <span class="nt">&lt;/dimension&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>In this example, a query for <tt class="docutils literal"><span class="pre">single-family</span></tt> homes is executed.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&quot;criteria&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s">&quot;dimension&quot;</span><span class="p">:</span> <span class="s">&quot;style&quot;</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;single-family&quot;</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">5</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>There are two properties in the example dataset that are specifically identified
+as single-family homes, and you can see in the
+response that these two properties are listed first. Notice that all matches are
+<tt class="docutils literal"><span class="pre">exact</span></tt>, but only the first two listings have a relevance score of <cite>1.0</cite>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;itemIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;31&quot;</span><span class="p">,</span> <span class="s">&quot;6&quot;</span><span class="p">,</span> <span class="s">&quot;10&quot;</span><span class="p">,</span> <span class="s">&quot;15&quot;</span><span class="p">,</span> <span class="s">&quot;19&quot;</span><span class="p">],</span>
+  <span class="s">&quot;exactMatches&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">],</span>
+  <span class="s">&quot;relevanceValues&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.9990138064662087</span><span class="p">,</span> <span class="mf">0.9990138064662087</span><span class="p">,</span> <span class="mf">0.9990138064662087</span><span class="p">],</span>
+  <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s">&quot;currentPageSize&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s">&quot;exactSize&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+  <span class="s">&quot;totalSize&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+  <span class="s">&quot;availableSize&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+  <span class="s">&quot;datasetSize&quot;</span><span class="p">:</span> <span class="mi">50</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The relevance score is calculated according to each listing&#8217;s proximity to the
+style searched for. After listings whose style is
+<tt class="docutils literal"><span class="pre">single-family</span></tt>, listings of styles that are children of <tt class="docutils literal"><span class="pre">single-family</span></tt>
+are listed.</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">ID</th>
+<th class="head">Style</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>31</td>
+<td>single-family</td>
+</tr>
+<tr class="row-odd"><td>6</td>
+<td>single-family</td>
+</tr>
+<tr class="row-even"><td>10</td>
+<td>classical</td>
+</tr>
+<tr class="row-odd"><td>15</td>
+<td>victorian</td>
+</tr>
+<tr class="row-even"><td>19</td>
+<td>contemporary</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>In the first example, <tt class="docutils literal"><span class="pre">single-family</span></tt> is a parent node, at the top of the
+tree. The next query searches for homes whose style is <tt class="docutils literal"><span class="pre">federal</span></tt>, a style much
+lower in the hierarchy.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&quot;criteria&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s">&quot;dimension&quot;</span><span class="p">:</span> <span class="s">&quot;style&quot;</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;federal&quot;</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">5</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The response differs from the first example because now only the first two
+listings are considered exact matches, and the relevance scores are
+significantly lower for the remaining items.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;itemIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;11&quot;</span><span class="p">,</span> <span class="s">&quot;36&quot;</span><span class="p">,</span> <span class="s">&quot;10&quot;</span><span class="p">,</span> <span class="s">&quot;35&quot;</span><span class="p">,</span> <span class="s">&quot;12&quot;</span><span class="p">],</span>
+  <span class="s">&quot;exactMatches&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">false</span><span class="p">,</span> <span class="n">false</span><span class="p">,</span> <span class="n">false</span><span class="p">],</span>
+  <span class="s">&quot;relevanceValues&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.22472606899624703</span><span class="p">,</span> <span class="mf">0.22472606899624703</span><span class="p">,</span> <span class="mf">0.22451510962482396</span><span class="p">],</span>
+  <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s">&quot;currentPageSize&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s">&quot;exactSize&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="s">&quot;totalSize&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+  <span class="s">&quot;availableSize&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+  <span class="s">&quot;datasetSize&quot;</span><span class="p">:</span> <span class="mi">50</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The following table shows the styles of the items in the response. The reason
+they are not considered exact matches is because the listings that follow the
+first two have styles that are either parents of or siblings to the <tt class="docutils literal"><span class="pre">federal</span></tt>
+style. In the first example, the listings that followed were children of
+<tt class="docutils literal"><span class="pre">single-family</span></tt>.</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">ID</th>
+<th class="head">Style</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>11</td>
+<td>federal</td>
+</tr>
+<tr class="row-odd"><td>36</td>
+<td>federal</td>
+</tr>
+<tr class="row-even"><td>10</td>
+<td>classical</td>
+</tr>
+<tr class="row-odd"><td>35</td>
+<td>classical</td>
+</tr>
+<tr class="row-even"><td>12</td>
+<td>greek</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>In the final example, we will search for homes whose style is <tt class="docutils literal"><span class="pre">cape</span> <span class="pre">cod</span></tt>. The
+query also establishes a page size of 10 in order to retrieve a longer list of
+results in order to illustrate how the engine traverses the tree when
+calculating relevance scores.</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&quot;criteria&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s">&quot;dimension&quot;</span><span class="p">:</span> <span class="s">&quot;style&quot;</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;cape cod&quot;</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">10</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The response:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;itemIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;34&quot;</span><span class="p">,</span> <span class="s">&quot;9&quot;</span><span class="p">,</span> <span class="s">&quot;32&quot;</span><span class="p">,</span> <span class="s">&quot;7&quot;</span><span class="p">,</span> <span class="s">&quot;33&quot;</span><span class="p">,</span> <span class="s">&quot;8&quot;</span><span class="p">,</span> <span class="s">&quot;31&quot;</span><span class="p">,</span> <span class="s">&quot;6&quot;</span><span class="p">,</span> <span class="s">&quot;10&quot;</span><span class="p">,</span> <span class="s">&quot;15&quot;</span><span class="p">],</span>
+  <span class="s">&quot;exactMatches&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">false</span><span class="p">,</span> <span class="n">false</span><span class="p">,</span> <span class="n">false</span><span class="p">,</span> <span class="n">false</span><span class="p">,</span> <span class="n">false</span><span class="p">,</span> <span class="n">false</span><span class="p">,</span> <span class="n">false</span><span class="p">,</span> <span class="n">false</span><span class="p">],</span>
+  <span class="s">&quot;relevanceValues&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.22472606899624703</span><span class="p">,</span> <span class="mf">0.22472606899624703</span><span class="p">,</span> <span class="mf">0.22451510962482396</span><span class="p">,</span> <span class="mf">0.22451510962482396</span><span class="p">,</span> <span class="mf">0.04933011270649325</span><span class="p">,</span> <span class="mf">0.04933011270649325</span><span class="p">,</span> <span class="mf">0.04839499837288682</span><span class="p">,</span> <span class="mf">0.04839499837288682</span><span class="p">],</span>
+  <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="s">&quot;currentPageSize&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s">&quot;exactSize&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="s">&quot;totalSize&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+  <span class="s">&quot;availableSize&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+  <span class="s">&quot;datasetSize&quot;</span><span class="p">:</span> <span class="mi">50</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>You can see from the following table that the Discovery Search Engine first returns
+exact matches &#8211; those homes whose style is <tt class="docutils literal"><span class="pre">cape</span> <span class="pre">cod</span></tt>, following by matches
+of the direct parent of the <tt class="docutils literal"><span class="pre">cape</span> <span class="pre">cod</span></tt> style, <tt class="docutils literal"><span class="pre">colonial</span></tt>. This is followed
+by the sibling <tt class="docutils literal"><span class="pre">new</span> <span class="pre">england</span></tt>. Finally, once all the siblings have been
+returned, then listings whose style is <tt class="docutils literal"><span class="pre">single-family</span></tt> are returned, the style
+that is the direct parent of <tt class="docutils literal"><span class="pre">colonial</span></tt>.</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">ID</th>
+<th class="head">Style</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>34</td>
+<td>cape cod</td>
+</tr>
+<tr class="row-odd"><td>9</td>
+<td>cape cod</td>
+</tr>
+<tr class="row-even"><td>32</td>
+<td>colonial</td>
+</tr>
+<tr class="row-odd"><td>7</td>
+<td>colonial</td>
+</tr>
+<tr class="row-even"><td>33</td>
+<td>new england</td>
+</tr>
+<tr class="row-odd"><td>8</td>
+<td>new england</td>
+</tr>
+<tr class="row-even"><td>31</td>
+<td>single-family</td>
+</tr>
+<tr class="row-odd"><td>6</td>
+<td>single-family</td>
+</tr>
+<tr class="row-even"><td>10</td>
+<td>classical</td>
+</tr>
+<tr class="row-odd"><td>15</td>
+<td>victorian</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="weight">
+<span id="weight-examples"></span><h2>Weight<a class="headerlink" href="query_examples.html#weight" title="Permalink to this headline">¶</a></h2>
+<p>The <tt class="docutils literal"><span class="pre">weight</span></tt> of a criterion is used to calculate the relevance value of a
+listing relative to that criterion. In the following example, a query is being
+executed for a three bedroom home whose style is a <tt class="docutils literal"><span class="pre">townhome</span></tt>.</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&quot;criteria&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s">&quot;dimension&quot;</span><span class="p">:</span> <span class="s">&quot;bedroom&quot;</span><span class="p">,</span>
+            <span class="s">&quot;value&quot;</span><span class="p">:</span> <span class="mi">3</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s">&quot;dimension&quot;</span><span class="p">:</span> <span class="s">&quot;style&quot;</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;townhome&quot;</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">5</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The response indicates that there are no listings that are exact matches. There
+are two items whose style is <tt class="docutils literal"><span class="pre">townhome</span></tt>, but neither of them have three
+bedrooms. Therefore all of the relevance scores are less than <tt class="docutils literal"><span class="pre">1.0</span></tt>.</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;itemIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;30&quot;</span><span class="p">,</span> <span class="s">&quot;5&quot;</span><span class="p">,</span> <span class="s">&quot;1&quot;</span><span class="p">,</span> <span class="s">&quot;26&quot;</span><span class="p">,</span> <span class="s">&quot;2&quot;</span><span class="p">],</span>
+  <span class="s">&quot;exactMatches&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">false</span><span class="p">,</span> <span class="n">false</span><span class="p">,</span> <span class="n">false</span><span class="p">,</span> <span class="n">false</span><span class="p">,</span> <span class="n">false</span><span class="p">],</span>
+  <span class="s">&quot;relevanceValues&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.9999999997671694</span><span class="p">,</span> <span class="mf">0.9999999997671694</span><span class="p">,</span> <span class="mf">0.6097560970953143</span><span class="p">,</span> <span class="mf">0.6097560970953143</span><span class="p">,</span> <span class="mf">0.6096478563416056</span><span class="p">],</span>
+  <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s">&quot;currentPageSize&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s">&quot;exactSize&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s">&quot;totalSize&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+  <span class="s">&quot;availableSize&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+  <span class="s">&quot;datasetSize&quot;</span><span class="p">:</span> <span class="mi">50</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>In the next example, the relevance score for the style of the listing is lowered
+from the default value of <tt class="docutils literal"><span class="pre">1.0</span></tt> to be <tt class="docutils literal"><span class="pre">0.5</span></tt>. This means that whether a
+listing is a <tt class="docutils literal"><span class="pre">townhome</span></tt> or not is not as important as whether it should have
+three bedrooms.</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&quot;criteria&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s">&quot;dimension&quot;</span><span class="p">:</span> <span class="s">&quot;bedroom&quot;</span><span class="p">,</span>
+            <span class="s">&quot;value&quot;</span><span class="p">:</span> <span class="mi">3</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s">&quot;dimension&quot;</span><span class="p">:</span> <span class="s">&quot;style&quot;</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;townhome&quot;</span><span class="p">,</span>
+            <span class="s">&quot;weight&quot;</span><span class="p">:</span> <span class="mf">0.5</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">5</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The response includes the same list of items as the previous search held, but
+the relevance scores are higher. This is because the second
+query says that whether a listing is a <tt class="docutils literal"><span class="pre">townhome</span></tt> or not is less important.
+As a consequence, the relevance scores for townhomes are higher than they were
+in the original query.</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;itemIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;30&quot;</span><span class="p">,</span> <span class="s">&quot;5&quot;</span><span class="p">,</span> <span class="s">&quot;1&quot;</span><span class="p">,</span> <span class="s">&quot;26&quot;</span><span class="p">,</span> <span class="s">&quot;2&quot;</span><span class="p">],</span>
+  <span class="s">&quot;exactMatches&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">false</span><span class="p">,</span> <span class="n">false</span><span class="p">,</span> <span class="n">false</span><span class="p">,</span> <span class="n">false</span><span class="p">,</span> <span class="n">false</span><span class="p">],</span>
+  <span class="s">&quot;relevanceValues&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.9999999996895591</span><span class="p">,</span> <span class="mf">0.9999999996895591</span><span class="p">,</span> <span class="mf">0.7398373977531021</span><span class="p">,</span> <span class="mf">0.7398373977531021</span><span class="p">,</span> <span class="mf">0.7397652372506295</span><span class="p">],</span>
+  <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s">&quot;currentPageSize&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s">&quot;exactSize&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s">&quot;totalSize&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+  <span class="s">&quot;availableSize&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+  <span class="s">&quot;datasetSize&quot;</span><span class="p">:</span> <span class="mi">50</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="querying-with-drill-down-counts">
+<span id="drilldown-examples"></span><h2>Querying with drill down counts<a class="headerlink" href="query_examples.html#querying-with-drill-down-counts" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&quot;criteria&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s">&quot;dimension&quot;</span><span class="p">:</span> <span class="s">&quot;bedroom&quot;</span><span class="p">,</span>
+            <span class="s">&quot;value&quot;</span><span class="p">:</span> <span class="mi">3</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s">&quot;drillDown&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s">&quot;dimension&quot;</span><span class="p">:</span> <span class="s">&quot;bedroom&quot;</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">10</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;itemIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;10&quot;</span><span class="p">,</span> <span class="s">&quot;11&quot;</span><span class="p">,</span> <span class="s">&quot;12&quot;</span><span class="p">,</span> <span class="s">&quot;13&quot;</span><span class="p">,</span> <span class="s">&quot;14&quot;</span><span class="p">,</span> <span class="s">&quot;15&quot;</span><span class="p">,</span> <span class="s">&quot;16&quot;</span><span class="p">,</span> <span class="s">&quot;17&quot;</span><span class="p">,</span> <span class="s">&quot;18&quot;</span><span class="p">,</span> <span class="s">&quot;19&quot;</span><span class="p">],</span>
+  <span class="s">&quot;exactMatches&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">],</span>
+  <span class="s">&quot;relevanceValues&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+  <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="s">&quot;currentPageSize&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s">&quot;exactSize&quot;</span><span class="p">:</span> <span class="mi">38</span><span class="p">,</span>
+  <span class="s">&quot;totalSize&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+  <span class="s">&quot;availableSize&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+  <span class="s">&quot;drillDown&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s">&quot;dimension&quot;</span><span class="p">:</span> <span class="s">&quot;bedroom&quot;</span><span class="p">,</span>
+      <span class="s">&quot;ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;studio&quot;</span><span class="p">,</span> <span class="s">&quot;1&quot;</span><span class="p">,</span> <span class="s">&quot;2&quot;</span><span class="p">,</span> <span class="s">&quot;3&quot;</span><span class="p">,</span> <span class="s">&quot;4&quot;</span><span class="p">,</span> <span class="s">&quot;5+&quot;</span><span class="p">],</span>
+      <span class="s">&quot;exactCounts&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+      <span class="s">&quot;fuzzyCounts&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="s">&quot;datasetSize&quot;</span><span class="p">:</span> <span class="mi">50</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="rendering-parameters">
+<span id="render-params-examples"></span><h2>Rendering parameters<a class="headerlink" href="query_examples.html#rendering-parameters" title="Permalink to this headline">¶</a></h2>
+<p>When a search is executed against the Discovery Search Engine, a list of IDs are
+returned. In a typical integration, these IDs are often used to generate a
+second HTTP request to retrieve the data associated with the ID. The Discovery
+Engine&#8217;s <tt class="docutils literal"><span class="pre">renderParameters</span></tt> setting is designed to simplify the second HTTP
+request by generating a query string that can be used in an HTTP <tt class="docutils literal"><span class="pre">GET</span></tt>
+request.</p>
+<p>The first example shows a request that specifies the use of a &#8216;,&#8217; delimiter to
+separate the list of <tt class="docutils literal"><span class="pre">itemIds</span></tt>.</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&quot;criteria&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s">&quot;dimension&quot;</span><span class="p">:</span> <span class="s">&quot;price&quot;</span><span class="p">,</span>
+            <span class="s">&quot;value&quot;</span><span class="p">:</span> <span class="mi">200000</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s">&quot;renderParameters&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&quot;itemIdsDelimiter&quot;</span><span class="p">:</span> <span class="s">&quot;,&quot;</span>
+    <span class="p">},</span>
+    <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">5</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>In the response, the <tt class="docutils literal"><span class="pre">renderParameters</span></tt> value returns a string in which the
+<tt class="docutils literal"><span class="pre">itemIds</span></tt> are listed, delimited by a comma, which, when url encoded is
+represented <tt class="docutils literal"><span class="pre">%2C</span></tt>.</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;itemIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;1&quot;</span><span class="p">,</span> <span class="s">&quot;2&quot;</span><span class="p">,</span> <span class="s">&quot;3&quot;</span><span class="p">,</span> <span class="s">&quot;4&quot;</span><span class="p">,</span> <span class="s">&quot;5&quot;</span><span class="p">],</span>
+  <span class="s">&quot;exactMatches&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">false</span><span class="p">],</span>
+  <span class="s">&quot;relevanceValues&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.9999767169356237</span><span class="p">],</span>
+  <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s">&quot;currentPageSize&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s">&quot;exactSize&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+  <span class="s">&quot;totalSize&quot;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span>
+  <span class="s">&quot;availableSize&quot;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span>
+  <span class="s">&quot;datasetSize&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+  <span class="s">&quot;renderParameters&quot;</span><span class="p">:</span> <span class="s">&quot;startIndex=0&amp;pageSize=5&amp;exactSize=4&amp;totalSize=25&amp;itemIds=1%2C2%2C3%2C4%2C5&amp;exactMatches=11110&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The second example shows a typical query that relies on the default delimiter,
+which is a space character.</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&quot;criteria&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s">&quot;dimension&quot;</span><span class="p">:</span> <span class="s">&quot;price&quot;</span><span class="p">,</span>
+            <span class="s">&quot;value&quot;</span><span class="p">:</span> <span class="mi">200000</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s">&quot;renderParameters&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+    <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">5</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Once url encoded, the space character is rendered as <tt class="docutils literal"><span class="pre">+</span></tt>.</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;itemIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;1&quot;</span><span class="p">,</span> <span class="s">&quot;2&quot;</span><span class="p">,</span> <span class="s">&quot;3&quot;</span><span class="p">,</span> <span class="s">&quot;4&quot;</span><span class="p">,</span> <span class="s">&quot;5&quot;</span><span class="p">],</span>
+  <span class="s">&quot;exactMatches&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">true</span><span class="p">,</span> <span class="n">false</span><span class="p">],</span>
+  <span class="s">&quot;relevanceValues&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.9999767169356237</span><span class="p">],</span>
+  <span class="s">&quot;pageSize&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s">&quot;currentPageSize&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s">&quot;startIndex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s">&quot;exactSize&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+  <span class="s">&quot;totalSize&quot;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span>
+  <span class="s">&quot;availableSize&quot;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span>
+  <span class="s">&quot;datasetSize&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+  <span class="s">&quot;renderParameters&quot;</span><span class="p">:</span> <span class="s">&quot;startIndex=0&amp;pageSize=5&amp;exactSize=4&amp;totalSize=25&amp;itemIds=1+2+3+4+5&amp;exactMatches=11110&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="query_examples.html#">Examples</a><ul>
+<li><a class="reference internal" href="query_examples.html#querying-geoloc-dimensions">Querying geoloc dimensions</a><ul>
+<li><a class="reference internal" href="query_examples.html#exactdistance">exactDistance</a></li>
+<li><a class="reference internal" href="query_examples.html#normaldistance">normalDistance</a></li>
+<li><a class="reference internal" href="query_examples.html#culldistance">cullDistance</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="query_examples.html#querying-mutex-dimensions">Querying mutex dimensions</a></li>
+<li><a class="reference internal" href="query_examples.html#querying-tree-dimensions">Querying tree dimensions</a></li>
+<li><a class="reference internal" href="query_examples.html#weight">Weight</a></li>
+<li><a class="reference internal" href="query_examples.html#querying-with-drill-down-counts">Querying with drill down counts</a></li>
+<li><a class="reference internal" href="query_examples.html#rendering-parameters">Rendering parameters</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="query_response.html"
+                        title="previous chapter">Query Response</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../reference/index.html"
+                        title="next chapter">Reference</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="https://transparensee.com/docs/discovery/current/html/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../reference/index.html" title="Reference"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="query_response.html" title="Query Response"
+             >previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Query API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright Transparensee Systems.
+    </div>
+  </body>
+</html>

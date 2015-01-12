@@ -1,0 +1,129 @@
+<html>
+  <head>
+    <title>Transparensee Documentation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="../../../screen.css" rel="stylesheet" type="text/css"/>
+  </head>
+  
+  <body>
+    <div id="header">
+      <div id="navbar">
+        <div id="navbar-logo">
+          <a href="../../../index.html"><img src="../../../images/logo.png" title="Transparensee" alt="Transparensee"/></a>
+        </div>               
+      </div>
+    </div>
+
+<div id="content">      
+
+
+        <h1>Release Notes - Discovery Search Engine - Version 2.7.0
+        
+</h1>
+<h2>        Bug Fixes
+</h2>
+<ul>
+<li>[ENGINE-2] -         Syntax Error in Discovery Init Script </li>
+<li>[ENGINE-44] -         Init Script Fails if Folder Names Contain Spaces </li>
+<li>[ENGINE-53] -         Updating a Text Dimension with New Attributes Caused Unexpected Search Results </li>
+</ul>
+        
+<h2>        Improvements
+</h2>
+<ul>
+<li>[ENGINE-30] -         Support for Case-insensitive Matching Against Dimension Values </li>
+<li>[ENGINE-32] -         Support for &quot;notValue&quot; for Text Dimensions </li>
+<li>[ENGINE-41] -         Engine Init Script is now  Universal for Linux Variants </li>
+<li>[ENGINE-49] -         Text Dimension Analyzers Are Configurable </li>
+<li>[ENGINE-52] -         Dimensions Tab of Admin Page Shows Default Settings Attributes </li>
+</ul>
+    
+<h2>        New Feature
+</h2>
+<ul>
+<li>[ENGINE-50] -         Support for &quot;Starting With&quot; Searches Against Dimension Values </li>
+<li>[ENGINE-51] -         Locale Support </li>
+</ul>
+        
+<p>More Information </p>
+<h2>Improvements </h2>
+<ul>
+<li><strong>[ENGINE-30] -         Support for Case-insensitive Matching Against Dimension Values </strong></li>
+</ul>
+<blockquote>
+<p>This feature extends case-insensitive matching, now available for Text dimensions, to Keyword and Tree dimensions.</p>
+<p>Case-insensitive matching is enabled for the entire dimensions.xml file by setting attributes on the Dimensions element. To specify the matching sensitivity of individual dimensions, the same attributes can be applied to the Dimension element.</p>
+<p>The common attributes are:</p>
+<p>ignoreCase = &quot;true&quot; | &quot;false&quot;</p>
+<p>Case-insensitive matching is enabled by converting indexed and criterion values to lowercase using a specified Locale.</p>
+<p>The Locale specifies the language, country and system variant to use. The default value is United States English for POSIX systems. (en_US_POSIX)</p>
+</blockquote>
+<ul>
+<li><strong>[ENGINE-41] -         Engine Init Script is now  Universal for Linux Variants </strong></li>
+</ul>
+<blockquote>
+<p>The start_stop_daemon is no longer required by the init script. </p>
+</blockquote>
+<ul><li><strong>[ENGINE-49] -         Text Dimension Analyzers Are Configurable </strong></li>
+</ul>
+<blockquote>
+<p>For a text type dimension, you can now to specify the following attributes:</p>
+<p><code>&lt;dimension id=&quot;name&quot; type=&quot;text&quot; stemming=&quot;false&quot; 
+accentFolding=&quot;false&quot; stopWords=&quot;a,b,c&quot;/&gt;</code></p>
+<p>The defaults are:</p>
+<p><strong>stemming</strong>: true<br />
+<strong>accentFolding</strong>: true<br />
+<strong>stopWords</strong>: a, and, are, as, at, be, but, by, for, if, in, into, is, it, no, not, of, on, or, s, such, t, that, the, their, then, there, these, they, this, to, was, will, with</p>
+</blockquote>
+<ul>
+<li><strong>[ENGINE-52] -         Dimensions Tab of Admin Page Shows Default Settings Attributes </strong></li>
+</ul>
+<blockquote>
+<p>The dimensions element now allows attrbibutes that set default values for all defined dimensions. Any attribute placed on the dimensions element will be used by default by any defined dimensions in the document.</p>
+<p><code>&lt;dimensions stemming=&quot;false&quot; ignoreCase=&quot;true&quot; accentFolding=&quot;false&quot;&gt;</code></p>
+<p><code>&lt;/dimensions&gt;</code></p>
+</blockquote>
+<h2> New Features </h2>
+<ul>
+<li>[ENGINE-50] -         Support for &quot;Starting With&quot; Searches Against Dimension Values </li>
+</ul>
+<blockquote>
+<p>This new feature enables &quot;startsWith&quot; searches against value for Text and Keyword dimensions.</p>
+<p>To support this feature, the Criteria interface supports a new option &quot;searchStyle&quot; whose values are either &quot;exact&quot; or &quot;startsWith&quot;. The default is &quot;exact&quot;.</p>
+<p>JSON Query Example</p>
+<p>The dimension snippet about name is :</p>
+<p><code>&lt;dimensions ignoreCase=&quot;true&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;dimension id=&quot;fulltext&quot; type=&quot;text&quot;/&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;dimension id=&quot;tags&quot; type=&quot;keyword&quot;/&gt;<br />
+&lt;/dimensions&gt;</code></p>
+<p><code>{<br />
+&quot;criteria&quot;: [<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ &quot;dimension&quot;: &quot;fulltext&quot;, &quot;value&quot;: &quot;real&quot;, &quot;searchStyle&quot;: &quot;startsWith&quot; },</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ &quot;dimension&quot;: &quot;tags&quot;, &quot;value&quot;: &quot;love&quot;, &quot;searchStyle&quot;: &quot;startsWith&quot; }<br />
+&nbsp;&nbsp;&nbsp;&nbsp;], <br />
+&quot;startIndex&quot;: 0, <br />
+&quot;pageSize&quot;: 10<br />
+}</code></p>
+</blockquote>
+<ul>
+<li>[ENGINE-51] -         Locale Support </li>
+</ul>
+<blockquote>
+<p>To support Locale-based case conversions for case-insensitive searching, the Engine now supports Locale definitions. Locales consist of three components: Language, Country and System Variant.</p>
+<p>Customers can specify a locale in three ways:</p>
+<p>1) by specifying only a language (default=English)<br />
+2) by specifying only a language and a Country (default=US)<br />
+3) by specifying all three: language, country and variant (default=POSIX)</p>
+<p>In other words, if variant is specified, then language and country must also be specified.</p>
+<p>Language, Country and Variant should be separated by an underscore (_) character, for example: en_US_POSIX.</p>
+</blockquote>
+
+</div>
+
+<div class="clear"></div>
+
+    <div id="footer">
+      <p id="copyright">Copyright &copy; Transparensee Systems Inc. All rights reserved.</p>
+    </div>
+  </body>
+</html>

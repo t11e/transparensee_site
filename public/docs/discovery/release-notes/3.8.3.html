@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <title>Transparensee Documentation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="../../../screen.css" rel="stylesheet" type="text/css"/>
+  </head>
+
+  <body>
+   <div id="header">
+     <div id="navbar">
+       <div id="navbar-logo">
+         <a href="../../../index.html"><img src="../../../images/logo.png" title="Transparensee" alt="Transparensee"/></a>
+       </div>
+     </div>
+   </div>
+
+   <div id="content">
+
+    <h2>Release Notes - Discovery Search Engine - Version 3.8.3</h2>
+
+    <h2>Bug Fixes</h2>
+    <ul>
+      <li>
+        <strong>[ENGINE-798] - Fragment highlighter returns too much text when
+        user-quoted phrases are used.</strong>
+        <p>When stopwords are close to the highlighted fragment and a user-quoted
+          phrase is in play, the fragment highlighter would return very large fragments
+          instead of respecting the configured fragment size.</p>
+      </li>
+      <li>
+        <strong>[ENGINE-799] - Expensive text queries</strong>
+        <p>Text queries with a lot of terms would take too long to execute. Smarter limits
+          have been applied to prevent run-away queries.</p>
+        <p>Queries now  only use at most 32 words. Sequence matching and did you mean
+          suggestions are now limited to 10 words.</p>
+      </li>
+      <li>
+        <strong>[ENGINE-783] - stripHtml option causing text query failures</strong>
+        <p>The stripHtml option wasn't playing well with the tokenization logic, causing
+          some obscure exceptions to be thrown for some edge cases.</p>
+        <p>Example exception that this fixes: <code>IllegalArgumentException: Bad basic track, start=2 end=4</code></p>
+      </li>
+    </ul>
+
+   </div>
+   <div class="clear"></div>
+   <div id="footer">
+     <p id="copyright">Copyright &copy; Transparensee Systems Inc. All rights reserved.</p>
+   </div>
+  </body>
+</html>

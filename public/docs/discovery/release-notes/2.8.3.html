@@ -1,0 +1,97 @@
+<html>
+  <head>
+    <title>Transparensee Documentation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="../../../screen.css" rel="stylesheet" type="text/css"/>
+  </head>
+  
+  <body>
+    <div id="header">
+      <div id="navbar">
+        <div id="navbar-logo">
+          <a href="../../../index.html"><img src="../../../images/logo.png" title="Transparensee" alt="Transparensee"/></a>
+        </div>               
+      </div>
+    </div>
+
+<div id="content">      
+
+  <h2>Release Notes - Discovery Search Engine - Version 2.8.3       </h2>
+  <h2>New Features </h2>
+  <ul>
+    <li><strong>[ENGINE-93, -176 ] -         Engine Support for Phonetic Analysis in text dimensions </strong></li>
+  </ul>
+  <blockquote>
+    <p>Support for Soundex, Refined Soundex, Metaphone and Double Metaphone algorithms. Use the new &quot;phoneticAlgorithm&quot; attribute of a text dimension to specify which phonetic algorithm to use. </p>
+  </blockquote>
+  <ul>
+    <li><strong>[ENGINE-94] -         Engine Support for Non-English Text Analysis</strong></li>
+  </ul>
+  <blockquote>
+    <p>Stemming and stop words are now provided for Spanish, French, German, Dutch and Brazilian Portuguese. Choice of language is made my declaring a Locale for a text dimension. English is the default language. </p>
+  </blockquote>
+  <ul>
+    <li><strong>[ENGINE-139] -         Configuring Checkpoints and Changesets Intervals</strong></li>
+  </ul>
+  <blockquote>
+    <p>The Admin Tool's Changesets tab now shows information about the most recent checkpoint and/or snapshot. The Admin tab also allows customers to pull a fresh snapshot using a clear interface. </p>
+  </blockquote>
+  <ul>
+    <li><strong>[ENGINE-29, -190 ] -         The engine's query response can now return changeset properties</strong></li>
+  </ul>
+  <blockquote>
+    <p>This means that client applications are no longer required to peform a second round trip to their database servers to fetch formatted results. The changeset data is cached on the engine for fast and scalable access. Use the new top-level &quot;<tt>properties</tt>&quot; query field to request changeset properties in the query response. </p>
+  </blockquote>
+  <ul>
+    <li><strong>[ENGINE-21] -         The Indices tab of the Admin tool now contains a link to export a geoloc dimension as KML</strong></li>
+  </ul>
+  <blockquote>
+    <p>The link appears in the coverage table.</p>
+  </blockquote>
+  <ul>
+    <li><strong>[ENGINE-231] -         The engine now supports highlighting of matches against text dimensions</strong></li>
+  </ul>
+  <blockquote>
+    <p>Highlighted results are returned as part of the query response. To request highlighted properties, use the new top-level &quot;<tt>highlighting</tt>&quot; query field. </p>
+  </blockquote>
+  <h2>Improvements</h2>
+  <ul>
+  <li><strong>[ENGINE-75] -         Admin Tool Changesets tab shows Local Time for all changesets</strong></li>
+  </ul>
+
+  <blockquote>
+    <p>GMT is displayed as a tool tip for the local time. </p>
+  </blockquote>
+  <ul>
+    <li><strong>[ENGINE-134] -         Engine Responds to Queries while booting</strong></li>
+  </ul>
+  <blockquote>
+    <p>The engine will now respond to query requests while it is starting up. Previously all dimensions needed to be fully populated before the engine would respond to any query. To disable this behavior, add <tt>respond-while-starting = true</tt> to the discovery.properties file before starting the engine. </p>
+  </blockquote>
+  <ul>
+    <li><strong>[ENGINE-201] - A new option to &quot;warm swap&quot; dimension changes has been added</strong></li>
+  </ul>
+  <blockquote>
+    <p>This allows customers to change a dimension with minimal downtime. Previously the dimension to be changed was unavailable during the re-indexing process. This feature is enabled when the dimension definition includes the <tt>reindexMethod=&quot;warmSwap&quot;</tt> attribute value and the engine has enough available memory to create both indexes at once.</p>
+  </blockquote>
+  <ul>
+    <li><strong>[ENGINE-169] -         The &quot;queryable&quot; web service now can be configured to return a custom status code</strong></li>
+    <li><strong>[ENGINE-159] -         The progress status messages for loading changeset data now show the units being counted, e.g. bytes or items </strong></li>
+    <li><strong>[ENGINE-172] - When a changeset is imported using the web service, the response now shows information about the changeset, not just its ID</strong></li>
+    <li><strong>[ENGINE-173] - The Changesets tab of the Admin tool now contains a button to reset changesets </strong></li>
+  </ul>
+  <h2>Bug Fixes </h2>
+  <ul>
+    <li><strong>[ENGINE-151] -         When modifying a dimensions (top level) attribute all dimensions were re-indexed. This has been corrected </strong></li>
+    <li><strong>[ENGINE-198] -         Download links for changesets had the wrong hostname in them</strong></li>
+    <li><strong>[ENGINE-218] - The checkpoint time of the Admin tool's Admin tab did not store the checkpoint time correctly </strong></li>
+    <li><strong>[ENGINE-283] - The Slaves block of the Admin Page of the Admin Tool did not allow a slave to be deleted.</strong></li>
+  </ul>
+
+<div class="clear"></div>
+
+    <div id="footer">
+      <p id="copyright">Copyright &copy; Transparensee Systems Inc. All rights reserved.</p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,71 @@
+<html>
+  <head>
+    <title>Transparensee Documentation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="../../../screen.css" rel="stylesheet" type="text/css"/>
+  </head>
+
+  <body>
+   <div id="header">
+     <div id="navbar">
+       <div id="navbar-logo">
+         <a href="../../../index.html"><img src="../../../images/logo.png" title="Transparensee" alt="Transparensee"/></a>
+       </div>
+     </div>
+   </div>
+
+   <div id="content">
+
+<h2>Release Notes - Discovery Search Engine - Version 3.6.0</h2>
+
+<h2>Improvements</h2>
+<ul>
+  <li><strong>[ENGINE-707, ENGINE-716] - Text Query Analysis Pipeline should only apply
+  full analysis when startsWith does not apply to the term at hand</strong>
+  <p>Prefix search (startsWith, lastWordStartsWith) should only apply to original
+  terms, not their mutated (stop words, stemmed, phonetically analyzed) variants.</p>
+  <p>Without this change, if the user searching using starts with for "the" where "the"
+  is a stopword,, would find nothing since the stop word analysis would remove the term
+  from the query.</p>
+  </li>
+</ul>
+<h2>Behavioral Changes</h2>
+<ul>
+  <li><strong>[ENGINE-706] - Changeset "Item Already Deleted" message is Now Suppressed</strong>
+    <p>The severity of message written to the Discovery log file when a changeset attempted to delete an
+    item that was already deleted has been demoted to FINE, resulting in reduced disk space requirements
+    for log files.</p>
+    </li>
+  <li><strong>[ENGINE-715] - storeOriginalWord is now standard for text dimensions</strong>
+    <p>The feature adds such value to text dimension searches that it has been removed as an
+    option and is part of the standard text analysis pipeline.</p></li>
+</ul>
+<h2>Obsolete Features</h2>
+<ul>
+  <li><strong>[ENGINE-713] - Legacy and Proximity Query Parsers Have Been Removed</strong>
+    <p>The Word query parser and word delimiter filters of the engine completely superede
+    the features of these two parsers and they have been removed as options for text
+    dimensions.</p>
+  </li>
+  <li><strong>[ENGINE-714] - Scoring overrides for Keyword Dimensions Removed</strong>
+    <p>Keyword indices support a scoring override options map that can define a scoring
+    style (equal, constant, difference) and some extra options (scoreEqual, scoreDifferent,
+    perCharPenalty, minimumScore).</p>
+
+    <p>This feature was added to keep text and keyword dimensions as similar as possible.
+    Now that text dimensions no longer support this (due to the removal of legacy and
+    proximity parsers ENGINE-713), keyword dimensions can drop it also.</p>
+  </li>
+  <li><strong>[ENGINE-717] - <code>stopWordPositionIncrements</code> Has Been Removed</strong>
+    <p><code>stopWordPositionIncrements</code> is now always enabled and therefore has been
+    removed as a valid option for text dimensions.</p>
+  </li>
+</ul>
+
+   </div>
+   <div class="clear"></div>
+   <div id="footer">
+     <p id="copyright">Copyright &copy; Transparensee Systems Inc. All rights reserved.</p>
+   </div>
+  </body>
+</html>

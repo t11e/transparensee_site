@@ -1,0 +1,11 @@
+<!ELEMENT dimensions (dimension)*>
+
+<!ELEMENT dimension (element)*>
+<!ATTLIST dimension id CDATA #REQUIRED>
+<!ATTLIST dimension type (mutex|ordered|hierarchical|scalar|text) #REQUIRED>
+<!ATTLIST dimension valuetype (integer|double|TYPE_LON_LAT) #IMPLIED>
+<!ATTLIST dimension locale CDATA #IMPLIED>
+
+<!ELEMENT element (element)*>
+<!ATTLIST element value  CDATA #REQUIRED>
+<!ATTLIST element name CDATA #IMPLIED>

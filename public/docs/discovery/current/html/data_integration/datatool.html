@@ -1,0 +1,924 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Data Tool &mdash; Discovery Search Engine 3.10.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Discovery Search Engine 3.10.0 documentation" href="../index.html" />
+    <link rel="up" title="Data Integration" href="index.html" />
+    <link rel="next" title="Changeset Publisher" href="changeset_publisher.html" />
+    <link rel="prev" title="Changesets" href="changesets.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="changeset_publisher.html" title="Changeset Publisher"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="changesets.html" title="Changesets"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Data Integration</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <span class="target" id="index-0"></span><div class="section" id="data-tool">
+<span id="datatool"></span><span id="index-1"></span><h1>Data Tool<a class="headerlink" href="datatool.html#data-tool" title="Permalink to this headline">¶</a></h1>
+<p>The Discovery Data Tool provides an implementation of a Changeset Publisher as
+stand-alone cross-platform Java application.</p>
+<p id="index-2">It uses JDBC, and is thus compatible with most major databases.</p>
+<p>This open source component is hosted on github at:</p>
+<p><a class="reference external" href="http://github.com/t11e/discovery_datatool">http://github.com/t11e/discovery_datatool</a></p>
+<p>You can download the latest source as well as the built distribution from:</p>
+<p><a class="reference external" href="http://github.com/t11e/discovery_datatool/downloads">http://github.com/t11e/discovery_datatool/downloads</a></p>
+<div class="section" id="summary">
+<span id="index-3"></span><h2>Summary<a class="headerlink" href="datatool.html#summary" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Configure the Data Tool by editing <cite>discovery_datatool.xml</cite></p>
+</li>
+<li><p class="first">Create a <cite>datatool.properties</cite> file.</p>
+<ol class="loweralpha simple">
+<li>Optionally specify HTTP port, bind address, JVM memory, or other overrides.</li>
+<li>Optionally configure the Data Tool to use an SSL certificate.</li>
+</ol>
+</li>
+<li><p class="first">Run the Data Tool with <cite>discovery_datatool</cite> unix shell script.</p>
+</li>
+<li><p class="first">Pull changesets or configure the engine to pull from the publisher at</p>
+<p><a class="reference external" href="http://hostname:port/ws/publisher/PUBLISHER_NAME?profile=PROFILE_NAME">http://hostname:port/ws/publisher/PUBLISHER_NAME?profile=PROFILE_NAME</a>.</p>
+<p>If you are using access control, then the URL would be</p>
+<p><a class="reference external" href="http://user:pass&#64;hostname:port/ws/publisher/PUBLISHER_NAME?profile=PROFILE_NAME">http://user:pass&#64;hostname:port/ws/publisher/PUBLISHER_NAME?profile=PROFILE_NAME</a>.</p>
+<p>Of course, if you are using SSL, then the URL would use the https scheme.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="optional-url-parameters">
+<span id="index-4"></span><h2>Optional URL Parameters<a class="headerlink" href="datatool.html#optional-url-parameters" title="Permalink to this headline">¶</a></h2>
+<p>The following options can be specified as query parameters on the URL</p>
+<ul class="simple">
+<li><cite>forceSnapshot</cite> - If set to &#8220;true&#8221; then a snapshot will be generated
+regardless of the profile&#8217;s last_run timestamp. This option is passed from
+the Discovery Search Engine if a user has checked the
+<cite>Restart feed from fresh snapshot now</cite> checkbox on the <cite>Feeds</cite> tab of the
+administrative web interface.</li>
+</ul>
+<span class="target" id="index-5"></span><ul id="index-6">
+<li><p class="first"><cite>dryRun</cite> - If set to &#8220;true&#8221; then the last_run timestamp for the specified
+profile will not be updated. Use this parameter when testing changesets so
+that repeated calls can deliver the same items for a delta changeset.</p>
+<blockquote>
+<div><p><a class="reference external" href="http://hostname:port/ws/publisher/PUBLISHER_NAME?profile=PROFILE_NAME&amp;dryRun=true">http://hostname:port/ws/publisher/PUBLISHER_NAME?profile=PROFILE_NAME&amp;dryRun=true</a></p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="configuration">
+<span id="index-7"></span><h2>Configuration<a class="headerlink" href="datatool.html#configuration" title="Permalink to this headline">¶</a></h2>
+<p>Note that the XML schema for the configuration is versioned. Earlier versions of the configuration XML
+continue to be supported, however we recommend using the latest version of the XML schema in order to take
+full advantage of the newest features.</p>
+<p>The configuration is defined by the XML Schema located in</p>
+<p><a class="reference external" href="../../../../../schema/datatool-config-7.xsd">http://transparensee.com/schema/datatool-config-7.xsd</a></p>
+<p>The <cite>examples/v7</cite> directory of the distribution contains sample XML configuration
+files for various popular databases. You can copy any of these to
+<cite>discovery_datatool.xml</cite> (in the same directory as <cite>datatool.properties</cite>) to get started.
+Examples for the earlier schema versions are in the <cite>examples/v*</cite> directories.</p>
+<p>As the Discovery Datatool is changed, we strive to maintain backwards compatibility. One way that we do this
+is by introducing new XML schema versions as new features are added.
+The Data Tool continues to support earlier versions of the configuration XML
+by using the schema namespace to recognize how to parse the file.</p>
+<p>In general, moving to the newer schema is trivial.
+There was, however, a major structural change in the XML schema between version 3 and verson 4.
+To ease migration <cite>utilities/configuration_converter_v3_to_v4.xslt</cite> can be used to migrate from
+XML schema version 3 to version 4. You should do this if you want to use the any of the features added since version 3
+such as subqueries, bulk/full feeds, provider, kind or vertical table support.</p>
+<p>Here is an example of how you would use this stylesheet with xsltproc and xmllint to convert IntegrationTest-3.xml.
+This assumes that you have the command line tools xsltproc and xmllint installed:</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>xsltproc utilities/configuration_converter_v3_to_v4.xslt discovery_datatool.xml | xmllint --format - &gt; discovery_datatool-4.xml
+</pre></div>
+</div>
+<p>The configuration XML file contains four main sections: <cite>accessControl</cite>, <cite>dataSources</cite>, <cite>profiles</cite> and <cite>publishers</cite>.
+It contains all the SQL statements that are used, giving you complete ability
+to optimize them as needed.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;config</span>
+  <span class="na">xmlns=</span><span class="s">&quot;http://transparensee.com/schema/datatool-config-7&quot;</span>
+  <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+  <span class="na">xsi:schemaLocation=</span>
+    <span class="s">&quot;http://transparensee.com/schema/datatool-config-7</span>
+<span class="s">     http://transparensee.com/schema/datatool-config-7.xsd&quot;</span><span class="nt">&gt;</span>
+  <span class="c">&lt;!--</span>
+<span class="c">  Optional:</span>
+<span class="c">  &lt;accessControl&gt;</span>
+<span class="c">    &lt;user name=&quot;engine1&quot; password=&quot;engine1secret&quot;/&gt;</span>
+<span class="c">  &lt;/accessControl&gt;</span>
+<span class="c">  --&gt;</span>
+  <span class="nt">&lt;dataSources&gt;</span>
+    ...
+  <span class="nt">&lt;/dataSources&gt;</span>
+
+  <span class="nt">&lt;profiles&gt;</span>
+    ...
+  <span class="nt">&lt;/profiles&gt;</span>
+
+  <span class="nt">&lt;publishers&gt;</span>
+    ...
+  <span class="nt">&lt;/publishers&gt;</span>
+<span class="nt">&lt;/config&gt;</span>
+</pre></div>
+</div>
+<div class="section" id="accesscontrol">
+<span id="index-8"></span><h3>accessControl<a class="headerlink" href="datatool.html#accesscontrol" title="Permalink to this headline">¶</a></h3>
+<p>The accessControl element is optional. If it is present, the HTTP basic
+authentication will be used to restrict access the Data Tool URLs.</p>
+<p>It accepts any number of child user elements. Each must have name and password
+attributes.</p>
+</div>
+<div class="section" id="datasources">
+<span id="index-9"></span><h3>DataSources<a class="headerlink" href="datatool.html#datasources" title="Permalink to this headline">¶</a></h3>
+<p>A DataSource describes how the Data Tool should connect to the database. You
+can use a <cite>javax.sql.DataSource</cite> or <cite>java.sql.Driver</cite>.</p>
+<div class="section" id="mysql-datasource">
+<span id="index-10"></span><h4>MySQL DataSource<a class="headerlink" href="datatool.html#mysql-datasource" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;dataSource</span> <span class="na">name=</span><span class="s">&quot;dataSource&quot;</span>
+  <span class="na">jar=</span><span class="s">&quot;drivers/mysql-connector-java-5.1.10-bin.jar&quot;</span>
+  <span class="na">class=</span><span class="s">&quot;com.mysql.jdbc.jdbc2.optional.MysqlDataSource&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;url&gt;</span>jdbc:mysql://localhost/test<span class="nt">&lt;/url&gt;</span>
+  <span class="nt">&lt;user&gt;</span>test<span class="nt">&lt;/user&gt;</span>
+  <span class="nt">&lt;password&gt;</span>test<span class="nt">&lt;/password&gt;</span>
+<span class="nt">&lt;/dataSource&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mysql-driver">
+<h4>MySQL Driver<a class="headerlink" href="datatool.html#mysql-driver" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;driver</span> <span class="na">name=</span><span class="s">&quot;dataSource&quot;</span>
+  <span class="na">jar=</span><span class="s">&quot;drivers/mysql-connector-java-5.1.10-bin.jar&quot;</span>
+  <span class="na">class=</span><span class="s">&quot;com.mysql.jdbc.Driver&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;url&gt;</span>jdbc:mysql://localhost/test<span class="nt">&lt;/url&gt;</span>
+  <span class="nt">&lt;username&gt;</span>test<span class="nt">&lt;/username&gt;</span>
+  <span class="nt">&lt;password&gt;</span>test<span class="nt">&lt;/password&gt;</span>
+<span class="nt">&lt;/driver&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sql-server-datasource">
+<span id="index-11"></span><h4>SQL Server DataSource<a class="headerlink" href="datatool.html#sql-server-datasource" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;dataSource</span> <span class="na">name=</span><span class="s">&quot;dataSource&quot;</span>
+  <span class="na">jar=</span><span class="s">&quot;drivers/jtds-1.2.5.jar&quot;</span>
+  <span class="na">class=</span><span class="s">&quot;net.sourceforge.jtds.jdbcx.JtdsDataSource&quot;</span><span class="nt">&gt;</span>
+  <span class="c">&lt;!-- 1: sqlserver, 2: sybase --&gt;</span>
+  <span class="nt">&lt;serverType&gt;</span>1<span class="nt">&lt;/serverType&gt;</span>
+  <span class="nt">&lt;serverName&gt;</span>localhost<span class="nt">&lt;/serverName&gt;</span>
+  <span class="nt">&lt;databaseName&gt;</span>test<span class="nt">&lt;/databaseName&gt;</span>
+  <span class="nt">&lt;user&gt;</span>test<span class="nt">&lt;/user&gt;</span>
+  <span class="nt">&lt;password&gt;</span>test<span class="nt">&lt;/password&gt;</span>
+<span class="nt">&lt;/dataSource&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sql-server-driver">
+<h4>SQL Server Driver<a class="headerlink" href="datatool.html#sql-server-driver" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;driver</span> <span class="na">name=</span><span class="s">&quot;dataSource&quot;</span>
+  <span class="na">jar=</span><span class="s">&quot;drivers/jtds-1.2.5.jar&quot;</span>
+  <span class="na">class=</span><span class="s">&quot;net.sourceforge.jtds.jdbc.Driver&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;url&gt;</span>jdbc:jtds:sqlserver://localhost/test<span class="nt">&lt;/url&gt;</span>
+  <span class="nt">&lt;username&gt;</span>test<span class="nt">&lt;/username&gt;</span>
+  <span class="nt">&lt;password&gt;</span>test<span class="nt">&lt;/password&gt;</span>
+<span class="nt">&lt;/driver&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="profiles">
+<span id="index-12"></span><h3>Profiles<a class="headerlink" href="datatool.html#profiles" title="Permalink to this headline">¶</a></h3>
+<p>Profiles describe how the state about changeset pulls should be stored.</p>
+<p>Profiles are expected to exist <em>before</em> use. The Discovery Data Tool does not
+automatically create them unless you provide the SQL for this in a createSql
+element.</p>
+<div class="section" id="sqlprofile">
+<span id="index-13"></span><h4>SqlProfile<a class="headerlink" href="datatool.html#sqlprofile" title="Permalink to this headline">¶</a></h4>
+<p>This profile stores state in the database.</p>
+<p>You would create the following table to support it.</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">create</span> <span class="k">table</span> <span class="n">changeset_profile</span> <span class="p">(</span>
+  <span class="n">name</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">not</span> <span class="k">null</span> <span class="k">unique</span> <span class="k">primary</span> <span class="k">key</span><span class="p">,</span>
+  <span class="n">last_run</span> <span class="k">timestamp</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>And configure it like this.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;sqlProfile</span> <span class="na">name=</span><span class="s">&quot;profile&quot;</span> <span class="na">dataSource=</span><span class="s">&quot;dataSource&quot;</span><span class="nt">&gt;</span>
+  <span class="c">&lt;!--</span>
+<span class="c">    createSql is optional. By including it we enable automatic profile creation.</span>
+<span class="c">  --&gt;</span>
+  <span class="nt">&lt;createSql&gt;</span>
+    insert into changeset_profile (name) values (:name)
+  <span class="nt">&lt;/createSql&gt;</span>
+  <span class="nt">&lt;retrieveSql</span> <span class="na">startColumn=</span><span class="s">&quot;startTime&quot;</span> <span class="na">endColumn=</span><span class="s">&quot;endTime&quot;</span><span class="nt">&gt;</span>
+    select last_run as startTime, CURRENT_TIMESTAMP as endTime
+    from changeset_profile
+    where name = :name
+  <span class="nt">&lt;/retrieveSql&gt;</span>
+  <span class="nt">&lt;updateSql&gt;</span>
+    update changeset_profile
+    set last_run = :lastRun
+    where name = :name
+  <span class="nt">&lt;/updateSql&gt;</span>
+<span class="nt">&lt;/sqlProfile&gt;</span>
+</pre></div>
+</div>
+<p>The interaction with the SqlProfile is as follows.</p>
+<p>Whenever a request for a /ws/publisher/PUBLISHER_NAME?profile=PROFILE_NAME
+is made, the retrieveSql is executed. It must return start and end timestamps
+in the columns corresponding to <cite>retrieveSql/&#64;startColumn</cite> and
+<cite>retrieveSql/&#64;endColumn</cite>. The query must either return one row or no rows.</p>
+<p>If no rows are returned and there is no createSql, then the changeset pull will
+fail with a <cite>NoSuchProfileException</cite>. If there is a createSql, then it is executed
+with the profile name bound as the &#8220;name&#8221; parameter. As you might expect,
+this query is responsible for creating the named changeset profile. After that
+query executes, then the retrieveSql is executed to obtain the start and end
+timestamps.</p>
+<p>After the successful generation of the changeset, the updateSql is executed
+in order to update the named profile&#8217;s lastRun to the end timestamp
+that was used in generating the changeset.  The updateSql is passed the
+profile name as the &#8220;name&#8221; parameter and the new last run timestamp as the &#8220;lastRun&#8221;
+parameter. The updateSql is expected to modify exactly one row. If it does not,
+then a RuntimeException is thrown.</p>
+</div>
+</div>
+<div class="section" id="publishers">
+<span id="index-14"></span><h3>Publishers<a class="headerlink" href="datatool.html#publishers" title="Permalink to this headline">¶</a></h3>
+<p>A publisher is a named entry point for pulling changesets. Each publisher is
+accessible via a different URL based on its name.</p>
+<div class="highlight-text"><div class="highlight"><pre>http://localhost:8089/ws/publisher/production
+http://localhost:8089/ws/publisher/stage
+http://localhost:8089/ws/publisher/test
+</pre></div>
+</div>
+<div class="section" id="sqlpublisher">
+<span id="index-15"></span><h4>SqlPublisher<a class="headerlink" href="datatool.html#sqlpublisher" title="Permalink to this headline">¶</a></h4>
+<p>A <cite>sqlPublisher</cite> element requires a <cite>dataSource</cite>. A <cite>profile</cite> is optional.
+If no <cite>profile</cite> is specified, then the publisher will never have a start or end time available for its queries.
+An optional <cite>propertyCase</cite> attribute specifies how the case of item properties should be handled.</p>
+<p>The <cite>sqlPublisher</cite> element contains optionally an element specifying the queries for snapshot, full or bulk changeset,
+as well any number of elements defining the queries for incremental (delta) changesets. These elements ultimately contain the
+SQL queries used to create <cite>set-item</cite>, <cite>add-to-item</cite>, and <cite>remove-item</cite> elements in the resulting changeset.</p>
+<span class="target" id="index-16"></span><div class="section" id="propertycase-for-item-property-name-handling">
+<span id="index-17"></span><h5><cite>propertyCase</cite> for item property name handling<a class="headerlink" href="datatool.html#propertycase-for-item-property-name-handling" title="Permalink to this headline">¶</a></h5>
+<p>Starting with schema version 7, you can specify if and how you want item property names to be normalized.
+With schema version 7, the default is to preserve case.
+Older schema versions continue to have the legacy behavior of lowercasing property names
+from column names but from pivoted values from <cite>merge-columns</cite>.
+The valid values for <cite>propertyCase</cite> are:</p>
+<dl class="docutils">
+<dt><cite>preserve</cite></dt>
+<dd>Use whatever case we get back from the database</dd>
+<dt><cite>lower</cite></dt>
+<dd>All property names are converted to locale lower case</dd>
+<dt><cite>upper</cite></dt>
+<dd>All property names are converted to locale upper case</dd>
+<dt><cite>legacy</cite></dt>
+<dd>Property names from sql column labels are converted to lower case, but property names from vertical table values are preserved.</dd>
+</dl>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;sqlPublisher</span> <span class="na">name=</span><span class="s">&quot;production&quot;</span>
+  <span class="na">dataSource=</span><span class="s">&quot;dataSource&quot;</span> <span class="na">profile=</span><span class="s">&quot;profile&quot;</span><span class="nt">&gt;</span>
+  ...
+<span class="nt">&lt;/sqlPublisher&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="changeset-categories">
+<span id="index-18"></span><h5>Changeset Categories<a class="headerlink" href="datatool.html#changeset-categories" title="Permalink to this headline">¶</a></h5>
+<p>A SqlPublisher can be configured to produce two categories of changesets.</p>
+<ul class="simple">
+<li>Complete changesets: one of <cite>snapshot</cite>, <cite>bulk</cite>, or <cite>full</cite></li>
+<li>Incremental changesets: <cite>delta</cite></li>
+</ul>
+<p>A SqlPublisher may optionally contain one complete changeset defintion. A complete changeset
+definition is provided by the <cite>snapshot</cite>, <cite>bulk</cite>, and <cite>full</cite> elements. As the name suggests, a complete changeset
+should include all the items in your dataset.</p>
+<p>A SqlPublisher may contain any number of incremental changeset definitions, each one defined in a <cite>delta</cite> element.
+A delta changeset includes only the items that have been modified or deleted since the previous incremental or
+complete changeset was created for a particular profile.</p>
+<p>The changeset category elements contain one or more <cite>set-item</cite> elements, which in turn contain a <cite>query</cite> and optional
+<cite>merge-columns</cite> and <cite>subquery</cite> elements.
+The <cite>snapshot</cite> and <cite>delta</cite> elements may also contain <cite>add-to-item</cite> and <cite>remove-item</cite> elements, which in turn contain a <cite>query</cite> and,
+in the case of <cite>add-to-item</cite>, optional <cite>merge-columns</cite> and <cite>subquery</cite> elements.
+The <cite>bulk</cite> and <cite>full</cite> elements cannot contain any <cite>remove-item</cite> or <cite>add-to-item</cite> elements, but can contain a <cite>query</cite> and optional
+<cite>merge-columns</cite> and <cite>subquery</cite> elements.</p>
+<p>When the Data Tool processes a changeset for a SqlPublisher, the queries inside of the <cite>set-item</cite> elements are used to
+create <cite>set-item</cite> elements in the resulting changeset to represent items that were created or modified.
+The queries inside of the <cite>add-to-item</cite> elements are used to create
+<cite>add-to-item</cite> elements in the resulting changeset to represent properties that
+are set on preexisting items.
+The queries inside of the <cite>remove-item</cite> elements are used to create <cite>remove-item</cite> elements in the resulting changeset
+to record when items are deleted.</p>
+<p>In all queries and subqueries, the column names are used for property names unless they are overridden by specifying a column alias.</p>
+<p>To include modified or created items in a <cite>delta</cite> changeset:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;delta&gt;</span>
+  <span class="nt">&lt;set-item</span> <span class="na">idColumn=</span><span class="s">&quot;id&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;query&gt;</span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">    select * from items where last_updated &gt;= :start and last_updated &lt; :end</span>
+<span class="cp">  ]]&gt;</span><span class="nt">&lt;/query&gt;</span>
+  <span class="nt">&lt;/set-item&gt;</span>
+<span class="nt">&lt;/delta&gt;</span>
+
+<span class="nt">&lt;delta&gt;</span>
+  <span class="nt">&lt;remove-item</span> <span class="na">idColumn=</span><span class="s">&quot;id&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;query&gt;</span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">    select id from deleted_items where last_updated &gt;= :start and last_updated &lt; :end</span>
+<span class="cp">  ]]&gt;</span><span class="nt">&lt;/query&gt;</span>
+  <span class="nt">&lt;/remove-item&gt;</span>
+<span class="nt">&lt;/delta&gt;</span>
+</pre></div>
+</div>
+<p>To follow deletions in a <cite>delta</cite> changeset:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;delta&gt;</span>
+  <span class="nt">&lt;remove-item</span> <span class="na">idColumn=</span><span class="s">&quot;id&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;query&gt;</span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">    select id from deleted_items where last_updated &gt;= :start and last_updated &lt; :end</span>
+<span class="cp">  ]]&gt;</span><span class="nt">&lt;/query&gt;</span>
+  <span class="nt">&lt;/remove-item&gt;</span>
+<span class="nt">&lt;/delta&gt;</span>
+</pre></div>
+</div>
+<p>To include all items in a <cite>snapshot</cite> changeset:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;snapshot&gt;</span>
+  <span class="nt">&lt;set-item</span> <span class="na">idColumn=</span><span class="s">&quot;id&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;query&gt;</span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">    select * from items</span>
+<span class="cp">  ]]&gt;</span><span class="nt">&lt;/query&gt;</span>
+  <span class="nt">&lt;/set-item&gt;</span>
+<span class="nt">&lt;/snapshot&gt;</span>
+</pre></div>
+</div>
+<p>Note that a snapshot may contain a <cite>remove-item</cite> query. Bulk and full must not contain a <cite>remove-item</cite>.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;snapshot&gt;</span>
+  <span class="nt">&lt;set-item</span> <span class="na">idColumn=</span><span class="s">&quot;id&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;query&gt;</span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">    select * from items</span>
+<span class="cp">  ]]&gt;</span><span class="nt">&lt;/query&gt;</span>
+  <span class="nt">&lt;/set-item&gt;</span>
+  <span class="nt">&lt;remove-item</span> <span class="na">idColumn=</span><span class="s">&quot;id&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;query&gt;</span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">    select id from deleted_items</span>
+<span class="cp">  ]]&gt;</span><span class="nt">&lt;/query&gt;</span>
+  <span class="nt">&lt;/remove-item&gt;</span>
+<span class="nt">&lt;/snapshot&gt;</span>
+</pre></div>
+</div>
+<p>Note that, unlike snapshots, bulk and full changesets must not include any duplicate items.</p>
+<span class="target" id="index-19"></span><p id="index-20">Note that calling stored procedures is supported. Calling a stored procedure looks like this.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;delta&gt;</span>
+  <span class="nt">&lt;set-item</span> <span class="na">idColumn=</span><span class="s">&quot;id&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;query&gt;</span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">    call get_updated_items(:start, :end)</span>
+<span class="cp">  ]]&gt;</span><span class="nt">&lt;/query&gt;</span>
+  <span class="nt">&lt;/set-item&gt;</span>
+<span class="nt">&lt;/delta&gt;</span>
+</pre></div>
+</div>
+<p>The SQL is processed by a <cite>org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate</cite>
+which supports named parameters.</p>
+<p>The following bound parameters are available for your queries. Bound parameter names are not case sensitive.
+Note that start and end are null for snapshot, bulk and full queries, so you probably do not want to include them in
+your sql:</p>
+<ul class="simple">
+<li><strong>start</strong>
+The inclusive start of the date range for this changeset as a <cite>java.util.Date</cite>.</li>
+<li><strong>end</strong>
+The exclusive end of the date range for this changeset as a <cite>java.util.Date</cite>.</li>
+<li><strong>kind</strong>
+&#8216;snapshot&#8217; or &#8216;delta&#8217;</li>
+</ul>
+<p>Each <cite>set-item</cite> can contain one <cite>query</cite> element, and zero or more <cite>subquery</cite> elements. Each <cite>set-item</cite> is executed in sequence.
+This supports creating changesets that union across various different views or tables.</p>
+<p>Each <cite>add-to-item</cite> can contain one <cite>query</cite> element, and zero or more <cite>subquery</cite> elements. Each <cite>add-to-item</cite> is executed in sequence.
+This supports creating changesets that union across various different views or tables.</p>
+<span class="target" id="index-21"></span><span class="target" id="index-22"></span><span class="target" id="index-23"></span><span class="target" id="index-24"></span><span class="target" id="index-25"></span><span class="target" id="index-26"></span></div>
+<div class="section" id="provider-and-kind-support">
+<span id="index-27"></span><h5>Provider and Kind Support<a class="headerlink" href="datatool.html#provider-and-kind-support" title="Permalink to this headline">¶</a></h5>
+<p>If the identifiers in your data are only unique within the context of a specific content provider
+and/or data type, as of Discovery Engine 3.3.0 and Data Tool 1.6 you no longer need to manipulate the value returned for the <cite>idColumn</cite>
+to make it unique within your engine. Instead you can use the <cite>providerColumn</cite> and <cite>kindColumn</cite> attributes on
+the <cite>set-item</cite>, <cite>add-to-item</cite>, and <cite>remove-item</cite> configuration elements.
+The presence of these attributes will result in the generation of changeset <cite>set-item</cite>, <cite>add-to-item</cite>, and <cite>remove-item</cite> elements
+with <cite>locator</cite>, <cite>provider</cite> and <cite>kind</cite> attributes, and without <cite>id</cite> attributes.
+The Discovery Engine combines <cite>locator</cite>, <cite>provider</cite> and <cite>kind</cite> to create a unique identifier attribute for each item.
+This feature is compatible with <cite>merge-columns</cite> and <cite>subquery</cite> elements - just think of xxxxColumn as the item property key,
+whether it comes from the main <cite>query</cite>, <cite>merge-columns</cite> or a <cite>subquery</cite>.
+The properties for the <cite>idColumn</cite>, <cite>providerColumn</cite> and <cite>kindColumn</cite> are not included in the <cite>set-item</cite> or <cite>add-to-item</cite> <cite>properties</cite> structure,
+as this would create redundant data entries in the item properties.
+The special item properties <cite>_id</cite>, <cite>_locator</cite>, <cite>_provider</cite>, and <cite>_kind</cite> are included when you request item properties
+from the Discovery Engine.</p>
+<p>Note that <cite>providerColumn</cite> and <cite>kindColumn</cite> are each optional. You may choose to include none, one, or both.
+If either of the attributes are present, even if they are empty, then the resulting <cite>set-item</cite> or <cite>add-to-item</cite> will use
+<cite>locator</cite> instead of <cite>id</cite>.</p>
+<p>Here is an example snapshot configuration that contains two kinds of items (with possibly overlapping ids), and one provider.
+If you did not want to track the provider, then in this case the <cite>providerColumn</cite> could be omitted.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;snapshot&gt;</span>
+  <span class="nt">&lt;set-item</span> <span class="na">idColumn=</span><span class="s">&quot;id&quot;</span> <span class="na">providerColumn=</span><span class="s">&quot;provider&quot;</span> <span class="na">kindColumn=</span><span class="s">&quot;kind&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;query&gt;</span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">    select m.*, &#39;imdb&#39; as provider, &#39;movie&#39; as kind from movies m</span>
+<span class="cp">  ]]&gt;</span><span class="nt">&lt;/query&gt;</span>
+  <span class="nt">&lt;/set-item&gt;</span>
+  <span class="nt">&lt;set-item</span> <span class="na">idColumn=</span><span class="s">&quot;id&quot;</span> <span class="na">providerColumn=</span><span class="s">&quot;provider&quot;</span> <span class="na">kindColumn=</span><span class="s">&quot;kind&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;query&gt;</span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">    select p.*, &#39;imdb&#39; as provider, &#39;person&#39; as kind from person p</span>
+<span class="cp">  ]]&gt;</span><span class="nt">&lt;/query&gt;</span>
+  <span class="nt">&lt;/set-item&gt;</span>
+<span class="nt">&lt;/snapshot&gt;</span>
+</pre></div>
+</div>
+<span class="target" id="index-28"></span><span class="target" id="index-29"></span><span class="target" id="index-30"></span></div>
+<div class="section" id="vertical-table-support">
+<span id="index-31"></span><h5>Vertical Table Support<a class="headerlink" href="datatool.html#vertical-table-support" title="Permalink to this headline">¶</a></h5>
+<p>If your database uses a vertical table design, then you will want to pivot multiple rows from your vertical table into one
+conceptual <cite>set-item</cite> in the generated changeset. The Data Tool supports this kind of pivot with one or more <cite>merge-columns</cite>
+elements.</p>
+<p>With <cite>merge-columns</cite>, your <cite>query</cite> is expected to return multiple rows for each item. For each row returned,
+the <cite>merge-columns</cite> element tells the Data Tool to use the value from <cite>keyColumn</cite> for the item property key and and the value from
+<cite>valueColumn</cite> for the item property value. Multiple values returned across multiple rows for the same item and property
+are combined into an array structure as shown for entry &#8220;ratings&#8221; in the this example:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;changeset&gt;</span>
+  <span class="nt">&lt;set-item</span> <span class="na">id=</span><span class="s">&quot;007&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;properties&gt;</span>
+      <span class="nt">&lt;struct&gt;</span>
+        <span class="nt">&lt;entry</span> <span class="na">name=</span><span class="s">&quot;ratings&quot;</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;array&gt;</span>
+            <span class="nt">&lt;element&gt;&lt;int&gt;</span>1<span class="nt">&lt;/int&gt;&lt;/element&gt;</span>
+            <span class="nt">&lt;element&gt;&lt;int&gt;</span>5<span class="nt">&lt;/int&gt;&lt;/element&gt;</span>
+          <span class="nt">&lt;/array&gt;</span>
+        <span class="nt">&lt;/entry&gt;</span>
+      <span class="nt">&lt;/struct&gt;</span>
+    <span class="nt">&lt;/properties&gt;</span>
+  <span class="nt">&lt;/set-item&gt;</span>
+<span class="nt">&lt;/changeset&gt;</span>
+</pre></div>
+</div>
+<p>The data tool expects the result set to be ordered by item id, which is implemented through the <cite>idColumn</cite> value,
+so the SQL query to generate the result set should order the results appropriately.</p>
+<p>If the results are not ordered by id, then the resulting <cite>set-item</cite> entries will not be reliable. No error will be thrown.</p>
+<p>Note that any non-merged columns from the query resultset will be included in the resulting <cite>set-item</cite>.
+Unlike <cite>merge-columns</cite>, only the the first row will be used to populate the <cite>set-item</cite>.</p>
+<p>You may include <cite>subquery</cite> elements after your <cite>merge-columns</cite>. Any subqueries that you include will be run only after the
+merges are complete.</p>
+<p>Here is an example vertical table schema</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">create</span> <span class="k">table</span> <span class="n">vertical_master_items</span> <span class="p">(</span>
+  <span class="n">id</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">primary</span> <span class="k">key</span> <span class="k">not</span> <span class="k">null</span><span class="p">,</span>
+  <span class="n">lastUpdated</span> <span class="k">timestamp</span> <span class="k">not</span> <span class="k">null</span> <span class="k">default</span> <span class="k">current_timestamp</span><span class="p">);</span>
+
+<span class="k">create</span> <span class="k">table</span> <span class="n">vertical_data</span> <span class="p">(</span>
+  <span class="n">id</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">not</span> <span class="k">null</span> <span class="k">references</span> <span class="n">vertical_master_items</span><span class="p">(</span><span class="n">id</span><span class="p">),</span>
+  <span class="n">name</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+  <span class="n">value</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>And here is an example of the use of the <cite>merge-columns</cite> configuration element.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;sqlPublisher</span> <span class="na">name=</span><span class="s">&quot;test-simple&quot;</span> <span class="na">dataSource=</span><span class="s">&quot;dataSource&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;delta&gt;</span>
+    <span class="nt">&lt;set-item</span> <span class="na">idColumn=</span><span class="s">&quot;id&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;query&gt;</span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">        SELECT data.id, data.name, data.value</span>
+<span class="cp">        FROM vertical_master_items master</span>
+<span class="cp">        JOIN vertical_data data on data.id = master.id</span>
+<span class="cp">        WHERE lastUpdated &gt;= :start and lastUpdated &lt; :end</span>
+<span class="cp">        ORDER BY data.id</span>
+<span class="cp">    ]]&gt;</span><span class="nt">&lt;/query&gt;</span>
+      <span class="nt">&lt;merge-columns</span> <span class="na">keyColumn=</span><span class="s">&quot;name&quot;</span> <span class="na">valueColumn=</span><span class="s">&quot;value&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/set-item&gt;</span>
+  <span class="nt">&lt;/delta&gt;</span>
+<span class="nt">&lt;/sqlPublisher&gt;</span>
+</pre></div>
+</div>
+<p>With this data</p>
+<p><cite>vertical_master_items</cite></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">id</th>
+<th class="head">last_updated</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>2010-01-01</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>2010-01-01</td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td>2010-01-01</td>
+</tr>
+</tbody>
+</table>
+<p><cite>vertical_data</cite></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="29%" />
+<col width="57%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">id</th>
+<th class="head">name</th>
+<th class="head">value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>color</td>
+<td>red</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>color</td>
+<td>orange</td>
+</tr>
+<tr class="row-even"><td>2</td>
+<td>color</td>
+<td>yellow</td>
+</tr>
+</tbody>
+</table>
+<p>The following changeset will be created:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;changeset&gt;</span>
+  <span class="nt">&lt;set-item</span> <span class="na">id=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;properties&gt;</span>
+      <span class="nt">&lt;struct&gt;</span>
+        <span class="nt">&lt;entry</span> <span class="na">name=</span><span class="s">&quot;id&quot;</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;string&gt;</span>1<span class="nt">&lt;/string&gt;</span>
+        <span class="nt">&lt;/entry&gt;</span>
+        <span class="nt">&lt;entry</span> <span class="na">name=</span><span class="s">&quot;color&quot;</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;string&gt;</span>red<span class="nt">&lt;/string&gt;</span>
+        <span class="nt">&lt;/entry&gt;</span>
+      <span class="nt">&lt;/struct&gt;</span>
+    <span class="nt">&lt;/properties&gt;</span>
+  <span class="nt">&lt;/set-item&gt;</span>
+  <span class="nt">&lt;set-item</span> <span class="na">id=</span><span class="s">&quot;2&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;properties&gt;</span>
+      <span class="nt">&lt;struct&gt;</span>
+        <span class="nt">&lt;entry</span> <span class="na">name=</span><span class="s">&quot;id&quot;</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;string&gt;</span>2<span class="nt">&lt;/string&gt;</span>
+        <span class="nt">&lt;/entry&gt;</span>
+        <span class="nt">&lt;entry</span> <span class="na">name=</span><span class="s">&quot;color&quot;</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;array&gt;</span>
+            <span class="nt">&lt;element&gt;</span>
+              <span class="nt">&lt;string&gt;</span>orange<span class="nt">&lt;/string&gt;</span>
+            <span class="nt">&lt;/element&gt;</span>
+            <span class="nt">&lt;element&gt;</span>
+              <span class="nt">&lt;string&gt;</span>yellow<span class="nt">&lt;/string&gt;</span>
+            <span class="nt">&lt;/element&gt;</span>
+          <span class="nt">&lt;/array&gt;</span>
+        <span class="nt">&lt;/entry&gt;</span>
+      <span class="nt">&lt;/struct&gt;</span>
+    <span class="nt">&lt;/properties&gt;</span>
+  <span class="nt">&lt;/set-item&gt;</span>
+<span class="nt">&lt;/changeset&gt;</span>
+</pre></div>
+</div>
+<span class="target" id="index-32"></span></div>
+<div class="section" id="subqueries">
+<span id="index-33"></span><h5>Subqueries<a class="headerlink" href="datatool.html#subqueries" title="Permalink to this headline">¶</a></h5>
+<p>The engine requires that data available through one-to-many relationships be &#8220;flattened&#8221; or denormalized
+as part of the main item property query. A subquery is typically used to pull in values from
+child tables. Subqueries provide a very flexible means for managing these relationships.</p>
+<p>Subqueries are optional. Each <cite>set-item</cite> element can contain zero or more <cite>subquery</cite> elements.
+Subqueries are executed after the single main required query.</p>
+<p>Subqueries are quite powerful and flexible. Here are some ways that you might use a subquery.</p>
+<ol class="arabic simple">
+<li>Map a list of values from a single column in a child table to an item property as an array of values.</li>
+<li>Map a list of values from a single column in a child table to an item property as a single string of delimited values.</li>
+<li>Map a list of subquery rows to multiple item properties with each column mapped to an item property. Each property containing an array of values.</li>
+<li>Map a list of subquery rows to multiple item properties with each column mapped to an item property. Each property containing a single string of delimited values.</li>
+<li>Map a list of subquery rows to a single item property containing a map with each column as a map key for a string of delimited values.</li>
+<li>Map a list of subquery rows to a single item property containing a list of maps (one per subquery row), with each column as a map key for that columns value.</li>
+<li>Use a discriminator column returned from the subquery to map a list of subquery rows to a single item property containing a map with each discriminator value used as a map key with its value being a map of column name to value for that discriminator&#8217;s row.</li>
+</ol>
+<p>The results from each subquery are merged into the <cite>set-item</cite> element. The column
+names or aliases are used as property names, overwriting any entries previously
+populated by the main query.  The subquery results can optionally be scoped by
+specifying either a <cite>property</cite> or <cite>propertyPrefix</cite> attribute on the subquery.
+Specifying a <cite>property</cite> means use that as the set-item property name.  Specifying
+a <cite>propertyPrefix</cite> means prepend the prefix to the column name(s) or alias(es)
+when creating set-item property names.</p>
+<p>Subquery results can be represented as arrays of values, a delimited string,
+arrays of maps, maps of arrays, maps of delimited strings, or mapped to
+multiple entries on the main set-item with the values as arrays or delimited
+strings.  The choice of how multiple values are mapped is controlled by the
+<cite>type</cite> attribute.</p>
+<p>If a subquery returns more than one row, then the row values are represented as
+an array. If a delimiter is specified, then the row values returned by the
+subquery are joined by the delimiter into a single value.</p>
+<p>If a subquery returns more that one column, and it is mapped using a <cite>property</cite>,
+then the property value will be represented by a dictionary (map) or an array of
+dictionaries, with subquery each row consisting of a single dictionary of
+column name to column value. Each column is mapped to an entry in the struct.
+Column aliases are respected, so you can re-map the database column names to
+arbitrary strings in the returned dictionaries.</p>
+<p>By specifying a <cite>propertyPrefix</cite>, each column from the subquery is merged into the
+main <cite>set-item</cite> using the <cite>propertyPrefix</cite> combined with the column name or column
+alias to create the <cite>set-item</cite> property name. The values are either a single
+value (when the subquery returns a single row), an array of values, or a string
+of delimited values depending on whether they <cite>type</cite> specified was <cite>array</cite> or
+<cite>delimited</cite>.</p>
+<span class="target" id="index-34"></span><p id="index-35">Subqueries that return multiple columns may use the <cite>discriminator</cite> feature. When
+a discriminator is used, the values of each row are mapped to a dictionary with the
+discriminator value as the key.  If multiple subquery rows
+return the same discriminator value, then the values from the last row returned
+overwrite any previous values for that discriminator.</p>
+<p>The default subquery <cite>type</cite> is <cite>array</cite> - which builds an <cite>array</cite> element in the
+<cite>set-item</cite> structure for the multiple values for each column returned.  The
+other valid choice for <cite>type</cite> is <cite>delimited</cite> - which builds a single delimited
+string containing the multiple values.  For <cite>type</cite> of delimited, a <cite>delimiter</cite>
+can specified. If unspecified, the default delimiter is a comma.</p>
+<p>All the columns or aliases returned by the main query are available to the
+subquery as named bound parameters.  The bound parameters from the main query
+(<cite>:start</cite>, <cite>:end</cite>, and <cite>:kind</cite>)  are not available to the subquery.  Bound
+parameter names are not case sensitive. If the main query returns null or an
+empty string for a column, then the corresponding bound parameter will have a
+null value.  Bound parameters in a subquery that do not have a corresponding
+column in the main query will have a null value.</p>
+<p>The subquery examples below use the <cite>id</cite> returned from the main query as a
+bound parameter.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;subquery&gt;</span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">  select name as color from SubqueryColors where parent_id=:id order by name</span>
+<span class="cp">]]&gt;</span><span class="nt">&lt;/subquery&gt;</span>
+<span class="nt">&lt;subquery</span> <span class="na">type=</span><span class="s">&quot;delimited&quot;</span> <span class="na">delimiter=</span><span class="s">&quot;|&quot;</span><span class="nt">&gt;</span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">  select name as color_delim from SubqueryColors where parent_id=:id order by name</span>
+<span class="cp">]]&gt;</span><span class="nt">&lt;/subquery&gt;</span>
+<span class="nt">&lt;subquery</span> <span class="na">property=</span><span class="s">&quot;color-default&quot;</span><span class="nt">&gt;</span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">  select name from SubqueryColors where parent_id=:id order by name</span>
+<span class="cp">]]&gt;</span><span class="nt">&lt;/subquery&gt;</span>
+<span class="nt">&lt;subquery</span> <span class="na">property=</span><span class="s">&quot;color-array&quot;</span> <span class="na">type=</span><span class="s">&quot;array&quot;</span><span class="nt">&gt;</span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">  select name from SubqueryColors where parent_id=:id order by name</span>
+<span class="cp">]]&gt;</span><span class="nt">&lt;/subquery&gt;</span>
+<span class="nt">&lt;subquery</span> <span class="na">property=</span><span class="s">&quot;color-delimited&quot;</span> <span class="na">type=</span><span class="s">&quot;delimited&quot;</span><span class="nt">&gt;</span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">  select name from SubqueryColors where parent_id=:id order by name</span>
+<span class="cp">]]&gt;</span><span class="nt">&lt;/subquery&gt;</span>
+<span class="nt">&lt;subquery</span> <span class="na">property=</span><span class="s">&quot;color-delimited&quot;</span> <span class="na">type=</span><span class="s">&quot;delimited&quot;</span> <span class="na">delimiter=</span><span class="s">&quot;|&quot;</span><span class="nt">&gt;</span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">  select name from SubqueryColors where parent_id=:id order by name</span>
+<span class="cp">]]&gt;</span><span class="nt">&lt;/subquery&gt;</span>
+<span class="nt">&lt;subquery</span> <span class="na">property=</span><span class="s">&quot;address&quot;</span> <span class="na">discriminator=</span><span class="s">&quot;addr_type&quot;</span><span class="nt">&gt;</span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">  select addr_type, street, city, state, zipcode</span>
+<span class="cp">  from SubqueryAddress</span>
+<span class="cp">  where parent_id=:id</span>
+<span class="cp">  order by id</span>
+<span class="cp">]]&gt;</span><span class="nt">&lt;/subquery&gt;</span>
+<span class="nt">&lt;subquery</span> <span class="na">propertyPrefix=</span><span class="s">&quot;product&quot;</span><span class="nt">&gt;</span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">  select id, price, description from order_lines where order_id=:id order by id</span>
+<span class="cp">]]&gt;</span><span class="nt">&lt;/subquery&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="supported-column-types">
+<h5>Supported Column Types<a class="headerlink" href="datatool.html#supported-column-types" title="Permalink to this headline">¶</a></h5>
+<p>The following SQL data types are supported by the Data Tool and will be mapped
+from your query and subquery results to changeset <cite>set-item</cite> or <cite>add-to-item</cite> property values.</p>
+<ul class="simple">
+<li>BIGINT</li>
+<li>BIT</li>
+<li>BOOLEAN</li>
+<li>CHAR</li>
+<li>CLOB</li>
+<li>DATE</li>
+<li>DECIMAL</li>
+<li>DOUBLE</li>
+<li>FLOAT</li>
+<li>INTEGER</li>
+<li>LONGVARCHAR</li>
+<li>NUMERIC</li>
+<li>REAL</li>
+<li>SMALLINT</li>
+<li>TIME</li>
+<li>TIMESTAMP</li>
+<li>TINYINT</li>
+<li>VARCHAR</li>
+</ul>
+<p>Only char, varchar, longvarchar and clob columns can be treated as embedded JSON columns.</p>
+</div>
+<div class="section" id="unsupported-column-types">
+<h5>Unsupported Column Types<a class="headerlink" href="datatool.html#unsupported-column-types" title="Permalink to this headline">¶</a></h5>
+<p>The following SQL data types are not supported by the Data Tool. They will be
+ignored if they are returned from your query or subquery.</p>
+<ul class="simple">
+<li>ARRAY</li>
+<li>BINARY</li>
+<li>BLOB</li>
+<li>DATALINK</li>
+<li>DISTINCT</li>
+<li>JAVA_OBJECT</li>
+<li>LONGVARBINARY</li>
+<li>NULL</li>
+<li>OTHER</li>
+<li>REF</li>
+<li>STRUCT</li>
+<li>VARBINARY</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="ssl">
+<span id="index-36"></span><h2>SSL<a class="headerlink" href="datatool.html#ssl" title="Permalink to this headline">¶</a></h2>
+<p>To run the Data Tool with SSL support</p>
+<ol class="arabic simple">
+<li>Create or obtain an RSA key and server certificate (potentially signed by a
+certificate authority).<ul>
+<li>Note that the Common Name on the certificate must match the hostname in
+the feed URL to be used by the discovery engine.</li>
+</ul>
+</li>
+<li>Import the key and certificate into a Java Key Store for the Data Tool.</li>
+<li>If the server certificate is not signed by a root certificate
+authority, then you will need to add it to you server&#8217;s shared trusted
+key store, place a copy of the certificate (public key)
+with a file extension of .pem or .crt into <cite>engines/xxxx/certs</cite>.</li>
+<li>Configure the Data Tool start script to pass in the command line options
+for the https-port keystore-file, keystore-pass and key-pass. Exactly how
+to do this is detailed below.</li>
+</ol>
+<div class="section" id="create-the-rsa-key-certificate-and-java-key-store">
+<h3>Create the RSA key, Certificate and Java Key Store<a class="headerlink" href="datatool.html#create-the-rsa-key-certificate-and-java-key-store" title="Permalink to this headline">¶</a></h3>
+<p>The full process for creating and RSA key, X.509 certificate and Java Key Store
+is well documented on the Internet. These minimal steps will get you started
+with a self-signed certificate. You can substitute the name <cite>datatool</cite>
+with anything you want.
+Note that you need to have <a class="reference external" href="http://www.openssl.org/">openssl</a> and <a class="reference external" href="http://www.java.com/">Java</a> 1.5 or newer installed.</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="c"># Generate RSA key.</span>
+<span class="c"># Note that the Common Name must match the host name that will be in the public</span>
+<span class="c"># feed URL for the Data Tool</span>
+openssl genrsa -des3 -out datatool.key
+
+<span class="c"># Create x509 certificate from the key</span>
+openssl req -new -x509 -key datatool.key -out datatool.crt
+
+<span class="c"># Combine the key(s) and the certificate into the a single pkcs12 file</span>
+openssl pkcs12 -inkey datatool.key -in datatool.crt -export -out datatool.pkcs12
+
+<span class="c"># create a Java key store and import the key and certificate</span>
+keytool -importkeystore -srckeystore datatool.pkcs12 -srcstoretype PKCS12 <span class="se">\</span>
+    -destkeystore datatool.jks
+</pre></div>
+</div>
+<p>You will need to place the keystore file <cite>datatool.jks</cite> in a location where the
+Data Tool will be able to read it when it starts up.</p>
+<span class="target" id="index-37"></span><span class="target" id="index-38"></span></div>
+<div class="section" id="configuration-options-in-datatool-properties">
+<span id="datatool-properties"></span><span id="index-39"></span><h3>Configuration options in <cite>datatool.properties</cite><a class="headerlink" href="datatool.html#configuration-options-in-datatool-properties" title="Permalink to this headline">¶</a></h3>
+<p>The Discovery Data Tool is configured with a <cite>datatool.properties</cite> file which
+is read by the <cite>discovery_datatool</cite> shell script and used to launch the
+application.</p>
+<p>The following properties may be specified (none are required).</p>
+<dl class="docutils">
+<dt>http_port</dt>
+<dd>Port on which to listen for HTTP. Defaults to 8089.</dd>
+<dt>bind_address</dt>
+<dd>TCP address to bind to. Listens on all interfaces if not specified.</dd>
+<dt>https_port</dt>
+<dd>Port on which to listen for HTTPS. If not specified, then Discovery Data Tool will not serve HTTPS.</dd>
+<dt>keystore_file</dt>
+<dd>Path the a Java Key Store file containing the server certificate and private key. Required for HTTPS.</dd>
+<dt>keystore_pass</dt>
+<dd>Password for the Java Key Store file containing the server certificate and private key. Required for HTTPS.</dd>
+<dt>key_pass</dt>
+<dd>Password for the server private key. Required if your key has a password.</dd>
+<dt>truststore_file</dt>
+<dd>Path to a Java Key Store file containing trusted client certificates. Required if you want to verify SSL client certificates.</dd>
+<dt>truststore_pass</dt>
+<dd>Password for the trust store. Required if using a truststore_file.</dd>
+<dt>jvm.memory</dt>
+<dd>Maximum heap to allocate in megabytes. Uses JVM default if not specified.</dd>
+<dt>jvm.logging</dt>
+<dd>Override for specifying logging configuration. Example <cite>-Djava.util.logging.config.file=/special_location/logging.properties</cite>. If unspecified and a <cite>logging.properties</cite> file exists in the same directory as the <cite>datatool.properties</cite>, then that file is used, otherwise the <cite>logging.properties</cite> from the Discovery Data Tool release directory is used.</dd>
+<dt>validate_sql</dt>
+<dd>Whether the Discovery Data Tool should validate its sqlPublishers&#8217; SQL statements against the database. While no results are retrieved, this option can slow application start-up. Defaults to <cite>true</cite>. Set to <cite>false</cite> to disable validation.</dd>
+</dl>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="datatool.html#">Data Tool</a><ul>
+<li><a class="reference internal" href="datatool.html#summary">Summary</a></li>
+<li><a class="reference internal" href="datatool.html#optional-url-parameters">Optional URL Parameters</a></li>
+<li><a class="reference internal" href="datatool.html#configuration">Configuration</a><ul>
+<li><a class="reference internal" href="datatool.html#accesscontrol">accessControl</a></li>
+<li><a class="reference internal" href="datatool.html#datasources">DataSources</a><ul>
+<li><a class="reference internal" href="datatool.html#mysql-datasource">MySQL DataSource</a></li>
+<li><a class="reference internal" href="datatool.html#mysql-driver">MySQL Driver</a></li>
+<li><a class="reference internal" href="datatool.html#sql-server-datasource">SQL Server DataSource</a></li>
+<li><a class="reference internal" href="datatool.html#sql-server-driver">SQL Server Driver</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="datatool.html#profiles">Profiles</a><ul>
+<li><a class="reference internal" href="datatool.html#sqlprofile">SqlProfile</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="datatool.html#publishers">Publishers</a><ul>
+<li><a class="reference internal" href="datatool.html#sqlpublisher">SqlPublisher</a><ul>
+<li><a class="reference internal" href="datatool.html#propertycase-for-item-property-name-handling"><cite>propertyCase</cite> for item property name handling</a></li>
+<li><a class="reference internal" href="datatool.html#changeset-categories">Changeset Categories</a></li>
+<li><a class="reference internal" href="datatool.html#provider-and-kind-support">Provider and Kind Support</a></li>
+<li><a class="reference internal" href="datatool.html#vertical-table-support">Vertical Table Support</a></li>
+<li><a class="reference internal" href="datatool.html#subqueries">Subqueries</a></li>
+<li><a class="reference internal" href="datatool.html#supported-column-types">Supported Column Types</a></li>
+<li><a class="reference internal" href="datatool.html#unsupported-column-types">Unsupported Column Types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="datatool.html#ssl">SSL</a><ul>
+<li><a class="reference internal" href="datatool.html#create-the-rsa-key-certificate-and-java-key-store">Create the RSA key, Certificate and Java Key Store</a></li>
+<li><a class="reference internal" href="datatool.html#configuration-options-in-datatool-properties">Configuration options in <cite>datatool.properties</cite></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="changesets.html"
+                        title="previous chapter">Changesets</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="changeset_publisher.html"
+                        title="next chapter">Changeset Publisher</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="https://transparensee.com/docs/discovery/current/html/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="changeset_publisher.html" title="Changeset Publisher"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="changesets.html" title="Changesets"
+             >previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Data Integration</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright Transparensee Systems.
+    </div>
+  </body>
+</html>

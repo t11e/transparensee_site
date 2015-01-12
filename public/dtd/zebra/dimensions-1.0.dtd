@@ -1,0 +1,13 @@
+<!ELEMENT mappings (nodes,TextIndexingConfig)>
+
+<!ELEMENT nodes (node)*>
+<!ELEMENT node (node)*>
+<!ATTLIST node id CDATA #REQUIRED>
+<!ATTLIST node name CDATA #IMPLIED>
+<!ATTLIST node type CDATA #IMPLIED>
+<!ATTLIST node valuetype CDATA #IMPLIED>
+
+<!ELEMENT TextIndexingConfig (IndexedProperty)*>
+
+<!ELEMENT IndexedProperty EMPTY>
+<!ATTLIST IndexedProperty name CDATA #REQUIRED>

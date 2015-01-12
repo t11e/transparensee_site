@@ -1,0 +1,154 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Upgrading an Engine for UNIX Variants &mdash; Discovery Search Engine 3.10.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Discovery Search Engine 3.10.0 documentation" href="../index.html" />
+    <link rel="up" title="Working with the Engine" href="index.html" />
+    <link rel="next" title="Admin Tool Interface" href="admin_tool.html" />
+    <link rel="prev" title="Working with the Engine" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="admin_tool.html" title="Admin Tool Interface"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Working with the Engine"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Working with the Engine</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <span class="target" id="index-0"></span><div class="section" id="upgrading-an-engine-for-unix-variants">
+<span id="upgrades"></span><span id="index-1"></span><h1>Upgrading an Engine for UNIX Variants<a class="headerlink" href="upgrades.html#upgrading-an-engine-for-unix-variants" title="Permalink to this headline">¶</a></h1>
+<p>This section covers the guidelines and procedures to follow when upgrading to
+a new engine version. The steps you follow depend in your requirements for
+uptime and your tolerance for error.</p>
+<p>Additionally, your engine configuration setup will determine which upgrade
+method will work best. For more information on various configuration scenarios,
+refer to <a class="reference internal" href="config_scenarios.html#engine-config-scenarios"><em>Engine Configuration Scenarios</em></a>.</p>
+<p>The general process to upgrade an engine is as follows:</p>
+<ul class="simple">
+<li>Obtain the new release zip archive from Transparensee.</li>
+<li>Uncompress and install it in ~discovery/releases directory following the
+recommendations in <a class="reference internal" href="../getting_started/install_unix.html#install-unix"><em>Engine and Data Tool Installation for UNIX Variants</em></a>.</li>
+<li>Start the new engine instance using a distinct port from the running
+engine.</li>
+<li>Synchronize changesets from the old engine to the new engine.</li>
+<li>Configure applications to use the new server port</li>
+<li>Stop the &#8220;old&#8221; server</li>
+<li>Update your system init to start the new version when the server starts</li>
+</ul>
+<p>The following sections describe general procedures to upgrade individual engine
+configuration scenarios.</p>
+<div class="section" id="general-upgrade-procedure">
+<h2>General Upgrade Procedure<a class="headerlink" href="upgrades.html#general-upgrade-procedure" title="Permalink to this headline">¶</a></h2>
+<p>The best way to minimize down time is to start the new engine instance alongside
+the old engine instance, synchronize the changeset data, start using the new server
+and then stop the old server:</p>
+<ul class="simple">
+<li>Start the new engine instance.</li>
+<li>Use the new engine instance Admin Tool&#8217;s Admin Page to configure the engine
+to pull changesets and dimensions from the old engine instance.</li>
+<li>Configure <strong>but do not enable</strong> any changeset feeds on the new engine instance.</li>
+<li>When the new engine is fully populated, update your application logic to use
+the new engine at the new port.</li>
+<li>Disable changeset processing on the old engine.</li>
+<li>Stop the old engine</li>
+<li>Enable changeset feeds on the new engine instance.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="upgrades.html#">Upgrading an Engine for UNIX Variants</a><ul>
+<li><a class="reference internal" href="upgrades.html#general-upgrade-procedure">General Upgrade Procedure</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Working with the Engine</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="admin_tool.html"
+                        title="next chapter">Admin Tool Interface</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="https://transparensee.com/docs/discovery/current/html/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="admin_tool.html" title="Admin Tool Interface"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Working with the Engine"
+             >previous</a> |</li>
+        <li><a href="../index.html">Discovery Search Engine 3.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Working with the Engine</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright Transparensee Systems.
+    </div>
+  </body>
+</html>

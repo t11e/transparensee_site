@@ -1,0 +1,135 @@
+<html>
+  <head>
+    <title>Transparensee Documentation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="../../../screen.css" rel="stylesheet" type="text/css"/>
+  </head>
+
+  <body>
+   <div id="header">
+     <div id="navbar">
+       <div id="navbar-logo">
+         <a href="../../../index.html"><img src="../../../images/logo.png" title="Transparensee" alt="Transparensee"/></a>
+       </div>
+     </div>
+   </div>
+
+   <div id="content">
+
+     <h2>Release Notes - Discovery Search Engine - Version 3.1.0</h2>
+
+     <h2>New Features</h2>
+     <ul>
+       <li><strong>[ENGINE-502] - New Word Query Support</strong>
+          <p>The engine now supports a new easy-to-use and power text dimension query parser. The new parser
+          is called the Word query parser because it uses word proximity as primary determinator of
+          relevance. The Word query parser is now the default parser for the engine.</p>
+          <p>The Word query parser works with queries of one or more words. When more than one word appears
+          in the query, the new parser tries to find all documents with <i>any</i> of the words. Documents with
+          matches to all words will rank higher than documents with some of the words. Additionally, documents in which
+          the words appear closes together are ranked higher.</p>
+          <p>The Word query parser also supports starts with searches on each word in the phrase.</p>
+       </li>
+       <li><strong>[ENGINE-395] - Distance from Location is Now Available in Query Response</strong>
+         <p>If a distance metric is used to determine relevance based upon distance from a point or polygon, this distance
+         value is now available to the query response using the new <code>calculate</code> top-level request and response
+         fields.</p>
+         <p>The request is created using the new <code>calculate</code> top-level request. The key used for the request is up
+         to the developer. The result is then placed in a dictionary with the named key. This enables more than one distance metric to
+         be calculated. Use <code>distanceUnit</code> to specify miles or kilometers for the calculation.</p>
+     <pre>
+    {
+         calculate: {
+           myDistanceKey: {
+             method: 'distance',
+             longitude: -72,
+             latitude: 42
+           }
+         }
+     }
+     </pre>
+         <p>The response appears in the new <code>calculate</code> top-level response field. The distances are returned one
+         value per item.</p>
+     <pre>
+     {
+         calculate: {
+           myDistanceKey:
+             [10, 20, 34.55, 29, ...]
+         }
+     }
+     </pre>
+       </li>
+     </ul>
+
+     <h2>Improvements</h2>
+     <ul>
+       <li><strong>[ENGINE-420] - JSON Tool UI Improvements</strong>
+          <p>The JSON tool now uses a more convenient table format to display properties and includes an improved UI.</p>
+       </li>
+       <li><strong>[ENGINE-206] - Top-level Items Query Request Does not Require a Criterion</strong>
+          <p>The engine has supported queries that retrieve items by their item id. Until this version,
+          the query had to contain a dummy criterion referring to at least one dimension. This unnecessary
+          restriction has been removed. To query items by item id, construct a query similar to this:</p>
+          <pre><code>
+     {
+       "items": [
+           "8291"
+       ],
+       "pageSize": 10
+     }</code></pre>
+       </li>
+       <li><strong>[ENGINE-432] - Text Highlighting Works Across Property Boundaries</strong>
+          <p>Using <code>fieldPositionIncrementGap=0</code> allows customers to create complete paragraphs of text
+          such that proximity phrase matching will find matches as though all of the text came from a single property.
+          This allows customers to create a text dimension over address fields such as city, state and zipcode. Without the
+          <code>fieldPositionIncrementGap</code> settings, it would be impossible to match any city to it's state,
+          e.g. New York City, NY.</p>
+          <p>When the query matched over property value boundaries, text highlighting did not appear. This version will now
+          highlighting each portion of the properties that contributed to the text match.</p>
+          <p>Sample dimensions defining an address field with multiple properties whose values are to be considered as though
+          they were written in a paragraph or other document.</p>
+     <div class="preformatted panel" style="border-width: 1px;"><div class="preformattedContent panelContent">
+     <pre>
+       &lt;dimension id="freetext" type="fieldedText" fieldPositionIncrementGap="0" &gt;
+         &lt;field id="name"/&gt;
+         &lt;field id="address" key="street_address,city,state,zip"/&gt;
+       &lt;/dimension&gt;
+     </pre>
+     </div></div>
+
+       </li>
+     </ul>
+     <h2>Behavioral Changes</h2>
+     <ul>
+       <li><strong>[ENGINE-480] - Engine version is logged early in startup phase.</strong>
+         <p>The engine's log file now displays the current engine version number before the engine
+         has fully started. Previously, the engine version number was shown at the end of the startup process.</p>
+       </li>
+       <li><strong>[ENGINE-502] - New Word Query Parser is the Default Query Parser</strong>
+          <p>The legacy query parser is no longer the default query parser. Instead, the engine will
+          use the new Word query parser.</p>
+       </li>
+     </ul>
+
+     <h2>Bug Fixes</h2>
+     <ul>
+       <li><strong>[ENGINE-457] - Index page fails on engine startup</strong>
+         <p>Previously, the Admin tool's Indexes page failed if it displayed during engine startup.</p>
+       </li>
+       <li><strong>[ENGINE-476] - NPE Applying Changesets</strong>
+         <p>Fixed a situation where the changeset application process could create a null pointer when
+         loading changesets.</p>
+       </li>
+       <li><strong>[ENGINE-514] - NPE Indexing Text with doubleMetaphone</strong>
+         <p>A null pointer exception could be thrown in certain cases when indexing a text
+         dimension using double metaphone phonetic analysis.</p>
+       </li>
+     </ul>
+
+   </div>
+   <div class="clear"></div>
+   <div id="footer">
+     <p id="copyright">Copyright &copy; Transparensee Systems Inc. All rights reserved.</p>
+   </div>
+  </body>
+</html>

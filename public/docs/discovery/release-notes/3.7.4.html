@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <title>Transparensee Documentation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="../../../screen.css" rel="stylesheet" type="text/css"/>
+  </head>
+
+  <body>
+   <div id="header">
+     <div id="navbar">
+       <div id="navbar-logo">
+         <a href="../../../index.html"><img src="../../../images/logo.png" title="Transparensee" alt="Transparensee"/></a>
+       </div>
+     </div>
+   </div>
+
+   <div id="content">
+
+<h2>Release Notes - Discovery Search Engine - Version 3.7.4</h2>
+
+<h2>New Features</h2>
+<ul>
+  <li><strong>[ENGINE-760] - Engine Support Cross Origin Resource Sharing (CORS)</strong>
+  <p>The engine now support CORS for browsers that implement that standard.</p>
+  </li>
+</ul>
+<h2>Improvements</h2>
+<ul>
+  <li><strong>[ENGINE-492] - Text Highlighter Highlights Compound Words Better</strong>
+  <p>The highlighter previously highlighted the entire compound word, not just a part of
+  word that was searched. For example, searching for <code>bull</code> now correctly
+  highlights as follows: <code>pit-<b>bull.</b></code></p>
+  </li>
+</ul>
+<h2>Behavioral Changes</h2>
+<ul>
+  <li><strong>[ENGINE-762] - ""Changesets are out of order" Log Message</strong>
+    <p>The "Changesets are out of order" log message has been deprecated to the FINE
+    logging level.</p>
+  </li>
+</ul>
+<h2>Bug Fixes</h2>
+<ul>
+  <li><strong>[ENGINE-762] - NPE Pulling New Changeset Feed</strong>
+    <p>For feeds created using the Feed admin tool page, the first time the
+    engine tried to pull the feed resulted in a null pointer exception. An engine
+    restart would resolve the issue.</p>
+  </li>
+</ul>
+
+   </div>
+   <div class="clear"></div>
+   <div id="footer">
+     <p id="copyright">Copyright &copy; Transparensee Systems Inc. All rights reserved.</p>
+   </div>
+  </body>
+</html>
