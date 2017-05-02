@@ -1,0 +1,50 @@
+# NOTE: Must be run as "trusted" by Drone
+
+aliases:
+- &volumes
+  - "/var/run/docker.sock:/var/run/docker.sock"
+  # Docker credentials for using "docker push"
+  - "/etc/docker-auth:/root/.docker"
+- &docker_auth
+  username: "$$DOCKER_USERNAME"
+  password: "$$DOCKER_PASSWORD"
+  email: "$$DOCKER_EMAIL"
+
+clone:
+  depth: 1
+
+cache:
+  mount:
+  - .git
+
+build:
+  build:
+    image: docker:1.11.2
+    pull: true
+    volumes: *volumes
+    auth_config: *docker_auth
+    commands:
+    - docker build --pull -t us.gcr.io/t11e-platform/transparensee-site:$$COMMIT .
+
+  publish:
+    image: docker:1.11.2
+    pull: true
+    auth_config: *docker_auth
+    volumes: *volumes
+    commands:
+    - docker tag us.gcr.io/t11e-platform/transparensee-site:$$COMMIT us.gcr.io/t11e-platform/transparensee-site:$$BRANCH
+    - docker push us.gcr.io/t11e-platform/transparensee-site:$$COMMIT
+    - docker push us.gcr.io/t11e-platform/transparensee-site:$$BRANCH
+    when:
+      event: push
+
+notify:
+  slack:
+    webhook_url: "$$SLACK_WEBHOOK"
+    username: "$$SLACK_USERNAME"
+    channel: "$$SLACK_CHANNEL"
+    template: "$$SLACK_TEMPLATE"
+    when:
+      success: true
+      failure: true
+      change: true
