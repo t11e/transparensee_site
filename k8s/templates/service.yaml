@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.name }}
+  labels:
+    app: transparensee-site
+    {{ if .Values.labels }}
+    {{ range $k, $v := .Values.labels }}
+    {{ $k }}: "{{ $v }}"
+    {{ end }}
+    {{ end }}
+spec:
+  selector:
+    app: transparensee-site
+    {{ if .Values.labels }}
+    {{ range $k, $v := .Values.labels }}
+    {{ $k }}: "{{ $v }}"
+    {{ end }}
+    {{ end }}
+  # Required for GKE ingress LB
+  type: NodePort
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+    protocol: TCP

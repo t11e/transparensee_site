@@ -1,0 +1,42 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+  labels:
+    app: transparensee-site
+    {{ if .Values.labels }}
+    {{ range $k, $v := .Values.labels }}
+    {{ $k }}: "{{ $v }}"
+    {{ end }}
+    {{ end }}
+spec:
+  replicas: {{ .Values.replicas }}
+  template:
+    metadata:
+      labels:
+        app: transparensee-site
+        {{ if .Values.labels }}
+        {{ range $k, $v := .Values.labels }}
+        {{ $k }}: "{{ $v }}"
+        {{ end }}
+        {{ end }}
+    spec:
+      containers:
+      - name: transparensee-site
+        image: "{{ .Values.image }}:{{ .Values.imageTag }}"
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+            scheme: HTTP
+        resources:
+          requests:
+            memory: 10Mi
+            cpu: 0.1
+          limits:
+            memory: 10Mi
+            cpu: 0.5
