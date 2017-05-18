@@ -4,18 +4,18 @@ metadata:
   name: {{ .Values.name }}
   labels:
     app: transparensee-site
-    {{ if .Values.labels }}
     {{ range $k, $v := .Values.labels }}
     {{ $k }}: "{{ $v }}"
     {{ end }}
+  annotations:
+    {{ range $k, $v := .Values.annotations }}
+    {{ $k }}: "{{ $v }}"
     {{ end }}
 spec:
   selector:
     app: transparensee-site
-    {{ if .Values.labels }}
     {{ range $k, $v := .Values.labels }}
     {{ $k }}: "{{ $v }}"
-    {{ end }}
     {{ end }}
   # Required for GKE ingress LB
   type: NodePort

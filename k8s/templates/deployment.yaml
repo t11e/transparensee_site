@@ -4,10 +4,12 @@ metadata:
   name: {{ .Values.name }}
   labels:
     app: transparensee-site
-    {{ if .Values.labels }}
     {{ range $k, $v := .Values.labels }}
     {{ $k }}: "{{ $v }}"
     {{ end }}
+  annotations:
+    {{ range $k, $v := .Values.annotations }}
+    {{ $k }}: "{{ $v }}"
     {{ end }}
 spec:
   replicas: {{ .Values.replicas }}
@@ -15,10 +17,12 @@ spec:
     metadata:
       labels:
         app: transparensee-site
-        {{ if .Values.labels }}
         {{ range $k, $v := .Values.labels }}
         {{ $k }}: "{{ $v }}"
         {{ end }}
+      annotations:
+        {{ range $k, $v := .Values.annotations }}
+        {{ $k }}: "{{ $v }}"
         {{ end }}
     spec:
       containers:
