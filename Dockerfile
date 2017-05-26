@@ -1,12 +1,5 @@
-FROM us.gcr.io/t11e-platform/base
-
-RUN \
-     apt-get install nginx \
-  && strip-docker-container
-
-WORKDIR /srv
-COPY docker/nginx.conf /srv
-COPY public /srv/public
-
+FROM nginx:1.13.0
+COPY docker/nginx.conf /etc/nginx/
+COPY public /usr/share/nginx/html/
 EXPOSE 80
-ENTRYPOINT ["nginx", "-c", "/srv/nginx.conf"]
+EXPOSE 443

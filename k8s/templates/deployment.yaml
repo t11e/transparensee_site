@@ -34,7 +34,7 @@ spec:
           protocol: TCP
         readinessProbe:
           httpGet:
-            path: /healthz
+            path: /ping
             port: 80
             scheme: HTTP
         resources:
