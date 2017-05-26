@@ -44,3 +44,11 @@ spec:
           limits:
             memory: 10Mi
             cpu: 0.01
+      - name: exporter
+        image: fish/nginx-exporter
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9113
+          protocol: TCP
+        args:
+        - "-nginx.scrape_uri=http://127.0.0.1/nginx_status"
