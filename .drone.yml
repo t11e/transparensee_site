@@ -24,7 +24,7 @@ build:
     volumes: *volumes
     auth_config: *docker_auth
     commands:
-    - docker build --pull -t us.gcr.io/t11e-platform/transparensee-site:$$COMMIT .
+    - docker build --pull -t us.gcr.io/t11e-platform/transparensee_site:$$COMMIT .
 
   publish:
     image: docker:1.11.2
@@ -32,9 +32,9 @@ build:
     auth_config: *docker_auth
     volumes: *volumes
     commands:
-    - docker tag us.gcr.io/t11e-platform/transparensee-site:$$COMMIT us.gcr.io/t11e-platform/transparensee-site:$$BRANCH
-    - docker push us.gcr.io/t11e-platform/transparensee-site:$$COMMIT
-    - docker push us.gcr.io/t11e-platform/transparensee-site:$$BRANCH
+    - docker tag us.gcr.io/t11e-platform/transparensee_site:$$COMMIT us.gcr.io/t11e-platform/transparensee_site:$$BRANCH
+    - docker push us.gcr.io/t11e-platform/transparensee_site:$$COMMIT
+    - docker push us.gcr.io/t11e-platform/transparensee_site:$$BRANCH
     when:
       event: push
 
