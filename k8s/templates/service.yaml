@@ -8,8 +8,9 @@ metadata:
     {{ $k }}: "{{ $v }}"
     {{ end }}
   annotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/port: "9113"
+    # FIXME: Disabled, see deployment
+    # prometheus.io/scrape: "true"
+    # prometheus.io/port: "9113"
     {{ range $k, $v := .Values.annotations }}
     {{ $k }}: "{{ $v }}"
     {{ end }}
@@ -26,7 +27,8 @@ spec:
     port: 80
     targetPort: 80
     protocol: TCP
-  - name: metrics
-    port: 9113
-    targetPort: 9113
-    protocol: TCP
+  # FIXME: Disabled, see deployment
+  # - name: metrics
+  #   port: 9113
+  #   targetPort: 9113
+  #   protocol: TCP
