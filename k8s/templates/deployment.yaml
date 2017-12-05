@@ -37,6 +37,8 @@ spec:
             path: /ping
             port: 80
             scheme: HTTP
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
         resources:
           requests:
             memory: 10Mi
