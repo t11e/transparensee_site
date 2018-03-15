@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: {{ .Values.name }}
   labels:
-    app: transparensee-site
     {{ range $k, $v := .Values.labels }}
     {{ $k }}: "{{ $v }}"
     {{ end }}
@@ -16,7 +15,6 @@ spec:
   template:
     metadata:
       labels:
-        app: transparensee-site
         {{ range $k, $v := .Values.labels }}
         {{ $k }}: "{{ $v }}"
         {{ end }}

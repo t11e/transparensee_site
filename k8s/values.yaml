@@ -1,2 +1,2 @@
 name: transparensee-site
-image: us.gcr.io/t11e-platform/transparensee_site
+replicas: 1

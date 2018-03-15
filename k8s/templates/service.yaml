@@ -3,7 +3,6 @@ kind: Service
 metadata:
   name: {{ .Values.name }}
   labels:
-    app: transparensee-site
     {{ range $k, $v := .Values.labels }}
     {{ $k }}: "{{ $v }}"
     {{ end }}
@@ -16,7 +15,6 @@ metadata:
     {{ end }}
 spec:
   selector:
-    app: transparensee-site
     {{ range $k, $v := .Values.labels }}
     {{ $k }}: "{{ $v }}"
     {{ end }}
