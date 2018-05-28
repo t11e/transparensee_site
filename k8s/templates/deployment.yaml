@@ -28,7 +28,8 @@ spec:
         image: "{{ .Values.image }}:{{ .Values.imageTag }}"
         imagePullPolicy: Always
         ports:
-        - containerPort: 80
+        - name: http
+          containerPort: 80
           protocol: TCP
         readinessProbe:
           httpGet:
@@ -39,7 +40,7 @@ spec:
           timeoutSeconds: 5
         resources:
           requests:
-            memory: 10Mi
+            memory: 6Mi
             cpu: 0.01
           limits:
             memory: 10Mi
