@@ -1,0 +1,56 @@
+{{- $wildcard := .Values.kubernetes.ingressPathWildcard -}}
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Values.name }}
+  labels:
+    {{ range $k, $v := .Values.labels }}
+    {{ $k }}: {{ $v | quote }}
+    {{ end }}
+  annotations:
+    {{ range $k, $v := .Values.annotations }}
+    {{ $k }}: {{ $v | quote }}
+    {{ end }}
+    {{ if .Values.kubernetes.ingressClass }}
+    kubernetes.io/ingress.class: {{ .Values.kubernetes.ingressClass }}
+    {{ end }}
+    kubernetes.io/ingress.allow-http: "{{ default true .Values.allowInsecureHTTP }}"
+    {{ if .Values.kubernetes.staticIpName }}
+    # Static IP that survives across edits
+    kubernetes.io/ingress.global-static-ip-name: {{ .Values.kubernetes.staticIpName }}
+    {{ end }}
+    {{ if eq "gce" .Values.kubernetes.ingressClass }}
+    networking.gke.io/managed-certificates: {{ .Values.settings.domain }}, www.{{ .Values.settings.domain }}, monitor.{{ .Values.settings.domain }}
+    {{ end }}
+spec:
+  {{ if ne "traefik" .Values.kubernetes.ingressClass }}
+  backend:
+    serviceName: default-http-backend
+    servicePort: 80
+  {{ end }}
+
+  rules:
+  - host: "{{ .Values.settings.domain }}"
+    http:
+      paths:
+      - path: /{{ $wildcard }}
+        backend:
+          serviceName: transparensee-site
+          servicePort: 80
+  - host: "www.{{ .Values.settings.domain }}"
+    http:
+      paths:
+      - path: /{{ $wildcard }}
+        backend:
+          serviceName: transparensee-site
+          servicePort: 80
+
+  # Discovery monitor
+  - host: "monitor.{{ .Values.settings.domain }}"
+    http:
+      paths:
+      - path: /{{ $wildcard }}
+        backend:
+          serviceName: discovery-monitor
+          servicePort: 80

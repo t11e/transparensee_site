@@ -4,11 +4,11 @@ metadata:
   name: {{ .Values.name }}
   labels:
     {{ range $k, $v := .Values.labels }}
-    {{ $k }}: "{{ $v }}"
+    {{ $k }}: {{ $v | quote }}
     {{ end }}
   annotations:
     {{ range $k, $v := .Values.annotations }}
-    {{ $k }}: "{{ $v }}"
+    {{ $k }}: {{ $v | quote }}
     {{ end }}
 spec:
   replicas: {{ .Values.replicas }}
@@ -16,11 +16,11 @@ spec:
     metadata:
       labels:
         {{ range $k, $v := .Values.labels }}
-        {{ $k }}: "{{ $v }}"
+        {{ $k }}: {{ $v | quote }}
         {{ end }}
       annotations:
         {{ range $k, $v := .Values.annotations }}
-        {{ $k }}: "{{ $v }}"
+        {{ $k }}: {{ $v | quote }}
         {{ end }}
     spec:
       containers:

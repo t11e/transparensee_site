@@ -1,1 +1,11 @@
 replicas: 2
+
+settings:
+  allowInsecureHTTP: true
+  domain: transparensee.com
+
+# Name of static IP that survives across edits
+kubernetes:
+  ingressClass: gce
+  staticIpName: production-transparensee-ingress
+  ingressPathWildcard: "*"

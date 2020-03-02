@@ -4,19 +4,19 @@ metadata:
   name: {{ .Values.name }}
   labels:
     {{ range $k, $v := .Values.labels }}
-    {{ $k }}: "{{ $v }}"
+    {{ $k }}: {{ $v | quote }}
     {{ end }}
   annotations:
     # FIXME: Disabled, see deployment
     # prometheus.io/scrape: "true"
     # prometheus.io/port: "9113"
     {{ range $k, $v := .Values.annotations }}
-    {{ $k }}: "{{ $v }}"
+    {{ $k }}: {{ $v | quote }}
     {{ end }}
 spec:
   selector:
     {{ range $k, $v := .Values.labels }}
-    {{ $k }}: "{{ $v }}"
+    {{ $k }}: {{ $v | quote }}
     {{ end }}
   # Required for GKE ingress LB
   type: NodePort
