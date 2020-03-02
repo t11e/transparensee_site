@@ -21,7 +21,7 @@ metadata:
     kubernetes.io/ingress.global-static-ip-name: {{ .Values.kubernetes.staticIpName }}
     {{ end }}
     {{ if eq "gce" .Values.kubernetes.ingressClass }}
-    networking.gke.io/managed-certificates: {{ .Values.settings.domain }}, www.{{ .Values.settings.domain }}, monitor.{{ .Values.settings.domain }}
+    networking.gke.io/managed-certificates: {{ .Values.name }}-transparensee.com, {{ .Values.name }}-www.transparensee.com, {{ .Values.name }}-monitor.transparensee.com
     {{ end }}
 spec:
   {{ if ne "traefik" .Values.kubernetes.ingressClass }}
