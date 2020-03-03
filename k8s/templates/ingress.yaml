@@ -1,5 +1,5 @@
 {{- $wildcard := .Values.kubernetes.ingressPathWildcard -}}
-
+{{ if .Values.kubernetes.certManagerTLSSecretName }}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -20,10 +20,14 @@ metadata:
     # Static IP that survives across edits
     kubernetes.io/ingress.global-static-ip-name: {{ .Values.kubernetes.staticIpName }}
     {{ end }}
-    {{ if eq "gce" .Values.kubernetes.ingressClass }}
-    networking.gke.io/managed-certificates: {{ .Values.name }}-transparensee.com, {{ .Values.name }}-www.transparensee.com, {{ .Values.name }}-monitor.transparensee.com
-    {{ end }}
 spec:
+  tls:
+  - secretName: {{ .Values.kubernetes.certManagerTLSSecretName }}
+    hosts:
+    - {{ .Values.settings.domain }}
+    - www.{{ .Values.settings.domain }}
+    - monitor.{{ .Values.settings.domain }}
+
   {{ if ne "traefik" .Values.kubernetes.ingressClass }}
   backend:
     serviceName: default-http-backend
@@ -54,3 +58,4 @@ spec:
         backend:
           serviceName: discovery-monitor
           servicePort: 80
+{{ end }}

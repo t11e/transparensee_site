@@ -4,8 +4,10 @@ settings:
   allowInsecureHTTP: true
   domain: transparensee.com
 
-# Name of static IP that survives across edits
 kubernetes:
+  certManagerTLSSecretName: transparensee-tls
   ingressClass: gce
-  staticIpName: production-transparensee-ingress
   ingressPathWildcard: "*"
+
+  # Name of static IP that survives across edits
+  staticIpName: production-transparensee-ingress
