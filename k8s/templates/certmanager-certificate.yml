@@ -24,7 +24,6 @@ spec:
   commonName: {{ .Values.settings.domain }}
   dnsNames:
   - www.{{ .Values.settings.domain }}
-  - monitor.{{ .Values.settings.domain }}
 
   acme:
     config:
@@ -36,4 +35,3 @@ spec:
       domains:
       - {{ .Values.settings.domain }}
       - www.{{ .Values.settings.domain }}
-      - monitor.{{ .Values.settings.domain }}

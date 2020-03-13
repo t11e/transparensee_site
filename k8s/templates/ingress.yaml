@@ -26,7 +26,6 @@ spec:
     hosts:
     - {{ .Values.settings.domain }}
     - www.{{ .Values.settings.domain }}
-    - monitor.{{ .Values.settings.domain }}
 
   {{ if ne "traefik" .Values.kubernetes.ingressClass }}
   backend:
@@ -48,14 +47,5 @@ spec:
       - path: /{{ $wildcard }}
         backend:
           serviceName: transparensee-site
-          servicePort: 80
-
-  # Discovery monitor
-  - host: "monitor.{{ .Values.settings.domain }}"
-    http:
-      paths:
-      - path: /{{ $wildcard }}
-        backend:
-          serviceName: discovery-monitor
           servicePort: 80
 {{ end }}
