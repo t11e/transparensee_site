@@ -1,13 +1,1 @@
 replicas: 2
-
-settings:
-  allowInsecureHTTP: true
-  domain: transparensee.com
-
-kubernetes:
-  certManagerTLSSecretName: transparensee-tls
-  ingressClass: gce
-  ingressPathWildcard: "*"
-
-  # Name of static IP that survives across edits
-  staticIpName: production-transparensee-ingress
